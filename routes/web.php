@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WifiLogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/test', function () {
             return view('welcome');
         })->name('admin.test');
+        Route::get('/wifi', function () {
+            return view('wifi');
+        })->name('admin.wifi');
+        Route::post('/admin.wifi', [App\Http\Controllers\WifiLogsController::class, 'store'])->name('store');
+        
+        
     });
 });
 // Route::get('/cvsu_ils/sample', function () {
