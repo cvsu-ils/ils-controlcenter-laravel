@@ -10,8 +10,8 @@
 </style>
 <aside class="main-sidebar sidebar-light-success elevation-1">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="{{ asset('storage/images/CvSU-logo-64x64.webp') }}" alt="CvSU Logo" class="brand-image" style="opacity: .8">
+    <a href="{{ route('admin.home') }}" class="brand-link">
+      <img src="/images/CvSU-logo-64x64.webp" alt="CvSU Logo" class="brand-image" style="opacity: .8">
       <span class="brand-text font-weight-light">Control Center</span>
     </a>
 
@@ -20,10 +20,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="https://lh3.googleusercontent.com/a-/AFdZucq9gyDrjGhjS_VmY8rqOw16iqdHZn7Qidl06CJe=s96-c" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ $googleUserInfo->picture }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">John Vincent Bonza</a>
+          <a href="#" class="d-block">{{ $googleUserInfo->name }}</a>
         </div>
       </div>
 
