@@ -3,9 +3,9 @@
 @section('content')
     <div class="container-fluid h-screen"> 
         <div class="h-screen flex"> 
-        <div class="md:w-1/2 bg-cover bg-center h-full" style="background-image: url('{{ asset('storage/images/landing/library.jpg') }}');">
+        <div class="md:w-1/2 bg-cover bg-center h-full" style="background-image: url('images/landing/library.jpg');">
             <div class="flex flex-col items-center justify-center h-full">
-            <img class="w-300 mb-3" src="{{ asset('storage/images/CvSU-logo-64x64.webp') }}" alt="cvsu logo">
+            <img class="w-300 mb-3" src="images/CvSU-logo-64x64.webp" alt="cvsu logo">
             <div class="text-center text-white">
                 <p class="font-bold mb-2 text-50px">CAVITE STATE UNIVERSITY INTEGRATED LIBRARY SYSTEM</p>
                 <p class="font-medium">Control Center</p>
@@ -33,7 +33,7 @@
                         
                             <a href="{{ url('auth/google') }}" class="btn text-white flex fw-bolder p-2 rounded align-middle hoverable-button" style="background-color: #408c40;">
                             <div class="cvsu-google-icon-wrapper" style="background-color: white; border-radius: 10%;"> 
-                                <img src="{{ asset('storage/images/CvSU-logo-64x64.webp') }}" style="height:30px" class="rounded mt-1 ml-1 mr-1 mb-1" alt="Sign in with Google"> 
+                                <img src="images/CvSU-logo-64x64.webp" style="height:30px" class="rounded mt-1 ml-1 mr-1 mb-1" alt="Sign in with Google"> 
                             </div>
                             <p class="btn-text mt-1 ml-1"><b> Sign in with CvSU Email</b></p>
                             </a> 
@@ -54,7 +54,7 @@
             </p>
             </div>
             <div class="flex-none absolute bottom-0 right-0">
-                <img src="{{ asset('storage/images/landing/laya at diwa - Edited.png') }}" alt="Image" class="w-auto h-96 opacity-40" />
+                <img src="images/landing/laya at diwa - Edited.png" alt="Image" class="w-auto h-96 opacity-40" />
             </div>
         </div>
         </div>

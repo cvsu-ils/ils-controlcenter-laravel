@@ -20,6 +20,11 @@ Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/', function() {
@@ -28,15 +33,5 @@ Route::middleware('auth')->group(function () {
         Route::get('/home', function () {
             return view('welcome');
         })->name('admin.home');
-        Route::get('/test', function () {
-            return view('welcome');
-        })->name('admin.test');
     });
 });
-// Route::get('/cvsu_ils/sample', function () {
-//     return view('file');
-// });
-
-// Route::get('/cvsu_ils/sample3', function () {
-//     return view('third');
-// });
