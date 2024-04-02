@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WifiLogsController;
 
 use App\Http\Controllers\InHouseClassificationsController;
 use App\Http\Controllers\InHouseLogsController;
@@ -38,7 +39,13 @@ Route::middleware('auth')->group(function () {
             return view('welcome');
         })->name('admin.home');
       
-        // INHOUSE CONTROLLER
+        // WIFI LOGGING MANAGEMENT
+        Route::get('/wifi', function () {
+            return view('wifi');
+        })->name('admin.wifi');
+        Route::post('/admin.wifi', [App\Http\Controllers\WifiLogsController::class, 'store'])->name('store');
+      
+        // IN-HOUSE MANAGEMENT
         Route::get('/inhouse', [InHouseClassificationsController::class, 'index'])->name('admin.inhouse');
         Route::get('/inhouse/editclassification', [InHouseClassificationsController::class, 'editView'])->name('admin.editclass');
         Route::get('/inhouse/editclassification/{id}', [InHouseClassificationsController::class, 'edit']);

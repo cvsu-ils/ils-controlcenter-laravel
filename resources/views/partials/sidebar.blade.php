@@ -75,6 +75,9 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ route('admin.wifi') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Wifi Logging System</p>
                 <a href="{{ route('admin.inhouse') }}" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>In-house Management</p>
