@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\InHouseClassificationsController;
+use App\Http\Controllers\InHouseLogsController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +35,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/test', function () {
             return view('welcome');
         })->name('admin.test');
+
+        // INHOUSE CONTROLLER
+        Route::get('/inhouse', [InHouseClassificationsController::class, 'index'])->name('admin.inhouse');
+        Route::get('/inhouse/editclassification', [InHouseClassificationsController::class, 'editView'])->name('admin.editclass');
+        Route::get('/inhouse/editclassification/{id}', [InHouseClassificationsController::class, 'edit']);
+        Route::get('/inhouse/classification/{id}', [InHouseClassificationsController::class, 'show']);
+        
+
+        Route::post('/inhouse/addclassification', [InHouseClassificationsController::class, 'store'])->name('admin.InHouseAddClass');
+        Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs');
+        Route::post('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
+        
+        
+
+
     });
 });
 // Route::get('/cvsu_ils/sample', function () {

@@ -74,6 +74,12 @@
                   <p>E-journals</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.inhouse') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>In-house Management</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
