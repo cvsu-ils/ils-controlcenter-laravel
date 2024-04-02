@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="x icon" type="img/png" href="{{ asset('storage/images/CvSU-logo-16x16.webp') }}">
+    <link rel="x icon" type="img/png" href="/images/CvSU-logo-16x16.webp">
     <title>
       @yield('title') &sdot; {{ config('app.name') }}
     </title>
@@ -20,7 +20,7 @@
   <body class="hold-transition sidebar-mini">
     <!-- Preloader -->
 		<div class="preloader flex-column justify-content-center align-items-center">
-			<img class="animation__shake" src="{{ asset('storage/images/CvSU-logo-64x64.webp') }}" alt="CvSU Logo" height="60" width="60">
+			<img class="animation__shake" src="/images/CvSU-logo-64x64.webp" alt="CvSU Logo" height="60" width="60">
 		</div>
     <div class="wrapper">
       <!-- Navbar -->
@@ -64,4 +64,3 @@
 
   @yield('script')
 </html>
-
