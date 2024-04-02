@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="x icon" type="img/png" href="/images/CvSU-logo-16x16.webp">
     <title>
       @yield('title') &sdot; {{ config('app.name') }}
@@ -11,6 +12,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
+    <!-- Sweet Alert 2 -->
+    <link rel="stylesheet" href="{{asset('plugins/sweetalert2/sweetalert2.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
   </head>
@@ -30,13 +33,14 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+        
         @yield('main-content-header')
         <!-- /.content-header -->
 
         <!-- Main content -->
         @yield('main-content')
         <!-- /.content -->
-      </div>
+        </div>
       <!-- /.content-wrapper -->
 
       <!-- Control Sidebar -->
@@ -53,6 +57,10 @@
   <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
   <!-- Bootstrap 4 -->
   <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- Sweet Alert 2 -->
+  <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
   <!-- AdminLTE App -->
   <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
+
+  @yield('script')
 </html>
