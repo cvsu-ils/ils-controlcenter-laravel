@@ -2,78 +2,62 @@
 
 namespace App\Http\Controllers;
 use App\Models\InHouseClassifications;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 use Illuminate\Http\Request;
 
 class InHouseClassificationsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function class()
     {
-        return view('inhouse')->with('classification', InHouseClassifications::all());
+        $apiController = new APIController();
+        $url = 'http://library.cvsu.edu.ph/sandbox/laravel/api/inhouse/classification';
+        $response = $apiController->request('get', $url);
+     
+        return view('inhouse-classification')->with('classification', $response);
     }
 
     public function editView()
     {
-        return view('inhouse-edit')->with('classification', InHouseClassifications::all());
+        $apiController = new APIController();
+        $url = 'http://library.cvsu.edu.ph/sandbox/laravel/api/inhouse/classification';
+        $response = $apiController->request('get', $url);
+
+        return view('inhouse-edit')->with('classification',$response);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create()
-    // {
-    //     return view('cvsu-ils-inhouse.class');
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
-            'class_name' => 'required',
+            'name' => 'required',
             'alphabetic_range' => 'required',
             'numeric_range_from' => 'required|numeric',
             'numeric_range_to' => 'required|numeric',
+            'user_id' => 'required|numeric'
             
         ]);
 
-        $data = request()->all();
-        $classification = new InHouseClassifications();
-        $classification->class_name = $data['class_name'];
-        $classification->alphabetic_range = $data['alphabetic_range'];
-        $num1  = $data['numeric_range_from'];
-        $num2 = $data['numeric_range_to'];
-        $combine = implode('-', [$num1, $num2]);
-        $classification->numeric_range = $combine;
-        $classification->updated_by = 12;
-        $classification->save();
-
-        $success = true;
-        $message = "Added Successfully";
-
-        return response()->json([
-            'success' => $success,
-            'message' => $message
+        $apiController = new APIController();
+        $data = $apiController->request('post', 'http://library.cvsu.edu.ph/sandbox/laravel/api/inhouse/classification', [
+            'name' => request('name'),
+            'alphabetic_range' => request('alphabetic_range'),
+            'numeric_range_from' => request('numeric_range_from'),
+            'numeric_range_to' => request('numeric_range_to'),
+            'user_id' => request('user_id')
+            
         ]);
+
+        $data = [
+            'status' => 'success',
+            'title' => $data['message'],
+            'message' => $data['message']
+        ];
+
+        return response()->json($data, Response::HTTP_OK);
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $classification = InHouseClassifications::findOrFail($id);
@@ -84,84 +68,71 @@ class InHouseClassificationsController extends Controller
             // Include other relevant data as needed
         ]);
     }
-    
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    
- 
     public function edit($id)
     {
-        $classification = InHouseClassifications::findOrFail($id);
 
+        $apiController = new APIController();
+        $url = 'http://library.cvsu.edu.ph/sandbox/laravel/api/inhouse/classification/' . $id;
+        $response = $apiController->request('get', $url,[
+            'name' => request('name'),
+            'alphabetic_range' => request('alphabetic_range'),
+            'numeric_range_from' => request('numeric_range_from'),
+            'numeric_range_to' => request('numeric_range_to'),
+            'user_id' => request('user_id')         
+        ]);
 
-        $combined = $classification->numeric_range;
+        if (!$response || !is_array($response) || !array_key_exists('data', $response)) {
+            return response()->json(['message' => 'Invalid data received from API'], 500);
+        }      
+        $data = $response['data'];
+
+        // Extract numeric range (if available)
+    
+        $combined = $data['numeric_range'];
         $delimiter = "-";
-        $data = explode($delimiter,$combined);
-        [$data1, $data2] = $data;
+        $number = explode($delimiter,$combined);
+        [$numeric_range_from, $numeric_range_to] = $number;
 
         return response()->json([
-            'id' => $classification->id,
-            'class_name' => $classification->class_name,
-            'alphabetic_range' => $classification->alphabetic_range,
-            'numeric_range_from' => $data1,
-            'numeric_range_to' => $data2
-            // Include other relevant data as needed
+            'id' => $data['id'],
+            'name' => $data['name'],
+            'alphabetic_range' => $data['alphabetic_range'],
+            'numeric_range_from' => $numeric_range_from,
+            'numeric_range_to' => $numeric_range_to,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
-    {
+    
+    {   
         $data = $request->validate([
             'id' => 'required',
-            'class_name' => 'required',
+            'name' => 'required',
             'alphabetic_range' => 'required',
             'numeric_range_from' => 'required|numeric',
             'numeric_range_to' => 'required|numeric',
-            
+            'user_id' => 'required|numeric'
         ]);
-        $data = request()->all();
-        $classification = InHouseClassifications::find($id);
-        $classification->class_name = $data['class_name'];
-        $classification->id = $data['id'];
-        $classification->alphabetic_range = $data['alphabetic_range'];
-        $num1  = $data['numeric_range_from'];
-        $num2 = $data['numeric_range_to'];
-        $combine = implode('-', [$num1, $num2]);
-        $classification->numeric_range = $combine;
-        $classification->updated_by = 2;
+        $apiController = new APIController();       
+        $data = $apiController->request('patch', 'http://library.cvsu.edu.ph/sandbox/laravel/api/inhouse/classification/'. $id,[
+            'id' => $id,
+            'name' => request('name'),
+            'alphabetic_range' => request('alphabetic_range'),
+            'numeric_range_from' => request('numeric_range_from'),
+            'numeric_range_to' =>request('numeric_range_to'),
+            'user_id' => request('user_id')         
+        ]); 
+        
 
-        $classification->save();
+       
 
-        $success = true;
-        $message = "Updated Successfully";
+        $data = [
+            'status' => 'success',
+            'title' => $data['message'],
+            'message' => $data['message']
+        ];
 
-        return response()->json([
-            'success' => $success,
-            'message' => $message
-        ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json($data, Response::HTTP_OK);
     }
 }

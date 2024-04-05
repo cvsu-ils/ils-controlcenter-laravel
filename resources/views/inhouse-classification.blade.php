@@ -19,16 +19,16 @@
 @endsection 
 
 @section('main-content')
-<div class="m-2">    
-        <a href="{{ route('admin.inhouse') }}" class="btn btn-lg btn-success"><h4><i class="fas fa-arrow-alt-circle-left "></i></h4></a>   
-</div>
+<div class=" m-2">    
+<a href="{{ route('admin.inhouse') }}" class="btn btn-sm btn-primary pb-2"><i class="fas fa-arrow-alt-circle-left "></i>&nbsp <b>Back</b></a> <a href="{{ route('admin.editclass') }}" class="btn btn-sm btn-success pb-2"><i class="far fa-edit"></i>&nbsp <b>Edit Classification</b></a>   
+</div><br>
     <!-- ADDED BUTTON  -->
     <div class="row container-fluid d-flex justify-content-center">      
     @forelse ($classification['data'] as $class)
-            <div class="col-sm-3 btn btn-lg btn-light mb-4 p-4 border-dark ml-4" type="button" id="class" onclick="showEditClassificationModal('{{ $class['id'] }}')">
+            <div class="col-sm-3 btn btn-lg btn-light mb-4 p-4 border-dark ml-4" type="button" id="class" onclick="showClassificationModal('{{ $class['id'] }}')">
                 <div class="row">
                     <div class="col-1">
-                    <i class="far fa-bookmark text-danger fw-bolder fs-1"></i>
+                    <i class="far fa-bookmark text-success fw-bolder fs-1"></i>
                     </div>
                     <div class="col-11 mb-0 text-primary fw-bolder align-middle ps-1">
                     <div class="classname" style="color:">{{$class['name']}}<br>
@@ -56,72 +56,89 @@
 </div>
 
 @if (!empty($classification['data']))
- <!-- MODAL EDIT -->
- <div class="modal fade" id="editclassificationModal" tabindex="-1" aria-labelledby="editclassificationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+     <!-- IN-HOUSE LOGS -->
+     <div class="modal fade" id="classificationModal" tabindex="-1" aria-labelledby="classificationModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editclassificationModalLabel">{{$class['name']}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!-- 1 -->
+              <div class="modal-header">
+                <h5 class="modal-title" id="classificationModalLabel">{{$class['name']}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><h1>&times;</h1></span>
                 </button>
-                </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form action="" id="editclass_form" method="POST">
-                      @csrf
-                      <div class="mb-3"hidden>
-                          <label for="" class="form-label fw-bolder">ID</label>
-                          <input type="number" class="form-control" name="class_id" id="class_id" aria-describedby="helpId" placeholder=""/>
-                          <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-                      </div>
+              </div>
 
-                      <div class="mb-3">
-                          <label for="" class="form-label fw-bolder">Classification Name</label>
-                          <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId" placeholder=""/>
-                          <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-                      </div>
+              <div class="modal-body">
+              @if($errors->any())
+                  @foreach($errors->all() as $error)
+                  <div class="alert alert-danger p-2" id="error-message">       
+                      {{$error}}
+                      <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  @endforeach
+                  @endif 
+                  <form action="" id="count_form" method="POST">
 
-                    <div class="row">
-                        <div class="col-5 mb-3">
-                            <label for="" class="form-label fw-bolder">Alphabetic Range</label>
-                            <input type="text" class="form-control text-uppercase" name="alphabetic_range" id="alphabetic_range" aria-describedby="helpId" placeholder=""/>
-                            <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-                        </div>
+                  <div class="mb-3 form-group">
+                    <label for="location">Location</label>
+                    <select class="form-control" id="location" name="location" required>
+                      <option value="" selected disabled>Choose Floor...</option>
+                      <option value="1st">1st Floor</option>
+                      <option value="2nd">2nd Floor</option>
+                      <option value="3rd">3rd Floor</option>
+                    </select>
+                  </div>
 
-                        <div class="col-7 row mb-3">
-                            <div class="col-12 form-label fw-bolder"><b>Numeric Range</b></div>
-                                <div class="col row">
-                                    <div class="col-3 float-end fw-bolder p-2">From:</div>
-                                        <div class="col-9 float-start p-1">
-                                            <input type="number" class="form-control" name="numeric_range_from" id="numeric_range_from" aria-describedby="helpId" placeholder="" max = "999"/>
-                                            <!-- <small id="helpId" class="form-text text-muted"></small> -->
-                                        </div>                     
-                                </div>
-
-                                <div class="col row">
-                                    <div class="col-2 float-end fw-bolder p-2">To:</div>
-                                        <div class="col-10 float-start p-1">  
-                                        <input type="number" class="form-control" name="numeric_range_to" id="numeric_range_to" aria-describedby="helpId" placeholder="" max = "999" />
-                                        <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
-                                    </div>
-                            </div>
-                        </div> 
-                    </div>                     
-                </div>           
+                  <div class="mb-3" id="accession" hidden>
+                      <label for="" class="form-label fw-bolder fs-3" >Accession Number</label>
+                      <input
+                          type="text"
+                          class="form-control border-dark"
+                          name="parameter"
+                          id="parameter"
+                          aria-describedby="helpId"
+                          placeholder="Accession Number..."
+                         
+                          />
+                  </div>
+                  
+                  <div class="mb-3">
+                      <label for="" class="form-label fw-bolder fs-3" >Quantity</label>
+                      <input
+                          type="number"
+                          class="form-control border-dark"
+                          name="quantity"
+                          id=""
+                          aria-describedby="helpId"
+                          placeholder="Qty..."
+                          required
+                          />
+                  </div>
+                  <div class="mb-3" hidden>
+                      <label for="" class="form-label fw-bolder">CLASS ID</label>
+                      <input
+                          type="number"
+                          class="form-control hidden"
+                          name="class_id"
+                          id="class_id"
+                          aria-describedby="helpId"
+                          placeholder=""
+                         
+                      />
+                  </div>          
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </form>
-            </div>
-            </div>
+            
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </form>
         </div>
+      </div>
     </div>
-
+  </div>
   @endif
 
-   <!-- ADD CLASSIFICATION -->
+   <!-- Modal Classification -->
    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered">
               <div class="modal-content">
@@ -149,7 +166,7 @@
                               type="text"
                               class="form-control"
                               name="name"
-                              id="name"
+                              id="class_name"
                               aria-describedby="helpId"
                               placeholder=""
                           />
@@ -170,20 +187,20 @@
                   </div>
                 
                       <div class="col-7 row mb-3">
-                      <div class="col-12 form-label fw-bolder"><b>Numeric Range</b></div>
-                          <div class="row col ">
+                      <div class="col-12 form-label"><b>Numeric Range</b></div>
+                          <div class="row col">
                               <div class="col-3 float-right fw-bolder p-2">
                                   From:
                               </div>
                               <div class="col-9 float-left p-1">
                               <input
-                              type="number"
+                              type="text"
                               class="form-control"
                               name="numeric_range_from"
                               id="numeric_range_from"
                               aria-describedby="helpId"
                               placeholder=""
-                              max="999"
+                              
                           />
                           <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
                               </div>
@@ -196,14 +213,13 @@
 
                               <div class="col-10 float-left p-1">  
                           <input
-                              type="number"
+                              type="text"
                               class="form-control"
                               name="numeric_range_to"
                               id="numeric_range_to"
                               aria-describedby="helpId"
                               placeholder=""
-                              max="999"
-                              
+                            
                           />
                           <!-- <small id="helpId" class="form-text text-muted">Help text</small> -->
                           </div>
@@ -232,73 +248,115 @@
 @endsection
 
 @section('script')
+<!-- MODAL FOR IN-HOUSE LOGS -->
 <script>
-  function showEditClassificationModal(classificationId) {
-  // Fetch classification details using AJAX (replace with your actual logic)
-  fetch(`editclassification/${classificationId}`)
+  function showClassificationModal(classificationId) {
+  fetch(`classification/${classificationId}`)
     .then(response => response.json())
     .then(data => {
       // Update modal title and hidden input value
-      
-      document.getElementById('editclassificationModalLabel').value = data.name;
+      document.getElementById('classificationModalLabel').textContent = data.class_name;
       document.getElementById('class_id').value = data.id;
-      document.getElementById('name').value = data.name;
-      document.getElementById('alphabetic_range').value = data.alphabetic_range;
-      document.getElementById('numeric_range_from').value = data.numeric_range_from;
-      document.getElementById('numeric_range_to').value = data.numeric_range_to;
-      
       // Show the modal
-      $('#editclassificationModal').modal('show');
+      $('#classificationModal').modal('show');
     })
     .catch(error => {
       console.error('Error fetching classification details:', error);
     });
+  
 }
  </script>
 
-<!-- EDIT IN-HOUSE CLASSS -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#editclass_form').submit(function(event) {
-            event.preventDefault();     
-            //var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var id = $(this).find('input[name="class_id"]').val();
-            $.ajax({
-                url: `editclassification/${id}/edit`,
-                method: 'PATCH', // Use PATCH here
-                data: {
-                    "_token": "{{ csrf_token() }}", 
-                    id: id,     
-                    name: $(this).find('input[name="name"]').val(),
-                    alphabetic_range: $(this).find('input[name="alphabetic_range"]').val(),
-                    numeric_range_from: $(this).find('input[name="numeric_range_from"]').val(),
-                    numeric_range_to: $(this).find('input[name="numeric_range_to"]').val(),
-                    user_id:{{ auth()->user()->id }}
-                },
-                dataType: 'JSON',
-                success: function(response) {
-                    if(response.status == "success") {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message
-                        }).then(function(){
-                            window.location = "{{ route('admin.editclass') }}";
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
+<!-- ADD IN-HOUSE LOG -->
+<script type="text/javascript"> 
+  $(document).ready(function() {    
+    const select = document.getElementById('location');
+    const input = document.getElementById('accession');
+    select.addEventListener('change', function() {
+      if (select.value === '2nd Floor') {
+        input.removeAttribute('hidden');
+      } else {
+        input.setAttribute('hidden', '');
+      }
     });
+
+    $('#count_form').submit(function(event) {
+      event.preventDefault();     
+        //var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content')      
+      $.ajax({
+          url: "{{ route('admin.InHouseAddLogs') }}",
+          method: 'POST', // Changed to method: 'POST'
+          data: {
+          "_token": "{{ csrf_token() }}",
+          quantity: $(this).find('input[name="quantity"]').val(),
+          class_id: $(this).find('input[name="class_id"]').val(),
+          location:$(this).find('select[name="location"]').val(),
+          parameter:$(this).find('input[name="parameter"]').val(),
+          userId: {{ auth()->user()->id}}                         
+          },
+          dataType: 'JSON',
+          success: function(response) {
+              if(response.status == "success") {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success!',
+                      text: response.message
+                  }).then(function(){
+                  window.location = "{{ route('admin.inhouse.class') }}";
+                  });
+              }
+          },
+          error: function(xhr, status, error) {
+          console.log(xhr.responseText);
+          let response = JSON.parse(xhr.responseText);
+          if (response.errors.location) {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'An error occurred',
+                  text: response.errors.location[0]
+              });
+            }
+          else if (response.errors.quantity) {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'An error occurred',
+                  text: response.errors.quantity[0]
+              });
+          }
+          else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'An error occurred',
+                  text: response.message
+              });
+          }
+        }
+      });
+                
+    });          
+  });    
 </script>
 
 <!-- ADD CLASSIFICATION -->
 <script>
     $(document).ready(function() {
-         $('#class_form').submit(function(event) {
+      const numericRangeFrom = document.getElementById('numeric_range_from');
+      const numericRangeTo = document.getElementById('numeric_range_to');
+  
+      numericRangeFrom.addEventListener('keypress', function(event) {
+    const key = event.key;
+    if (isNaN(key)) {
+      event.preventDefault();
+    }
+  });
+
+  numericRangeTo.addEventListener('keypress', function(event) {
+    const key = event.key;
+    if (isNaN(key)) {
+      event.preventDefault();
+    }
+  });
+    $('#class_form').submit(function(event) {
           event.preventDefault(); // Prevent the default form submission
 
           $.ajax({
@@ -307,7 +365,7 @@
               data: $(this).serialize()+ "&user_id={{ auth()->user()->id }}", // Serialize the form data
               dataType: 'JSON',
               success: function(response) {
-                  if (response.status === "success") {
+                  if (response.satus === "success") {
         Swal.fire({
           icon: 'success',
           title: 'Success!',
