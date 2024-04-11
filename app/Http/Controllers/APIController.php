@@ -41,6 +41,9 @@ class APIController extends Controller
             case 'get':
                 $response = Http::withHeaders($headers)->get($endpoint, $data);
                 break;
+            case 'patch':
+                $response = Http::withHeaders($headers)->patch($endpoint, $data);
+                break;
             case 'post':
                 $response = Http::withHeaders($headers)->post($endpoint, $data);
                 break;

@@ -17,7 +17,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Chart JS -->
-    <link rel="stylesheet" href="{{asset('plugins/chart.js/Chart.css')}}"> 
+    <link rel="stylesheet" href="{{asset('plugins/chart.js/Chart.css')}}">
   </head>
   <body class="hold-transition sidebar-mini">
     <!-- Preloader -->
@@ -65,7 +65,5 @@
   <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
   <!-- Chart JS -->
   <script src="{{asset('plugins/chart.js/Chart.js')}}"></script>
-  
-
   @yield('script')
 </html>
