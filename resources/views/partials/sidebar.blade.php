@@ -10,8 +10,8 @@
 </style>
 <aside class="main-sidebar sidebar-light-success elevation-1">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="{{ asset('storage/images/CvSU-logo-64x64.webp') }}" alt="CvSU Logo" class="brand-image" style="opacity: .8">
+    <a href="{{ route('admin.home') }}" class="brand-link">
+      <img src="/images/CvSU-logo-64x64.webp" alt="CvSU Logo" class="brand-image" style="opacity: .8">
       <span class="brand-text font-weight-light">Control Center</span>
     </a>
 
@@ -20,10 +20,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/20220729_Kim_Ji-won_%EA%B9%80%EC%A7%80%EC%9B%90_Marie_Claire_Korea_%282%29.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ $googleUserInfo->picture }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Nezzaline Bato</a>
+          <a href="#" class="d-block">{{ $googleUserInfo->name }}</a>
         </div>
       </div>
 
@@ -78,6 +78,12 @@
                 <a href="{{ route('admin.result') }}" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Violation System</p>
+                <a href="{{ route('admin.wifi') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Wifi Logging System</p>
+                <a href="{{ route('admin.inhouse') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>In-house Management</p>
                 </a>
               </li>
             </ul>
