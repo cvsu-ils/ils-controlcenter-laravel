@@ -83,9 +83,9 @@
                     <label for="location">Location</label>
                     <select class="form-control" id="location" name="location" required>
                       <option value="" selected disabled>Choose Floor...</option>
-                      <option value="1st">1st Floor</option>
-                      <option value="2nd">2nd Floor</option>
-                      <option value="3rd">3rd Floor</option>
+                      <option value="1st Floor">1st Floor</option>
+                      <option value="2nd Floor">2nd Floor</option>
+                      <option value="3rd Floor">3rd Floor</option>
                     </select>
                   </div>
 
