@@ -4,6 +4,7 @@
         <title>{{ config('app.name') }}</title>
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
         <link rel="x icon" type="img/png" href="images/CvSU-logo-16x16.webp">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             .hoverable-button {
                 transition: background-color 0.3s ease, transform 0.3s ease; 
@@ -21,3 +22,4 @@
         @yield('content')
     </body>
 </html>
+
