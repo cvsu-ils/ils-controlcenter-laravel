@@ -65,6 +65,5 @@
   <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
   <!-- Chart JS -->
   <script src="{{asset('plugins/chart.js/Chart.js')}}"></script>
-
   @yield('script')
 </html>

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WifiLogsController;
-
 use App\Http\Controllers\InHouseClassificationsController;
 use App\Http\Controllers\InHouseLogsController;
 
@@ -43,8 +42,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/wifi', function () {
             return view('wifi');
         })->name('admin.wifi');
-        Route::post('/admin.wifi', [App\Http\Controllers\WifiLogsController::class, 'store'])->name('store');
-      
+        Route::get('/chart', [WifiLogsController::class, 'chart'])->name('chart');
+
+        Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store');
+        
         // IN-HOUSE MANAGEMENT
         Route::get('/inhouse', [InHouseLogsController::class, 'index'])->name('admin.inhouse');
         Route::get('/inhouse/chart', [InHouseLogsController::class, 'chartInfo']);

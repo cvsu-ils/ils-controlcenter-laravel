@@ -9,6 +9,8 @@ class wifilogs extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cardnum'. 'location'];
+
+    protected $fillable = ['cardnum', 'location'];
+
 
 }

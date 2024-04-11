@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\WifiLogs;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use stdClass;
+use Illuminate\Support\Facades\DB;
 
 class WifiLogsController extends Controller
 {
@@ -28,6 +28,7 @@ class WifiLogsController extends Controller
         }
         return 2;
     }
+
     
     public function store(Request $request)
     {
@@ -36,12 +37,7 @@ class WifiLogsController extends Controller
             'location' => 'required', 
         ]);
         
-        
-        // validation cardnum. if validated continue
-        // $validated = $request->validated();
 
-        // $validated = $request->safe()->only(['cardnum']);
-        // return response()->json($data, Response::HTTP_OK);
 
         switch($this->validation(request('cardnum'))) {
             case 0:
@@ -71,20 +67,25 @@ class WifiLogsController extends Controller
             'user_id' => request('userId')
         ]);
 
-        // $data = request()->all();
-        // $logging_sys = new WifiLogs();
-        // $logging_sys->cardnum = $data['cardnum'];
-        // $logging_sys->userId = 1; 
-        // $logging_sys->location = $data['location'];
-        // $logging_sys->save();
-
         $data = [
             'status' => 'success',
             'title' => $data['message'],
             'message' => $data['message']
         ];
 
+
         return response()->json($data, Response::HTTP_OK);
 
     }
+
+
+    public function chart()
+    {
+        $validation = new APIController();
+        $data = $validation->request('get', 'http://library.cvsu.edu.ph/sandbox/laravel/api/wifilogs');
+        return response()->json($data);
+    }
+
+
+    
 }
