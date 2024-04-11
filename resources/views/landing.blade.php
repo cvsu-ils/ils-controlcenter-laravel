@@ -12,8 +12,7 @@
                             <p class="font-bold text-lg md:text-2xl  lg:text-2xl">CAVITE STATE UNIVERSITY <br> LIBRARY SYSTEM</p>
                             <p class="text-white font-semibold text-lg">Control Center</p>
                         </div>
-                    
-                        <!--form-->
+                        <!--forms-->
                      <div class="p-8 py-0 px-px pt-2 bg-white text-center rounded-2xl shadow-inner border border-gray-2 lg:hidden">
                         <div>
                             <h1 class="text-2xl font-medium text-center mb-2 mt-3 text-gray-700">Self-Registration for Librarians<br>Accessing the CvSU Integrated Library System-Control Center<br>
