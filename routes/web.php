@@ -46,13 +46,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin.wifi', [App\Http\Controllers\WifiLogsController::class, 'store'])->name('store');
       
         // IN-HOUSE MANAGEMENT
-        Route::get('/inhouse', [InHouseClassificationsController::class, 'index'])->name('admin.inhouse');
+        Route::get('/inhouse', [InHouseLogsController::class, 'index'])->name('admin.inhouse');
+        Route::get('/inhouse/chart', [InHouseLogsController::class, 'chartInfo']);
+        Route::get('/inhouse/classification', [InHouseClassificationsController::class, 'class'])->name('admin.inhouse.class');
         Route::get('/inhouse/editclassification', [InHouseClassificationsController::class, 'editView'])->name('admin.editclass');
         Route::get('/inhouse/editclassification/{id}', [InHouseClassificationsController::class, 'edit']);
         Route::get('/inhouse/classification/{id}', [InHouseClassificationsController::class, 'show']);
 
         Route::post('/inhouse/addclassification', [InHouseClassificationsController::class, 'store'])->name('admin.InHouseAddClass');
         Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs');
-        Route::post('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
+        Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
     });
 });

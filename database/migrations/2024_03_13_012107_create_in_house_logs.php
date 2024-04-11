@@ -19,7 +19,9 @@ class CreateInHouseLogs extends Migration
             $table->integer('qty');
             $table->integer('updated_by');
             $table->string('location');
+            $table->string('parameter')->nullable();
             $table->timestamps();
+
         });
     }
 
