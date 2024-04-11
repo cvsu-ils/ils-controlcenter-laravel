@@ -63,6 +63,8 @@
   <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
   <!-- AdminLTE App -->
   <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
+  <!-- Sweet Alert 2 -->
+  <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
   <!-- Chart JS -->
   <script src="{{asset('plugins/chart.js/Chart.js')}}"></script>
   @yield('script')

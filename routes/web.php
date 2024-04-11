@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\WifiLogsController;
 use App\Http\Controllers\InHouseClassificationsController;
 use App\Http\Controllers\InHouseLogsController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -38,15 +38,45 @@ Route::middleware('auth')->group(function () {
             return view('welcome');
         })->name('admin.home');
       
-        // WIFI LOGGING MANAGEMENT
+/*
+|--------------------------------------------------------------------------
+| Violation Management System
+|--------------------------------------------------------------------------
+*/
+        Route::get('/violations/create', function () {
+            return view('form');
+        })->name('admin.form');
+        Route::get('/violations', [FormController::class, 'showForm'])->name('admin.result');
+        Route::get('/quicklog', function () {
+            return view('quicklog');
+        })->name('admin.quicklog');
+        Route::post('/quicklog', [FormController::class, 'receipt']);
+        Route::post('/input', [FormController::class, 'store'])->name('admin.store');
+        Route::get('/edit/{selectedId}', [FormController::class, 'edit'])->name('edit');
+        // for search
+        Route::get('/search',[FormController::class, 'search'])->name('admin.search');
+        // for filtering
+        Route::get('/filter', [FormController::class, 'filter'])->name('filter');
+        // for test search something
+        Route::post('/patron/search', [FormController::class, 'findPatron']);
+        // get card num
+        Route::post('/select', [FormController::class, 'select'])->name('admin.select');
+/*
+|--------------------------------------------------------------------------
+| WiFi Logging Management System
+|--------------------------------------------------------------------------
+*/
         Route::get('/wifi', function () {
             return view('wifi');
         })->name('admin.wifi');
         Route::get('/chart', [WifiLogsController::class, 'chart'])->name('chart');
 
         Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store');
-        
-        // IN-HOUSE MANAGEMENT
+/*
+|--------------------------------------------------------------------------
+| In House Management System
+|--------------------------------------------------------------------------
+*/
         Route::get('/inhouse', [InHouseLogsController::class, 'index'])->name('admin.inhouse');
         Route::get('/inhouse/chart', [InHouseLogsController::class, 'chartInfo']);
         Route::get('/inhouse/classification', [InHouseClassificationsController::class, 'class'])->name('admin.inhouse.class');
