@@ -6,13 +6,14 @@
     <div class="h-screen flex lg:flex flex-row w-full h-screen">
         <div class="flex bg-cover bg-center h-full lg:w-1/2 flex flex-col bg-cover bg-center h-full" style="background-image: url('images/landing/library.jpg');">
             <div class="flex items-center justify-center h-screen">
-                <div class="items-center pb-96 lg:pb-2 flex flex-col items-center sm:flex flex-col items-center">
+                <div class="items-center pb-28 lg:pb-2 flex flex-col items-center sm:flex flex-col items-center">
                     <img class="w-24 lg:w-80 mb-3" src="images/CvSU-logo.png" alt="cvsu logo">
-                        <div class=" align-text-top pb-28 text-center lg:text-center text-white mb-2">
+                        <div class=" align-text-top text-center lg:text-center text-white mb-2">
                             <p class="font-bold text-lg md:text-2xl  lg:text-2xl">CAVITE STATE UNIVERSITY <br> LIBRARY SYSTEM</p>
-                            <p class="text-white font-semibold text-lg">Control Center</p>
+                            <p class="text-white font-semibold text-lg pb-16">Control Center</p>
                         </div>
-                        <!--forms-->
+                
+                        <!--form-->
                      <div class="p-8 py-0 px-px pt-2 bg-white text-center rounded-2xl shadow-inner border border-gray-2 lg:hidden">
                         <div>
                             <h1 class="text-2xl font-medium text-center mb-2 mt-3 text-gray-700">Self-Registration for Librarians<br>Accessing the CvSU Integrated Library System-Control Center<br>
@@ -37,7 +38,7 @@
                         <a class ="text-gray-700"href="{{ url('auth/google') }}"><small>Click here if you already have an account.</small></a>
                         </div>
 
-                        <div class="absolute bottom-0 text-center p-4 ml-4 sm:ml-10 md:ml-44 lg:hidden">
+                        <div class="absolute bottom-0 text-center p-4 ml-4 sm:ml-10 md:ml-20 lg:hidden">
                             <p class="text-base font-medium text-white ">© Copyright 2022 Cavite State University | 
                                 Integrated Library System</p>
                         </div>
