@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,36 @@ Route::middleware('auth')->group(function () {
         Route::get('/test', function () {
             return view('welcome');
         })->name('admin.test');
+        Route::get('/violations/create', function () {
+            return view('form');
+        })->name('admin.form');
+
+        Route::get('/violations', [FormController::class, 'showForm'])->name('admin.result');
+
+        Route::get('/quicklog', function () {
+            return view('quicklog');
+        })->name('admin.quicklog');
+
+        Route::post('/quicklog', [FormController::class, 'receipt']);
+        Route::post('/input', [FormController::class, 'store'])->name('admin.store');
+        Route::get('/edit/{selectedId}', [FormController::class, 'edit'])->name('edit');
+        
+        // for search
+        Route::get('/search',[FormController::class, 'search'])->name('admin.search');
+
+        // for filtering
+        Route::get('/filter', [FormController::class, 'filter'])->name('filter');
+
+        // for test search something
+        Route::post('/patron/search', [FormController::class, 'findPatron']);
+
+        // get card num
+        Route::post('/select', [FormController::class, 'select'])->name('admin.select');
+
+
+
+
+        
     });
 });
 // Route::get('/cvsu_ils/sample', function () {

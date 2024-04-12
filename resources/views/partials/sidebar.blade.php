@@ -20,10 +20,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="https://lh3.googleusercontent.com/a-/AFdZucq9gyDrjGhjS_VmY8rqOw16iqdHZn7Qidl06CJe=s96-c" class="img-circle elevation-2" alt="User Image">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/20220729_Kim_Ji-won_%EA%B9%80%EC%A7%80%EC%9B%90_Marie_Claire_Korea_%282%29.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">John Vincent Bonza</a>
+          <a href="#" class="d-block">Nezzaline Bato</a>
         </div>
       </div>
 
@@ -72,6 +72,12 @@
                 <a href="#" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>E-journals</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.result') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Violation System</p>
                 </a>
               </li>
             </ul>
