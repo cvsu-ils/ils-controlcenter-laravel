@@ -82,10 +82,16 @@ class WifiLogsController extends Controller
     public function chart()
     {
         $validation = new APIController();
-        $data = $validation->request('get', 'http://library.cvsu.edu.ph/sandbox/laravel/api/wifilogs');
-        return response()->json($data);
+        $data = $validation->request('get', 'http://library.cvsu.edu.ph/sandbox/laravel/api/wifilogs/summary');
+        return response()->json($data, Response::HTTP_OK);
     }
 
 
+    public function recent()
+    {
+        $validation = new APIController();
+        $data = $validation->request('get', 'http://library.cvsu.edu.ph/sandbox/laravel/api/wifilogs');
+        return response()->json($data, Response::HTTP_OK);
+    }
     
 }

@@ -5,13 +5,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <a class="badge badge-primary float-sm-left mb-3" href="?view=home"><i class="fas fa-arrow-alt-circle-left"></i> Back to home</a>
+                <a class="badge badge-primary float-sm-left mb-3" href="{{ route('admin.home') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to home</a>
                 <br><br><br><br>
-                <h1 class="m-0" style="text-shadow: 4px 4px 6px #838383;"><i class="fas fa-book"></i> Wifi Logs</h1>
+                <h1 class="m-0" style="text-shadow: 4px 4px 6px #838383;"><i class="fas fa-wifi"></i> Wifi Logs</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb px-3 elevation-1 bg-white float-sm-right">
-                    <li class="breadcrumb-item"><a href="?view=dashboard">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                     <li class="breadcrumb-item active">Integrated Library System</li>
                     <li class="breadcrumb-item active">Wifi Logs</li>
                 </ol>
@@ -24,8 +24,8 @@
 
 @section('main-content')
 <div class="content">
-    <div class="container-fluid">
-        <div class="d-block mt-3 rounded text-lg">
+    <div class="container-fluid px-3">
+        <div class="d-block mt-3 rounded text-lg d-flex justify-content-end">
             <button class="btn btn-sm bg-gradient-success mr-1" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-plus mr-1"></i>Create</button>
         </div>
         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -56,9 +56,6 @@
                             <button id="submitForm" class="btn btn-success btn-lg d-flex justify-content-center m-auto w-50" type="submit">Submit</button>
                         </form>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
             </div>
             </div>
         </div>
@@ -70,22 +67,9 @@
                     <div class="card-header border-0">
                         <div class="d-flex justify-content-between">
                             <h3 class="card-title">Summary of Wifi Logs Statistics</h3>
-                            <a href="javascript:void(0);">View Report</a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <!-- <div class="d-flex">
-                            <p class="d-flex flex-column">
-                                <span class="text-bold text-lg">$18,230.00</span>
-                                <span>Sales Over Time</span>
-                            </p>
-                            <p class="ml-auto d-flex flex-column text-right">
-                                <span class="text-success">
-                                    <i class="fas fa-arrow-up"></i> 33.1%
-                                </span>
-                                <span class="text-muted">Since last month</span>
-                            </p>
-                        </div> -->
                         <div class="position-relative mb-4">
                             <canvas id="myChart" height="300" style="display: block; width: 764px; height: 300px;" width="764"></canvas>
                         </div>
@@ -98,15 +82,14 @@
                         <h3 class="card-title">Recently Added Wifi Logs</h3>
                     </div>
                     <div class="card-body p-0">
-                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                        <ul class="list-group product-list-in-card" style="height:470px; overflow-y: scroll;" id="recentLogs">
                         </ul>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="javascript:void(0)" class="uppercase">View Logs</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        
     </div>
 </div>
 
@@ -115,6 +98,7 @@
 
 @section('script')
 <script>
+    // add log
     $(document).ready(function () {
         $('#floatingInput').on('keypress', function(event) {
             var key = event.key;
@@ -173,8 +157,8 @@
             });
         });
     });
-
-
+    
+    // chart
     const ctx = document.getElementById('myChart');
 
     fetch('/admin/chart')
@@ -182,7 +166,6 @@
     .then(data => {
         console.log(data);
 
-        
         const months = data[0]; 
         console.log('Months:', months);
         const counts = data[1];
@@ -245,86 +228,128 @@
     });
 
 
+    function processDataForChart(data) {
+        const floor1Data = Array.from({ length: 12 }, () => 0);
+        const floor2Data = Array.from({ length: 12 }, () => 0);
+        const floor3Data = Array.from({ length: 12 }, () => 0);
+        const floor4Data = Array.from({ length: 12 }, () => 0);
+        
 
-        function processDataForChart(data) {
-            const floor1Data = Array.from({ length: 12 }, () => 0);
-            const floor2Data = Array.from({ length: 12 }, () => 0);
-            const floor3Data = Array.from({ length: 12 }, () => 0);
-            const floor4Data = Array.from({ length: 12 }, () => 0);
-            
+        data.forEach(entry => {
+            const monthIndex = entry['month'] - 1;
+            const location = entry['location'];
+            const count = entry['count'];
 
-            data.forEach(entry => {
-                const monthIndex = entry['month'] - 1;
-                const location = entry['location'];
-                const count = entry['count'];
+            switch (location) {
+                case '1st floor':
+                    floor1Data[monthIndex] += count;
+                    break;
+                case '2nd floor':
+                    floor2Data[monthIndex] += count;
+                    break;
+                case '3rd floor':
+                    floor3Data[monthIndex] += count;
+                    break;
+                case '4th floor':
+                    floor4Data[monthIndex] += count;
+                    break;
+                default:
+                    break;
+            }
+        });
 
-                switch (location) {
-                    case '1st floor':
-                        floor1Data[monthIndex] += count;
-                        break;
-                    case '2nd floor':
-                        floor2Data[monthIndex] += count;
-                        break;
-                    case '3rd floor':
-                        floor3Data[monthIndex] += count;
-                        break;
-                    case '4th floor':
-                        floor4Data[monthIndex] += count;
-                        break;
-                    default:
-                        break;
+        return {
+            'labels': months,
+            'datasets': [
+                {
+                    label: '1st floor',
+                    data: floor1Data,
+                    backgroundColor: 'rgba(20, 164, 77, 0.2)',
+                    borderColor: 'rgba(20, 164, 77, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '2nd floor',
+                    data: floor2Data,
+                    backgroundColor: 'rgba(243, 227, 66, 0.2)',
+                    borderColor: 'rgba(243, 227, 66, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '3rd floor',
+                    data: floor3Data,
+                    backgroundColor: 'rgba(220, 76, 100, 0.2)',
+                    borderColor: 'rgba(220, 76, 100, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '4th floor',
+                    data: floor4Data,
+                    backgroundColor: 'rgba(255, 144, 60, 0.2)',
+                    borderColor: 'rgba(255, 144, 60, 1)',
+                    borderWidth: 1
                 }
-            });
+            ]
+        };
+    }
 
-            return {
-                'labels': months,
-                'datasets': [
-                    {
-                        label: '1st floor',
-                        data: floor1Data,
-                        backgroundColor: 'rgba(20, 164, 77, 0.2)',
-                        borderColor: 'rgba(20, 164, 77, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: '2nd floor',
-                        data: floor2Data,
-                        backgroundColor: 'rgba(243, 227, 66, 0.2)',
-                        borderColor: 'rgba(243, 227, 66, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: '3rd floor',
-                        data: floor3Data,
-                        backgroundColor: 'rgba(220, 76, 100, 0.2)',
-                        borderColor: 'rgba(220, 76, 100, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: '4th floor',
-                        data: floor4Data,
-                        backgroundColor: 'rgba(255, 144, 60, 0.2)',
-                        borderColor: 'rgba(255, 144, 60, 1)',
-                        borderWidth: 1
+    function createChart(ctx, data) {
+        console.log('Processed Data:', data); 
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
-                ]
-            };
-        }
-
-        function createChart(ctx, data) {
-    console.log('Processed Data:', data); // Log processed data
-    new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
                 }
             }
-        }
+        });
+    }
+
+    // end of chart
+
+    fetch('/admin/recent')
+    .then(response => response.json())
+    .then(data => {
+        console.log('Recent Logs:', data);
+
+        document.getElementById("recentLogs").innerHTML = '';
+
+        data.data.forEach(item => {
+            let list = document.createElement("li");
+            list.className = "list-group-item list-group-item-action";
+
+            let floorClassColor = 'badge-primary';
+            switch(item.location) {
+                case "1st Floor":
+                    floorClassColor = "badge-success";
+                    break;
+                case "2nd Floor":
+                    floorClassColor = "badge-warning";
+                    break;
+                case "3rd Floor":
+                    floorClassColor = "badge-danger";
+                    break;
+                case "4th Floor":
+                    floorClassColor = "bg-orange";
+                    break;
+            }
+
+            list.innerHTML = `
+            <span class="text-secondary">
+                <span class="badge badge-pill ${floorClassColor}" style="color: white !important;">${item.location}</span>
+                <span class="font-weight-bold text-dark">Gera </span> created a wifi log for <span class="text-info"> ${item.cardnumber}</span> on <span>${item.formatted_timestamp}</span>
+            </span>`;
+
+            document.getElementById("recentLogs").appendChild(list); 
+        });
+
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
     });
-}
 
 
 </script>
