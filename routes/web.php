@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
             return view('wifi');
         })->name('admin.wifi');
         Route::get('/chart', [WifiLogsController::class, 'chart'])->name('chart');
-
+        Route::get('/recent', [WifiLogsController::class, 'recent'])->name('recent');
         Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store');
 /*
 |--------------------------------------------------------------------------
