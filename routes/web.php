@@ -54,22 +54,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/filter', [ViolationController::class, 'filter'])->name('filter');
         Route::post('/patron/search', [ViolationController::class, 'findPatron']);
         Route::post('/select', [ViolationController::class, 'select'])->name('admin.select');
-/*
-|--------------------------------------------------------------------------
-| WiFi Logging Management System
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | WiFi Logging Management System
+    |--------------------------------------------------------------------------
+    */
         Route::get('/wifi', function () {
             return view('wifi');
         })->name('admin.wifi');
-
         Route::get('/chart', [WifiLogsController::class, 'chart'])->name('chart');
+        Route::get('/recent', [WifiLogsController::class, 'recent'])->name('recent');
         Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store');
-/*
-|--------------------------------------------------------------------------
-| In House Management System
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | In House Management System
+    |--------------------------------------------------------------------------
+    */
         Route::get('/inhouse', [InHouseLogsController::class, 'index'])->name('admin.inhouse');
         Route::get('/inhouse/chart', [InHouseLogsController::class, 'chartInfo']);
         Route::get('/inhouse/classification', [InHouseClassificationsController::class, 'class'])->name('admin.inhouse.class');
