@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('card_number')->unique();
             $table->string('violation_desc');
             $table->string('violation_type');
-            $table->string('dateEnded');
-            $table->string('remarks');
+            $table->string('dateEnded')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
 
         });
