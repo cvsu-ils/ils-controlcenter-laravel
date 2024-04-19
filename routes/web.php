@@ -38,11 +38,11 @@ Route::middleware('auth')->group(function () {
             return view('welcome');
         })->name('admin.home');
       
-/*
-|--------------------------------------------------------------------------
-| Violation Management System
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | Violation Management System
+    |--------------------------------------------------------------------------
+    */
         Route::get('/violations/create', function () {
             return view('violationForm');
         })->name('admin.violationList');

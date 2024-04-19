@@ -29,43 +29,17 @@ class ViolationController extends Controller
         if($search) {
             $queryStrings['search'] = $search;
         }
-
-        // echo 'http://library.cvsu.edu.ph/sandbox/laravel/api/violations' . $queryString;
     
         $validation = new APIController();
-        $list = $validation->request('get', 'http://library.cvsu.edu.ph/sandbox/laravel/api/violations', $queryStrings);
-    
-        $data = $list['data'];
-
-        // dd($data);
-       
-        // if ($search) {
-        //     $data = array_filter($data, function($item) use ($search) {
-        //         return strpos($item['card_number'], $search) !== false;
-        //     });
-        // }
-
-        // if ($filterCriteria != 'all') {
-        //     $data = array_filter($data, function($item) use ($today, $filterCriteria) {
-        //         if ($filterCriteria == 'cleared') {
-        //             return ($item['date_ended'] > $today && $item['status'] == 0) || is_null($item['date_ended']);
-        //         } elseif ($filterCriteria == 'ongoing') {
-        //             return ($item['date_ended'] < $today && $item['status'] == 1);
-        //         }
-        //         return true;
-        //     });
-        // }    
+        $data = $validation->request('get', 'http://library.cvsu.edu.ph/sandbox/laravel/api/violations', $queryStrings);
     
         return view('violationList')->with([
-            'violations' => $data,
+            'violations' => $data['data'],
             'today' => $today,
             'search' => $search,
             'filterCriteria' => $filterCriteria
         ]);
     }
-    
-    
-
 
     public function store(Request $request)
     {

@@ -34,7 +34,6 @@
 </style>
 
   <div class="container">
-
     <form method="GET" action="{{ route('admin.result') }}">
       @csrf
         <input type="hidden" name="search" value="{{$search}}">
