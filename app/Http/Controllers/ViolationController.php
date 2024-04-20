@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Violation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\ViolationController;
 
@@ -52,25 +53,7 @@ class ViolationController extends Controller
             'remarks' => [
                 'required_if:violation_type,Accomplishment',
             ],
-        ]);
-
-        // $violations = new Violation();
-
-        // if (strlen($violations->card_number) <= $max_length) {
-        //     $violations->card_number = $request->cardnum;
-        // }
-        
-        // $violations->violation_desc = $request->violation_desc;
-        // $violations->violation_type = $request->violation_type;
-
-        // if ($violations->violation_type=="Duration") {
-        //     $violations->dateEnded = $request->dateEnded;
-        // }
-        // if ($violations->violation_type=="Accomplishment") {
-        //     $violations->remarks = $request->remarks;
-        // }
-
-        
+        ]);        
 
         $validation = new APIController();
         $data = $validation->request('post', 'http://library.cvsu.edu.ph/sandbox/laravel/api/violations', [
@@ -88,20 +71,14 @@ class ViolationController extends Controller
             'message' => $data['message']
         ];
 
-        // $violations->save();
         return response()->json($data, Response::HTTP_OK);
     }
     
     
-    public function edit(int $selectedId)
-    {
-        Violation::where([
-            ['id', $selectedId],
-            ['violation_type', 'Accomplishment']
-        ])->update([
-            'remarks' => 1
-        ]);
-        
+    public function update(int $id)
+    {           
+        $validation = new APIController();
+        $data = $validation->request('patch', 'http://library.cvsu.edu.ph/sandbox/laravel/api/violations/'.$id);
         return redirect()->back();
     }
 

@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/violations', [ViolationController::class, 'showForm'])->name('admin.result');
         Route::post('/store', [ViolationController::class, 'store'])->name('admin.store');
-        Route::get('/edit/{selectedId}', [ViolationController::class, 'edit'])->name('edit');
+        Route::get('/update/{id}', [ViolationController::class, 'update'])->name('update');
         Route::get('/search',[ViolationController::class, 'search'])->name('admin.search');
         Route::get('/filter', [ViolationController::class, 'filter'])->name('filter');
         Route::post('/patron/search', [ViolationController::class, 'findPatron']);
