@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Chart JS -->
     <link rel="stylesheet" href="{{asset('plugins/chart.js/Chart.css')}}">
+    <!-- Bootstrap Iconpicker CSS-->
+    <link rel="stylesheet" href="{{asset('plugins/fontawesome-iconpicker/css/bootstrap-iconpicker.css')}}"/>
   </head>
   <body class="hold-transition sidebar-mini">
     <!-- Preloader -->
@@ -67,5 +69,7 @@
   <script src="{{asset('plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
   <!-- Chart JS -->
   <script src="{{asset('plugins/chart.js/Chart.js')}}"></script>
+  <!-- Bootstrap Iconpicker JS -->
+  <script src="{{asset('plugins/fontawesome-iconpicker/js/bootstrap-iconpicker.bundle.min.js')}}"></script>
   @yield('script')
 </html>
