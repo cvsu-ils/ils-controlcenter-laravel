@@ -109,6 +109,7 @@
 
         $('#formData').submit(function (e) {
             e.preventDefault();
+            $('#submitForm').prop('disabled', true);
 
             var inputValue = $('#floatingInput').val();
             var selectedLocation = $('#location_drp').val();
@@ -151,7 +152,7 @@
                             if(response.status == "success") {
                                 window.location = "{{ route('admin.wifi') }}";
                             }
-                        }
+                            $('#submitForm').prop('disabled', false)};
                     });
                 }
             });
