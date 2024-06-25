@@ -164,7 +164,7 @@
         @forelse($violations as $violation)
 
         <tr>                
-        <td>{{ $violation['user_id'] }}</td>
+        <td>{{ $violation['id'] }}</td>
         <td>{{ $violation['card_number'] }}</td>
         <td>{{ $violation['description'] }}</td>
         <td>{{ $violation['type'] }}</td>
@@ -178,11 +178,11 @@
           <td>
               <div class = "d-flex justify-content-center">
                 @if($violation['status'] == 0 && is_null($violation['date_ended']))                        
-                  <button type="button" class="btn btn-outline-success mx-3" data-toggle="modal" data-target="#completeModal{{ $violation['user_id'] }}">Completed</button>
+                  <button type="button" class="btn btn-outline-success mx-3" data-toggle="modal" data-target="#completeModal{{ $violation['id'] }}">Completed</button>
               </div>
 
         <!-- Start Modal -->
-        <div class="modal fade" id="completeModal{{ $violation['user_id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="completeModal{{ $violation['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -195,7 +195,7 @@
               <div class="modal-body">
                 <div class = "d-flex justify-content text-dark"> 
                   <p class = "text-uppercase text-bold">ID</p>
-                  <p class = "">- {{ $violation['user_id'] }}</p>
+                  <p class = "">- {{ $violation['id'] }}</p>
                 </div>
                 <div class = "d-flex justify-content text-dark"> 
                     <p class = "text-uppercase text-bold">PATRON</p>
@@ -208,7 +208,7 @@
               </div>
 
               <div class="modal-footer">
-                <a href="{{ route('edit', ['selectedId' => $violation['user_id']]) }}" class="btn modal-close waves-effect waves-green btn-dark text-uppercase bg-warning">Continue</a>
+                <a href="{{ route('update', ['id' => $violation['id']]) }}" class="btn modal-close waves-effect waves-green btn-dark text-uppercase bg-warning">Continue</a>
               </div>
 
             </div>
@@ -251,9 +251,9 @@
                 data: $('#input_form').serialize(),
                 success: function(response) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'Form submitted successfully.',
+                        icon: response.status,
+                        title: response.title,
+                        text: response.message,
                     }).then(function(result) {
                         if (result.isConfirmed) {
                             if (response.status == "success") {
@@ -412,4 +412,3 @@
   </script>
 
 @endsection
-
