@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\APIController;
-use App\Http\Controllers\ViolationController;
 
 class ViolationController extends Controller
 {
