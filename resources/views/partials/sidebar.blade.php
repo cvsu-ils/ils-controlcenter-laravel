@@ -88,6 +88,10 @@
                   <i class="fas fa-book nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
+                <a href="{{ route('admin.access-management') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Access Management</p>
+                </a>
               </li>
             </ul>
           </li>

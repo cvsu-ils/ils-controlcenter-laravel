@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WifiLogsController;
+use App\Http\Controllers\ViolationController;
+use App\Http\Controllers\InHouseLogsController;
+use App\Http\Controllers\AccessManagementController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\WifiLogsController;
@@ -82,6 +86,28 @@ Route::middleware('auth')->group(function () {
         Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update'])->middleware('log.activity');
         Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs');
         Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
+    /*
+    |--------------------------------------------------------------------------
+    | Access Management System
+    |--------------------------------------------------------------------------
+    */
+        Route::get('/access-management', [AccessManagementController::class, 'index'])->name('admin.access-management');
+        Route::post('/access-management', [AccessManagementController::class, 'store'])->name('admin.access-management-store');
+    
+        Route::get('/access-management/user', [AccessManagementController::class, 'user'])->name('admin.access-management-user');
+        Route::post('/access-management/user', [AccessManagementController::class, 'storeUser'])->name('admin.access-management-store-user');
+        Route::put('/access-management/user/{id}', [AccessManagementController::class, 'editUser'])->name('admin.access-management-edit-user');
+        Route::delete('/access-management/user/{id}', [AccessManagementController::class, 'destroyUser'])->name('admin.access-management-destroy-user');
+
+        Route::get('/access-management/permissions', [AccessManagementController::class, 'permission'])->name('admin.access-management-permission');        
+        Route::post('/access-management/permissions', [AccessManagementController::class, 'storePermission'])->name('admin.access-management-store-permission');
+        Route::put('/access-management/permission/{id}', [AccessManagementController::class, 'editPermission'])->name('admin.access-management-edit-permission');
+        Route::delete('/access-management/permission/{id}', [AccessManagementController::class, 'destroyPermission'])->name('admin.access-management-destroy-permission');
+        
+        Route::get('/access-management/roles', [AccessManagementController::class, 'role'])->name('admin.access-management-role');
+        Route::post('/access-management/roles', [AccessManagementController::class, 'storeRole'])->name('admin.access-management-store-role');
+        Route::put('/access-management/role/{id}', [AccessManagementController::class, 'editRole'])->name('admin.access-management-edit-role');
+        Route::delete('/access-management/role/{id}', [AccessManagementController::class, 'destroyRole'])->name('admin.access-management-destroy-role');
     
       /*|--------------------------------------------------------------------------
       | Dashboard 
