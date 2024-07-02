@@ -29,10 +29,10 @@
             <button class="btn btn-sm bg-gradient-success mr-1" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-plus mr-1"></i>Create</button>
         </div>
         <div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Add log</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" style="font-weight: bold;">Add log</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -82,7 +82,7 @@
                         <h3 class="card-title">Recently Added Wifi Logs</h3>
                     </div>
                     <div class="card-body p-0">
-                        <ul class="list-group product-list-in-card" style="height:470px; overflow-y: scroll;" id="recentLogs">
+                        <ul class="list-group product-list-in-card" style="height:525px; overflow-y: scroll;" id="recentLogs">
                         </ul>
                     </div>
                 </div>
@@ -109,6 +109,7 @@
 
         $('#formData').submit(function (e) {
             e.preventDefault();
+            $('#submitForm').prop('disabled', true);
 
             var inputValue = $('#floatingInput').val();
             var selectedLocation = $('#location_drp').val();
@@ -151,7 +152,7 @@
                             if(response.status == "success") {
                                 window.location = "{{ route('admin.wifi') }}";
                             }
-                        }
+                            $('#submitForm').prop('disabled', false)};
                     });
                 }
             });

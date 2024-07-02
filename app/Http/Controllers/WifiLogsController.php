@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 class WifiLogsController extends Controller
 {
 
+    public function index(){
+
+        return view('wifi');
+
+    }
+
     public function validation($cardnumber)
     {
         // GET http://library.cvsu.edu.ph/sandbox/laravel/api/patrons/{cardnumber}
