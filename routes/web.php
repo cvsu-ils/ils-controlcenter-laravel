@@ -4,16 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WifiLogsController;
 use App\Http\Controllers\ViolationController;
-use App\Http\Controllers\InHouseLogsController;
-use App\Http\Controllers\AccessManagementController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\WifiLogsController;
-use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\InHouseLogsController;
+use App\Http\Controllers\LTX\CatalogController;
 use App\Http\Controllers\InHouseClassificationsController;
+use App\Http\Controllers\LTX\DashboardController as LTXDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +48,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/violations/create', function () {
             return view('violationForm');
         })->name('admin.violationList');
-
         Route::get('/violations', [ViolationController::class, 'showForm'])->name('admin.result');
         Route::post('/store', [ViolationController::class, 'store'])->name('admin.store')->middleware('log.activity');
         Route::get('/update/{id}', [ViolationController::class, 'update'])->name('update')->middleware('log.activity');
@@ -109,13 +105,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/access-management/role/{id}', [AccessManagementController::class, 'editRole'])->name('admin.access-management-edit-role');
         Route::delete('/access-management/role/{id}', [AccessManagementController::class, 'destroyRole'])->name('admin.access-management-destroy-role');
     
-      /*|--------------------------------------------------------------------------
+      /*--------------------------------------------------------------------------
       | Dashboard 
       |--------------------------------------------------------------------------
       */   
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
         Route::get('/dashboard/{selectedKeyCollections}', [CollectionsController::class, 'getData']);
         Route::post('/dashboard/updateCollections', [DashboardController::class, 'updateCollections']);
         Route::post('/dashboard/updateFacilities', [DashboardController::class, 'updateFacilities']);
@@ -128,5 +123,12 @@ Route::middleware('auth')->group(function () {
         // Satisfaction Rating
         Route::post('/dashboard/addSatisfactionYear', [DashboardController::class, 'newSatisYear']);
         Route::post('/dashboard/updateSatisfactionYear', [DashboardController::class, 'updateSatisYear']);
+    /*
+    |--------------------------------------------------------------------------
+    | Ladislao Theses Xplorer
+    |--------------------------------------------------------------------------
+    */
+        Route::get('/ltx/dashboard', [LTXDashboardController::class, 'index'])->name('admin.ltx.dashboard');
+        Route::get('/ltx/catalog', [CatalogController::class, 'index'])->name('admin.ltx.catalog');
     });
 });

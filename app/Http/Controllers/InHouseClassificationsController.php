@@ -60,13 +60,24 @@ class InHouseClassificationsController extends Controller
 
     public function show($id)
     {
-        $classification = InHouseClassifications::findOrFail($id);
+        $apiController = new APIController();
+        $url = 'http://library.cvsu.edu.ph/sandbox/laravel/api/inhouse/classification/' . $id;
+        $response = $apiController->request('get', $url);
 
-        return response()->json([
-            'id' => $classification->id,
-            'class_name' => $classification->class_name,
-            // Include other relevant data as needed
-        ]);
+        if($response['statusCode'] == 200) {
+            return response()
+                ->json([
+                    'id' => $response['data']['id'],
+                    'name' => $response['data']['name']
+                ])
+                ->setStatusCode(200);
+        }
+
+        return response()
+            ->json([
+                'message' => $response['message']
+            ])
+            ->setStatusCode(404);
     }
 
     public function edit($id)

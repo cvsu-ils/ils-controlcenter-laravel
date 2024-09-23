@@ -255,7 +255,7 @@
     .then(response => response.json())
     .then(data => {
       // Update modal title and hidden input value
-      document.getElementById('classificationModalLabel').textContent = data.class_name;
+      document.getElementById('classificationModalLabel').textContent = data.name;
       document.getElementById('class_id').value = data.id;
       // Show the modal
       $('#classificationModal').modal('show');
