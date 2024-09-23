@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WifiLogsController;
+use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\CollectionsController;
@@ -22,9 +22,7 @@ use App\Http\Controllers\LTX\DashboardController as LTXDashboardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('landing');
-})->name('landing');
+Route::get('/', [LandingController::class, 'show'])->name('landing');
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -51,6 +49,8 @@ Route::middleware('auth')->group(function () {
             return view('violationForm');
         })->name('admin.violationList');
         Route::get('/violations', [ViolationController::class, 'showForm'])->name('admin.result');
+        Route::post('/store', [ViolationController::class, 'store'])->name('admin.store')->middleware('log.activity');
+        Route::get('/update/{id}', [ViolationController::class, 'update'])->name('update')->middleware('log.activity');
         Route::post('/store', [ViolationController::class, 'store'])->name('admin.store');
         Route::get('/update/{id}', [ViolationController::class, 'update'])->name('update');
         Route::get('/search',[ViolationController::class, 'search'])->name('admin.search');
@@ -62,12 +62,10 @@ Route::middleware('auth')->group(function () {
     | WiFi Logging Management System
     |--------------------------------------------------------------------------
     */
-        Route::get('/wifi', function () {
-            return view('wifi');
-        })->name('admin.wifi');
+        Route::get('/wifi', [WifiLogsController::class, 'index'])->name('admin.wifi');
         Route::get('/chart', [WifiLogsController::class, 'chart'])->name('chart');
         Route::get('/recent', [WifiLogsController::class, 'recent'])->name('recent');
-        Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store');
+        Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store')->middleware('log.activity');
     /*
     |--------------------------------------------------------------------------
     | In House Management System
@@ -80,16 +78,39 @@ Route::middleware('auth')->group(function () {
         Route::get('/inhouse/editclassification/{id}', [InHouseClassificationsController::class, 'edit']);
         Route::get('/inhouse/classification/{id}', [InHouseClassificationsController::class, 'show']);
         Route::post('/inhouse/addclassification', [InHouseClassificationsController::class, 'store'])->name('admin.InHouseAddClass');
+        Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs')->middleware('log.activity');
+        Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update'])->middleware('log.activity');
         Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs');
         Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
-    
     /*
     |--------------------------------------------------------------------------
-    | Dashboard 
+    | Access Management System
     |--------------------------------------------------------------------------
-    */   
+    */
+        Route::get('/access-management', [AccessManagementController::class, 'index'])->name('admin.access-management');
+        Route::post('/access-management', [AccessManagementController::class, 'store'])->name('admin.access-management-store');
+    
+        Route::get('/access-management/user', [AccessManagementController::class, 'user'])->name('admin.access-management-user');
+        Route::post('/access-management/user', [AccessManagementController::class, 'storeUser'])->name('admin.access-management-store-user');
+        Route::put('/access-management/user/{id}', [AccessManagementController::class, 'editUser'])->name('admin.access-management-edit-user');
+        Route::delete('/access-management/user/{id}', [AccessManagementController::class, 'destroyUser'])->name('admin.access-management-destroy-user');
+
+        Route::get('/access-management/permissions', [AccessManagementController::class, 'permission'])->name('admin.access-management-permission');        
+        Route::post('/access-management/permissions', [AccessManagementController::class, 'storePermission'])->name('admin.access-management-store-permission');
+        Route::put('/access-management/permission/{id}', [AccessManagementController::class, 'editPermission'])->name('admin.access-management-edit-permission');
+        Route::delete('/access-management/permission/{id}', [AccessManagementController::class, 'destroyPermission'])->name('admin.access-management-destroy-permission');
+        
+        Route::get('/access-management/roles', [AccessManagementController::class, 'role'])->name('admin.access-management-role');
+        Route::post('/access-management/roles', [AccessManagementController::class, 'storeRole'])->name('admin.access-management-store-role');
+        Route::put('/access-management/role/{id}', [AccessManagementController::class, 'editRole'])->name('admin.access-management-edit-role');
+        Route::delete('/access-management/role/{id}', [AccessManagementController::class, 'destroyRole'])->name('admin.access-management-destroy-role');
+    
+      /*--------------------------------------------------------------------------
+      | Dashboard 
+      |--------------------------------------------------------------------------
+      */   
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        //(UPDATE ONLY) 
         Route::get('/dashboard/{selectedKeyCollections}', [CollectionsController::class, 'getData']);
         Route::post('/dashboard/updateCollections', [DashboardController::class, 'updateCollections']);
         Route::post('/dashboard/updateFacilities', [DashboardController::class, 'updateFacilities']);
