@@ -78,15 +78,30 @@
                 <a href="{{ route('admin.result') }}" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Violation System</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('admin.wifi') }}" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Wifi Logging System</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('admin.inhouse') }}" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>In-house Management</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link">
                   <i class="fas fa-book nav-icon"></i>
                   <p>Dashboard</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.ltx.dashboard') }}" class="nav-link">
+                  <i class="fas fa-book nav-icon"></i>
+                  <p>Ladislao Theses Xplorer</p>
                 </a>
               </li>
             </ul>
@@ -137,87 +152,13 @@
 </aside>
 <script type="text/javascript">
   // SIDEBAR SCRIPT
-  const url = window.location.href;
-  const defaultTab = "dashboard";
-  console.log(url);
+  const url = window.location.pathname;
   LinkClickHandler(url);
 
   function LinkClickHandler(url) {
-    let x = url.indexOf('?');
-    let query = x >= 0 ? url.substring(x + 1) : null;
-    if (query) {
-      let urlCategory = query.split("&");
-      if(urlCategory.length > 0) {
-        for(let i = 0; i < urlCategory.length; i++) {
-          let item = urlCategory[i].split("=");
-          if(item[0] != "" && item[1] != "") {
-              switch(item[0]) {
-                  case "view":
-                      switch(item[1]) {
-                          case 'libraries':
-                          case 'users':
-                          case 'accessmanagement':
-                              document.querySelector('[data-treecollapsed="controlcenter"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="controlcenter"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="controlcenter"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="controlcenter"]').classList.add('active');
-                              document.querySelector('[data-state="' + item[1] + '"]').classList.add('active');
-                              break;
-                          case 'landing':
-                          case 'libspace':
-                          case 'ebooks':
-                          case 'ejournals':
-                          case 'thesesmanagementsystem':
-                          case 'quicklog':
-                          case 'bspkrn':
-                              document.querySelector('[data-treecollapsed="integratedlibrarysystem"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="integratedlibrarysystem"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="integratedlibrarysystem"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="integratedlibrarysystem"]').classList.add('active');
-                              document.querySelector('[data-state="' + item[1] + '"]').classList.add('active');
-                              break;
-                          case 'tools':
-                              document.querySelector('[data-treecollapsed="controlcenter"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="controlcenter"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="controlcenter"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="controlcenter"]').classList.add('active');
-                              document.querySelector('[data-treecollapsed="' + item[1] + '"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="' + item[1] + '"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('active');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('text-white');
-                              break;
-                          case 'system':
-                              document.querySelector('[data-treecollapsed="controlcenter"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="controlcenter"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="controlcenter"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="controlcenter"]').classList.add('active');
-                              document.querySelector('[data-treecollapsed="' + item[1] + '"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="' + item[1] + '"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('active');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('text-white');
-                              break;
-                          default:
-                              document.querySelector('[data-treecollapsed="' + item[1] + '"]').classList.add('menu-open');
-                              document.querySelector('[data-treecollapsed="' + item[1] + '"]').classList.add('menu-is-opening');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('bg-gradient-success');
-                              document.querySelector('[data-treestate="' + item[1] + '"]').classList.add('active');
-                              break;
-                      }
-                      break;
-                  case "tab":
-                      if(item[1] != 'dashboard') {
-                          document.querySelector('[data-state="' + item[1] + '"]').classList.add('active');
-                      }
-                      break;
-              }
-          }
-        }
-      }
-    } else {
-      document.querySelector('[data-treestate="' + defaultTab + '"]').classList.add('bg-gradient-success');
-      document.querySelector('[data-treestate="' + defaultTab + '"]').classList.add('active');
-    }
+    let tab = url.replace("/admin/", "");
+    tab = tab.replace("/create", "");
+    document.querySelector('[data-state="' + tab + '"]').classList.add('active');
+    document.querySelector('[data-state="' + tab + '"]').classList.add('bg-gradient-success');
   }
 </script>

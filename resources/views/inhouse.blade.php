@@ -22,45 +22,39 @@
 <div class="content">
   <div class="container-fluid">
     <div class="m-3">
-    <a href="{{ route('admin.inhouse.class') }}" class="btn btn-sm btn-success p-1"><i class="fas fa-plus"></i>&nbsp Add In-House Logs</a>
+      <a href="{{ route('admin.inhouse.class') }}" class="btn btn-sm btn-success p-1"><i class="fas fa-plus"></i>&nbsp Add In-House Logs</a>
     </div>
-
     <hr>
     <div class="row">
-    <div class="col-lg-8 col-12">
-      <div class="card">
-        <div class="card-header border-0">
-          <div class="d-flex justify-content-between">
-            <h3 class="card-title">Summary of In-House Logs Statistics</h3>
+      <div class="col-lg-8 col-12">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title">Summary of In-House Logs Statistics</h3>
+            </div>
           </div>
-        </div>
-        <div class="card-body">
-          <div class="position-relative mb-4">
-            <canvas id="inhouseChart"></canvas>
+          <div class="card-body">
+            <div class="position-relative mb-4">
+              <canvas id="inhouseChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-lg-4 col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Recently Added In-House Logs</h3>
-        </div>
-        <div class="card-body">
-          <ul class="products-list product-list-in-card pl-2 pr-2">
+      <div class="col-lg-4 col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Recently Added In-House Logs</h3>
+          </div>
+          <div class="card-body">
+            <ul class="products-list product-list-in-card pl-2 pr-2">
 
-          </ul>
-        </div>
-        <div class="card-footer text-center">
-          <a href="javascript:void(0)"> &nbspView Report</a>
+            </ul>
+          </div>
+          <div class="card-footer text-center">
+            <a href="javascript:void(0)"> &nbspView Report</a>
+          </div>
         </div>
       </div>
-    </div>
-
-
-    </div>
-
-
     </div>
   </div>
 </div>
