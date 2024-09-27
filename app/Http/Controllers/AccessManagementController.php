@@ -12,7 +12,7 @@ use App\Models\AccessManagementPermissions;
 use App\Models\AccessManagementModelHasRoles;
 use App\Models\AccessManagementRoleHasPermissions;
 use App\Models\AccessManagementModelHasPermissions;
-use App\Http\Controllers\AccessManagementController;
+
 
 class AccessManagementController extends Controller
 {
