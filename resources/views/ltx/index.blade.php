@@ -28,6 +28,9 @@
 @section('main-content')
 <div class="content">
     <div class="container-fluid">
+        <div class="m-3">
+            <a href="{{ route('admin.ltx.create') }}" class="btn btn-sm btn-success p-1"><i class="fas fa-plus"></i>&nbsp Create</a>
+        </div>
         <hr>
         <div class="row">
             <div class="col-lg-3 col-6">

@@ -1,14 +1,19 @@
 <?php
 
+use App\Models\Role;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\WifiLogsController;
-use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\LTX\CatalogController;
+use App\Http\Controllers\AccessManagementController;
+use App\Http\Controllers\LTX\LCClassificationController;
 use App\Http\Controllers\InHouseClassificationsController;
 use App\Http\Controllers\LTX\DashboardController as LTXDashboardController;
 
@@ -130,5 +135,13 @@ Route::middleware('auth')->group(function () {
     */
         Route::get('/ltx/dashboard', [LTXDashboardController::class, 'index'])->name('admin.ltx.dashboard');
         Route::get('/ltx/catalog', [CatalogController::class, 'index'])->name('admin.ltx.catalog');
+        Route::post('/ltx/linkChecker', [CatalogController::class, 'checkUrl'])->name('admin.ltx.linkChecker');
+        Route::get('/ltx/create', [LCClassificationController::class, 'index'])->name('admin.ltx.create');
+        Route::post('/ltx/subclass', [LCClassificationController::class, 'getSubClass'])->name('admin.ltx.subclasses');
+        Route::post('/ltx/ranges', [LCClassificationController::class, 'getRange'])->name('admin.ltx.ranges');
+        Route::post('/ltx/store', [CatalogController::class, 'store'])->name('admin.ltx.store');
+        Route::get('/ltx/{id}/edit', [CatalogController::class, 'edit'])->name('admin.ltx.edit');
     });
 });
+
+   
