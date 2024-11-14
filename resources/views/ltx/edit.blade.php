@@ -27,283 +27,345 @@
 @endsection 
 
 @section('main-content')
-<style>
-    /* CSS CUSTOM LIST FOR FORMS */
-    .custom-list, .custom-list-active {
-        margin-top: .5rem;
-    }
-    .custom-list > div {
-        display: block;
-        height: calc(2.25rem + 2px);
-        padding: .375rem .75rem;
-        margin-bottom: .5rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        background-clip: padding-box;
-        border-radius: .25rem;
-        box-shadow: inset 0 0 0 transparent;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    .custom-list > div:hover {
-        opacity: 0.9;
-    }
-    .custom-list > div > span {
-        float: right;
-    }
-    .custom-list > div > span:hover {
-        cursor: pointer;
-    }
-    .custom-list-active > div {
-        display: block;
-        height: calc(2.25rem + 2px);
-        padding: .375rem .75rem;
-        margin-bottom: .5rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        background-clip: padding-box;
-        border-radius: .25rem;
-        box-shadow: inset 0 0 0 transparent;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    
-    </style>
+    <style>
+        /* CSS CUSTOM LIST FOR FORMS */
+        .custom-list, .custom-list-active {
+            margin-top: .5rem;
+        }
+        .custom-list > div {
+            display: block;
+            height: calc(2.25rem + 2px);
+            padding: .375rem .75rem;
+            margin-bottom: .5rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            background-clip: padding-box;
+            border-radius: .25rem;
+            box-shadow: inset 0 0 0 transparent;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        .custom-list > div:hover {
+            opacity: 0.9;
+        }
+        .custom-list > div > span {
+            float: right;
+        }
+        .custom-list > div > span:hover {
+            cursor: pointer;
+        }
+        .custom-list-active > div {
+            display: block;
+            height: calc(2.25rem + 2px);
+            padding: .375rem .75rem;
+            margin-bottom: .5rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            background-clip: padding-box;
+            border-radius: .25rem;
+            box-shadow: inset 0 0 0 transparent;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        
+        </style>
     <div class="content">
         <div class="container-fluid">
             <hr>
             <div class="row">
+                @if(!$thesis->is_published)
+                <div class="col-12">
+                    @if (!$thesis->full_text_id && !$thesis->accession_number)
+                        <div class="callout callout-warning">
+                            <h5>
+                                <i class="fas fa-exclamation-triangle text-warning"></i> Manuscript is not publish yet
+                            </h5>
+                            <p>To published, you must complete all the required fields and must upload a full-text PDF file.</p>
+                        </div>
+                    @else
+                        <div class="callout callout-success">
+                            <h5>
+                                <i class="fas fa-check text-success"></i> E-Manuscript can now publish!
+                            </h5>
+                            <p>To publish, click publish below.</p>
+                            <button class="btn btn-sm btn-default" onclick="publishThesis('{{$thesis->id}}')">Publish</button>
+                        </div>
+                    @endif
+                </div>
+                @endif
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Edit record</h3>
+                        <div class="card-header p-0">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="cover-tab" data-toggle="tab" data-target="#cover" type="button" role="tab" aria-controls="cover" aria-selected="true"><h3 class="card-title">Cover page</h3></button>
+                                  </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link active" id="biblio-tab" data-toggle="tab" data-target="#biblio" type="button" role="tab" aria-controls="biblio" aria-selected="true"><h3 class="card-title">Bibliographic Data</h3></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="koha-tab" data-toggle="tab" data-target="#koha" type="button" role="tab" aria-controls="koha" aria-selected="false"><h3 class="card-title">KOHA Data</h3></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="full-text-tab" data-toggle="tab" data-target="#full-text" type="button" role="tab" aria-controls="full-text" aria-selected="false"><h3 class="card-title">Full-text File</h3></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="toc-tab" data-toggle="tab" data-target="#toc" type="button" role="tab" aria-controls="toc" aria-selected="false"><h3 class="card-title">Table of Contents</h3></button>
+                                  </li>
+                            </ul>
                         </div>
                         <div class="card-body">
-                            <form class="needs-validation" novalidate>
-                                <div class="form-row">
-                                    <div class="form-group col-md-10">
+                            <div class="tab-content " id="myTabContent">
+                                <div class="tab-pane fade show" id="cover" role="tabpanel" aria-labelledby="cover-tab">
+                                    COVERRRRRRRRRRRR
+                                </div>
+                                <div class="tab-pane fade show active" id="biblio" role="tabpanel" aria-labelledby="biblio-tab">
+                                    <form class="needs-validation" novalidate>
                                         <div class="form-row">
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Item Type">Item Type</label>
-                                                <select class="form-control" name="itemType" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a item type</option>
-                                                    @foreach($item_types as $type)
-                                                        <option value="{{$type->id}}" {{ $thesis->item_type_id == $type->id ? 'selected' : '' }}> {{$type->name}} </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Item type is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a item type!</div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Language">Language</label>
-                                                <select class="form-control" name="language" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a language</option>
-                                                    <option value="english" {{ $thesis->language == 'english' ? 'selected' : '' }}>English</option>
-                                                    <option value="filipino" {{ $thesis->language == 'filipino' ? 'selected' : '' }}>Filipino</option>
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Language is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a language!</div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Subject Code">Subject Code</label>
-                                                <select class="form-control" name="subjectCode" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a subject code</option>
-                                                    @foreach($subject_codes as $code)
-                                                        <option value="{{$code->id}}" {{ $thesis->subject_code_id == $code->id ? 'selected' : '' }}>{{$code->code}} - {{$code->name}} </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Subject Code is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a subject code!</div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Program">Program</label>
-                                                <select class="form-control" name="program" data-validate="fileType">
-                                                    <option value="" disabled>Choose a program</option>
-                                                    @foreach($programs as $program)
-                                                        <option value="{{$program->id}}" {{ $thesis->program_id == $program->id ? 'selected' : '' }}>{{$program->name}} </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Program is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a program!</div>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label class="col-form-label" for="Title">Title</label>
-                                                <textarea class="form-control" rows="3" name="title" placeholder="Type title..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;" data-validate="title" value="{{ old('title', $thesis->title) }}">{{$thesis->title }}</textarea>
-                                                    <div class="valid-feedback" data-valid="title">
-                                                        Title is valid!
+                                            <div class="form-group col-md-10">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Item Type">Item Type</label>
+                                                        <select class="form-control" name="itemType" data-validate="fileType">
+                                                            <option value="" disabled selected>Choose a item type</option>
+                                                            @foreach($item_types as $type)
+                                                                <option value="{{$type->id}}" {{ $thesis->item_type_id == $type->id ? 'selected' : '' }}> {{$type->name}} </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="valid-feedback" data-valid="fileType">Item type is valid!</div>
+                                                        <div class="invalid-feedback" data-invalid="fileType">Please select a item type!</div>
                                                     </div>
-                                                    <div class="invalid-feedback" data-invalid="title"></div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Publication Place">Publication Place</label>
-                                                <input type="text" class="form-control" name="publicationPlace" placeholder="Type publisher place ..." data-autocomplete="publicationPlace" value="{{$thesis->publication_place}}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Publisher">Publisher</label>
-                                                <input type="text" class="form-control" name="publisher" placeholder="Type publisher ..." data-autocomplete="publisher" value="{{$thesis->publisher}}">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Year">Year</label>
-                                                <input type="text" class="form-control" name="year" placeholder="Type year ..." autocomplete="off" data-validate="year">
-                                                <div class="valid-feedback" data-valid="year">
-                                                   Year is valid!
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Language">Language</label>
+                                                        <select class="form-control" name="language" data-validate="fileType">
+                                                            <option value="" disabled selected>Choose a language</option>
+                                                            <option value="english" {{ $thesis->language == 'english' ? 'selected' : '' }}>English</option>
+                                                            <option value="filipino" {{ $thesis->language == 'filipino' ? 'selected' : '' }}>Filipino</option>
+                                                        </select>
+                                                        <div class="valid-feedback" data-valid="fileType">Language is valid!</div>
+                                                        <div class="invalid-feedback" data-invalid="fileType">Please select a language!</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Subject Code">Subject Code</label>
+                                                        <select class="form-control" name="subjectCode" data-validate="fileType">
+                                                            <option value="" disabled selected>Choose a subject code</option>
+                                                            @foreach($subject_codes as $code)
+                                                                <option value="{{$code->id}}" {{ $thesis->subject_code_id == $code->id ? 'selected' : '' }}>{{$code->code}} - {{$code->name}} </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="valid-feedback" data-valid="fileType">Subject Code is valid!</div>
+                                                        <div class="invalid-feedback" data-invalid="fileType">Please select a subject code!</div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Program">Program</label>
+                                                        <select class="form-control" name="program" data-validate="fileType">
+                                                            <option value="" disabled>Choose a program</option>
+                                                            @foreach($programs as $program)
+                                                                <option value="{{$program->id}}" {{ $thesis->program_id == $program->id ? 'selected' : '' }}>{{$program->name}} </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="valid-feedback" data-valid="fileType">Program is valid!</div>
+                                                        <div class="invalid-feedback" data-invalid="fileType">Please select a program!</div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="col-form-label" for="Title">Title</label>
+                                                        <textarea class="form-control" rows="3" name="title" placeholder="Type title..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;" data-validate="title" value="{{ old('title', $thesis->title) }}">{{$thesis->title }}</textarea>
+                                                            <div class="valid-feedback" data-valid="title">
+                                                                Title is valid!
+                                                            </div>
+                                                            <div class="invalid-feedback" data-invalid="title"></div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Publication Place">Publication Place</label>
+                                                        <input type="text" class="form-control" name="publicationPlace" placeholder="Type publisher place ..." data-autocomplete="publicationPlace" value="{{$thesis->publication_place}}">
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Publisher">Publisher</label>
+                                                        <input type="text" class="form-control" name="publisher" placeholder="Type publisher ..." data-autocomplete="publisher" value="{{$thesis->publisher}}">
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Year">Year</label>
+                                                        <input type="text" class="form-control" name="year" placeholder="Type year ..." autocomplete="off" data-validate="year" value="{{$thesis->year}}">
+                                                        <div class="valid-feedback" data-valid="year">
+                                                           Year is valid!
+                                                        </div>
+                                                        <div class="invalid-feedback" data-invalid="year"></div>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label class="col-form-label" for="Pages">Pages</label>
+                                                        <input type="text" class="form-control" name="pages" maxlength="20" placeholder="Type Pages ..." autocomplete="off" data-validate="pages" value="{{$thesis->pages}}">
+                                                        <div class="valid-feedback" data-valid="pages">
+                                                            Pages is valid!
+                                                        </div>
+                                                        <div class="invalid-feedback" data-invalid="pages"></div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label class="col-form-label" for="Author">Adviser</label>
+                                                        <input type="text" class="form-control" placeholder="Type adviser ..."  data-autocomplete="relatorName" data-validate="adviser" value="{{$adviser->name}}">
+                                                        <div class="valid-feedback" data-valid="adviser">
+                                                            Adviser is valid!
+                                                        </div>
+                                                        <div class="invalid-feedback" data-invalid="adviser"></div>
+                                                    </div>
                                                 </div>
-                                                <div class="invalid-feedback" data-invalid="year"></div>
+                                            </div>
+                                            <div class="form-group col-md-2 text-center">
+                                                <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
+                                                <br><br>
+                                                <div class="dropdown">
+                                                    <button class="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Upload cover
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                        <button class="dropdown-item" type="button" data-toggle="defaultImage">Default</button>
+                                                        <button class="dropdown-item" type="button" data-toggle="isbnImage"><i class="fas fa-book"></i> ISBN...</button>
+                                                        <button class="dropdown-item" type="button" data-toggle="imageLink"><i class="fas fa-link"></i> Image URL...</button>
+                                                        <button class="dropdown-item" type="button" data-toggle="fileImage"><i class="fas fa-images"></i> Select file...</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-md-8">
+                                                    <label class="col-form-label" for="Author">Author</label>
+                                                    <input type="text" class="form-control" placeholder="Type an entry ..." data-validate="collaborator" data-autocomplete="relatorName">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="col-form-label text-white" for="Author">Add Statement of Responsibility</label>
+                                                    <button class="btn bg-gradient-primary" data-submit="addCollaborator" disabled>Add Author</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-md-12 custom-list" data-list="collaboratorList"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Other Physical Details</label>
+                                            <textarea class="form-control" rows="3" name="physicalDescription" placeholder="Type other physical details..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;" value="{{$thesis->physical_description}}">{{$thesis->physical_description}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>General Note</label>
+                                            <textarea class="form-control" rows="3" name="generalNotes" placeholder="Type general note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;" value="{{$thesis->general_notes}}">{{$thesis->general_notes}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Bibliography, etc. note</label>
+                                            <textarea class="form-control" rows="3" name="bibliography" placeholder="Type bibliography, etc. note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;" value="{{$thesis->bibliography}}">{{$thesis->bibliography}}</textarea>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-12">
+                                                <label class="col-form-label" for="Subject">Subjects</label>
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control" placeholder="Type subject ..." data-validate="subject" data-autocomplete="subject">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <button class="btn bg-gradient-primary" data-submit="addSubject" disabled>Add subject</button>
+                                            </div>
+                                            <div class="col-md-12 custom-list" data-list="subjects"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Summary</label>
+                                            <textarea class="form-control" rows="3" name="summary" placeholder="Type summary..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"value="{{$thesis->summary}}">{{$thesis->summary}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Table of Contents</label>
+                                            <textarea class="form-control" rows="3" name="tableOfContents" placeholder="Type table of Contents..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"value="{{$thesis->table_of_contents}}">{{$thesis->table_of_contents}}</textarea>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-12">
+                                                <label class="col-form-label" for="Category">LC Classification</label>
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Pages">Pages</label>
-                                                <input type="text" class="form-control" name="pages" maxlength="20" placeholder="Type Pages ..." autocomplete="off" data-validate="pages">
-                                                <div class="valid-feedback" data-valid="pages">
-                                                    Pages is valid!
+                                                <select class="form-control" data-validate="class" >
+                                                    <option value="" disabled>Choose a class</option>
+                                                   
+                                                    @foreach($classes as $class)
+                                                        <option value="{{$class->id}}" {{ $class->id == $classId ? 'selected' : '' }}> {{$class->code}}   - {{$class->description}} </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="valid-feedback" data-valid="class">
+                                                    LC Class is valid!
                                                 </div>
-                                                <div class="invalid-feedback" data-invalid="pages"></div>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label class="col-form-label" for="Author">Adviser</label>
-                                                <input type="text" class="form-control" placeholder="Type adviser ..."  data-autocomplete="relatorName" data-validate="adviser">
-                                                <div class="valid-feedback" data-valid="adviser">
-                                                    Adviser is valid!
+                                                <div class="invalid-feedback" data-invalid="class">
+                                                    Please select LC class!
                                                 </div>
-                                                <div class="invalid-feedback" data-invalid="adviser"></div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <select class="form-control" data-validate="subclass" disabled>
+                                                    <option value="" disabled selected>Choose a sub class</option>
+                                                </select>
+                                                <div class="valid-feedback" data-valid="subclass">
+                                                    LC Subclass is valid!
+                                                </div>
+                                                <div class="invalid-feedback" data-invalid="subclass">
+                                                    Please select LC subclass!
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <select class="form-control" name="range" data-validate="range" disabled>
+                                                    <option value="" disabled selected>Choose a range</option>
+                                                </select>
+                                                <div class="valid-feedback" data-valid="range">
+                                                    LC Range is valid!
+                                                </div>
+                                                <div class="invalid-feedback" data-invalid="range">
+                                                    Please select LC range!
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <input type="text" class="form-control" name="endings" placeholder="Type call number..." autocomplete="off" data-validate="endings" value="{{$thesis->cutter_ending}}">
+                                                <div class="valid-feedback" data-valid="endings">
+                                                    LC call number is valid!
+                                                </div>
+                                                <div class="invalid-feedback" data-invalid="endings">
+                                                    LC call number is required!
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group col-md-2 text-center">
-                                        <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
-                                        <br><br>
-                                        <div class="dropdown">
-                                            <button class="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Upload cover
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                <button class="dropdown-item" type="button" data-toggle="defaultImage">Default</button>
-                                                <button class="dropdown-item" type="button" data-toggle="isbnImage"><i class="fas fa-book"></i> ISBN...</button>
-                                                <button class="dropdown-item" type="button" data-toggle="imageLink"><i class="fas fa-link"></i> Image URL...</button>
-                                                <button class="dropdown-item" type="button" data-toggle="fileImage"><i class="fas fa-images"></i> Select file...</button>
+                                        <div class="form-group">
+                                            <label class="col-form-label" for="Link">Link</label>
+                                            <input type="text" class="form-control" name="link" placeholder="Type link ..." autocomplete="off" data-validate="link"  value="{{$thesis->opac_link}}">
+                                            <div class="valid-feedback" data-valid="link">URL is valid!</div>
+                                            <div class="invalid-feedback" data-invalid="link">URL is invalid! Ex. <i class="text-info">https://cvsu.edu.ph/</i></div>
+                                        </div>
+                
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="col-form-label" for="Date curated">Date curated</label>
+                                                <input type="text" class="form-control" name="dateCurated" readonly data-default="dateCurated">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="col-form-label" for="Encoded by">Encoded by</label>
+                                                <input type="hidden" class="form-control" name="encodedByID" value="{{ $googleUserInfo->id }}" readonly>
+                                                <input type="text" class="form-control" value="{{ $googleUserInfo->givenName }}" readonly>
                                             </div>
                                         </div>
-                                    </div>
+                                        <button class="btn bg-gradient-primary float-right" data-submit="ebookOpenAccess" disabled>Submit</button>
+                                    </form>
+
                                 </div>
-                                <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col-md-8">
-                                            <label class="col-form-label" for="Author">Author</label>
-                                            <input type="text" class="form-control" placeholder="Type an entry ..." data-validate="collaborator" data-autocomplete="relatorName">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="col-form-label text-white" for="Author">Add Statement of Responsibility</label>
-                                            <button class="btn bg-gradient-primary" data-submit="addCollaborator" disabled>Add Author</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-md-12 custom-list" data-list="collaboratorList"></div>
-                                    </div>
+                                <div class="tab-pane fade" id="koha" role="tabpanel" aria-labelledby="koha-tab">koha</div>
+                                <div class="tab-pane fade" id="full-text" role="tabpanel" aria-labelledby="full-text-tab">
+                                    <form id="full-text" action="{{route('admin.ltx.fulltext.store')}}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="text" name="thesis_id" id="thesis_id" value="{{$thesis->id}}" hidden>
+                                    <div class="input-group is-invalid m-2">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlFile1">Full text</label>
+                                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="full_text" accept=".pdf">
+                                          </div>
+                                      </div>
+                                      <button type="submit">Submit</button>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label>Other Physical Details</label>
-                                    <textarea class="form-control" rows="3" name="physicalDescription" placeholder="Type other physical details..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;" value="{{$thesis->physical_description}}">{{$thesis->physical_description}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>General Note</label>
-                                    <textarea class="form-control" rows="3" name="generalNotes" placeholder="Type general note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;" value="{{$thesis->general_notes}}">{{$thesis->general_notes}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Bibliography, etc. note</label>
-                                    <textarea class="form-control" rows="3" name="bibliography" placeholder="Type bibliography, etc. note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;" value="{{$thesis->bibliography}}">{{$thesis->bibliography}}</textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <label class="col-form-label" for="Subject">Subjects</label>
-                                    </div>
-                                    <div class="form-group col-md-10">
-                                        <input type="text" class="form-control" placeholder="Type subject ..." data-validate="subject" data-autocomplete="subject">
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <button class="btn bg-gradient-primary" data-submit="addSubject" disabled>Add subject</button>
-                                    </div>
-                                    <div class="col-md-12 custom-list" data-list="subjects"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Summary</label>
-                                    <textarea class="form-control" rows="3" name="summary" placeholder="Type summary..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"value="{{$thesis->summary}}">{{$thesis->summary}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Table of Contents</label>
-                                    <textarea class="form-control" rows="3" name="tableOfContents" placeholder="Type table of Contents..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"value="{{$thesis->table_of_contents}}">{{$thesis->table_of_contents}}</textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <label class="col-form-label" for="Category">LC Classification</label>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" data-validate="class" >
-                                            <option value="" disabled>Choose a class</option>
-                                           
-                                            @foreach($classes as $class)
-                                                <option value="{{$class->id}}" {{ $class->id == $classId ? 'selected' : '' }}> {{$class->code}}   - {{$class->description}} </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="valid-feedback" data-valid="class">
-                                            LC Class is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="class">
-                                            Please select LC class!
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" data-validate="subclass" disabled>
-                                            <option value="" disabled selected>Choose a sub class</option>
-                                        </select>
-                                        <div class="valid-feedback" data-valid="subclass">
-                                            LC Subclass is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="subclass">
-                                            Please select LC subclass!
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" name="range" data-validate="range" disabled>
-                                            <option value="" disabled selected>Choose a range</option>
-                                        </select>
-                                        <div class="valid-feedback" data-valid="range">
-                                            LC Range is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="range">
-                                            Please select LC range!
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="endings" placeholder="Type call number..." autocomplete="off" data-validate="endings" value="{{$thesis->cutter_ending}}">
-                                        <div class="valid-feedback" data-valid="endings">
-                                            LC call number is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="endings">
-                                            LC call number is required!
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label" for="Link">Link</label>
-                                    <input type="text" class="form-control" name="link" placeholder="Type link ..." autocomplete="off" data-validate="link"  value="{{$thesis->opac_link}}">
-                                    <div class="valid-feedback" data-valid="link">URL is valid!</div>
-                                    <div class="invalid-feedback" data-invalid="link">URL is invalid! Ex. <i class="text-info">https://cvsu.edu.ph/</i></div>
-                                </div>
-        
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-form-label" for="Date curated">Date curated</label>
-                                        <input type="text" class="form-control" name="dateCurated" readonly data-default="dateCurated">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-form-label" for="Encoded by">Encoded by</label>
-                                        <input type="hidden" class="form-control" name="encodedByID" value="{{ $googleUserInfo->id }}" readonly>
-                                        <input type="text" class="form-control" value="{{ $googleUserInfo->givenName }}" readonly>
-                                    </div>
-                                </div>
-                                <button class="btn bg-gradient-primary float-right" data-submit="ebookOpenAccess" disabled>Submit</button>
-                            </form>
+                                <div class="tab-pane fade" id="toc" role="tabpanel" aria-labelledby="toc-tab">toc</div>
+                            </div>
                         </div>
                     </div>
+                    
+
+                     
                 </div>
             </div>
             <hr>
@@ -983,6 +1045,38 @@
         }
     }
 }
+
+//PUBLISH THESIS region
+
+function publishThesis (thesisId){
+    let publishRouteUrl = "{{ route('admin.ltx.publish', ['id' => '__ID__']) }}";
+    $.ajax({
+        method: "PATCH",
+        url: publishRouteUrl.replace('__ID__', thesisId),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+
+            if(response.status == "success"){
+                Swal.fire({
+                    title: response.message,
+                    icon: response.status,
+            }).then(function(){
+                window.location = "{{ route('admin.ltx.catalog') }}"
+            });
+            }else{
+                Swal.fire({
+                    title: response.message,
+                    icon: response.status,
+            });
+            }
+            
+        }
+    })
+}
+
+//endregion
 
     // $(function() {
     //     $('[data-autocomplete="publicationPlace"]').autocomplete({
