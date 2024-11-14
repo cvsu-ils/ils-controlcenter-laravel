@@ -41,7 +41,7 @@ class ThesisObserver
         }
 
         //accession_number
-        $thesis->accession_number = $this->generateAccessionNumber();
+        //$thesis->accession_number = $this->generateAccessionNumber();
         $thesis->save(); 
     }
 

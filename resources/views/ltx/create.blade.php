@@ -75,233 +75,253 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Create new record</h3>
+                        <div class="card-header p-0">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="cover-tab" data-toggle="tab" data-target="#cover" type="button" role="tab" aria-controls="cover" aria-selected="true" disabled><h3 class="card-title">Cover page</h3></button>
+                                  </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link active" id="biblio-tab" data-toggle="tab" data-target="#biblio" type="button" role="tab" aria-controls="biblio" aria-selected="true"><h3 class="card-title">Bibliographic Data</h3></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="koha-tab" data-toggle="tab" data-target="#koha" type="button" role="tab" aria-controls="koha" aria-selected="false" disabled><h3 class="card-title">KOHA Data</h3></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                  <button class="nav-link" id="full-text-tab" data-toggle="tab" data-target="#full-text" type="button" role="tab" aria-controls="full-text" aria-selected="false" disabled><h3 class="card-title">Full-text File</h3></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="toc-tab" data-toggle="tab" data-target="#toc" type="button" role="tab" aria-controls="toc" aria-selected="false" disabled><h3 class="card-title">Table of Contents</h3></button>
+                                  </li>
+                            </ul>
                         </div>
-                        <div class="card-body">
-                            <form class="needs-validation" novalidate>
-                                <div class="form-row">
-                                    <div class="form-group col-md-10">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Item Type">Item Type</label>
-                                                <select class="form-control" name="itemType" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a item type</option>
-                                                    @foreach($item_types as $type)
-                                                        <option value="{{$type->id}}"> {{$type->name}} </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Item type is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a item type!</div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Language">Language</label>
-                                                <select class="form-control" name="language" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a language</option>
-                                                    <option value="english">English</option>
-                                                    <option value="filipino">Filipino</option>
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Language is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a language!</div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Subject Code">Subject Code</label>
-                                                <select class="form-control" name="subjectCode" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a subject code</option>
-                                                    @foreach($subject_codes as $code)
-                                                        <option value="{{$code->id}}">{{$code->code}} - {{$code->name}} </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Subject Code is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a subject code!</div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Program">Program</label>
-                                                <select class="form-control" name="program" data-validate="fileType">
-                                                    <option value="" disabled selected>Choose a program</option>
-                                                    @foreach($programs as $program)
-                                                        <option value="{{$program->id}}">{{$program->name}} </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="valid-feedback" data-valid="fileType">Program is valid!</div>
-                                                <div class="invalid-feedback" data-invalid="fileType">Please select a program!</div>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label class="col-form-label" for="Title">Title</label>
-                                                <textarea class="form-control" rows="3" name="title" placeholder="Type title..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;" data-validate="title"></textarea>
-                                                    <div class="valid-feedback" data-valid="title">
-                                                        Title is valid!
+                            <div class="card-body">
+                                <div class="tab-content " id="myTabContent">
+                                    <div class="tab-pane fade show" id="cover" role="tabpanel" aria-labelledby="cover-tab">
+                                        COVERRRRRRRRRRRR
+                                         <div class="form-group col-md-2 text-center">
+                                                <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
+                                                <br><br>
+                                                <div class="dropdown">
+                                                   
+                                                        <button class="btn bg-gradient-primary" type="button" data-toggle="fileImage"><i class="fas fa-images"></i> Select file...</button>
+                                                </div>
+                                        </div>
+                                    </div>                                
+                                    <div class="tab-pane fade show active" id="biblio" role="tabpanel" aria-labelledby="biblio-tab">
+                                        <form class="needs-validation" novalidate>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-10">
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Item Type">Item Type</label>
+                                                            <select class="form-control" name="itemType" data-validate="fileType">
+                                                                <option value="" disabled selected>Choose a item type</option>
+                                                                @foreach($item_types as $type)
+                                                                    <option value="{{$type->id}}"> {{$type->name}} </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <div class="valid-feedback" data-valid="fileType">Item type is valid!</div>
+                                                            <div class="invalid-feedback" data-invalid="fileType">Please select a item type!</div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Language">Language</label>
+                                                            <select class="form-control" name="language" data-validate="fileType">
+                                                                <option value="" disabled selected>Choose a language</option>
+                                                                <option value="english">English</option>
+                                                                <option value="filipino">Filipino</option>
+                                                            </select>
+                                                            <div class="valid-feedback" data-valid="fileType">Language is valid!</div>
+                                                            <div class="invalid-feedback" data-invalid="fileType">Please select a language!</div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Subject Code">Subject Code</label>
+                                                            <select class="form-control" name="subjectCode" data-validate="fileType">
+                                                                <option value="" disabled selected>Choose a subject code</option>
+                                                                @foreach($subject_codes as $code)
+                                                                    <option value="{{$code->id}}">{{$code->code}} - {{$code->name}} </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <div class="valid-feedback" data-valid="fileType">Subject Code is valid!</div>
+                                                            <div class="invalid-feedback" data-invalid="fileType">Please select a subject code!</div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Program">Program</label>
+                                                            <select class="form-control" name="program" data-validate="fileType">
+                                                                <option value="" disabled selected>Choose a program</option>
+                                                                @foreach($programs as $program)
+                                                                    <option value="{{$program->id}}">{{$program->name}} </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <div class="valid-feedback" data-valid="fileType">Program is valid!</div>
+                                                            <div class="invalid-feedback" data-invalid="fileType">Please select a program!</div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label class="col-form-label" for="Title">Title</label>
+                                                            <textarea class="form-control" rows="3" name="title" placeholder="Type title..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;" data-validate="title"></textarea>
+                                                                <div class="valid-feedback" data-valid="title">
+                                                                    Title is valid!
+                                                                </div>
+                                                                <div class="invalid-feedback" data-invalid="title"></div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Publication Place">Publication Place</label>
+                                                            <input type="text" class="form-control" name="publicationPlace" placeholder="Type publisher place ..." data-autocomplete="publicationPlace">
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Publisher">Publisher</label>
+                                                            <input type="text" class="form-control" name="publisher" placeholder="Type publisher ..." data-autocomplete="publisher">
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Year">Year</label>
+                                                            <input type="text" class="form-control" name="year" placeholder="Type year ..." autocomplete="off" data-validate="year">
+                                                            <div class="valid-feedback" data-valid="year">
+                                                            Year is valid!
+                                                            </div>
+                                                            <div class="invalid-feedback" data-invalid="year"></div>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <label class="col-form-label" for="Pages">Pages</label>
+                                                            <input type="text" class="form-control" name="pages" maxlength="20" placeholder="Type Pages ..." autocomplete="off" data-validate="pages">
+                                                            <div class="valid-feedback" data-valid="pages">
+                                                                Pages is valid!
+                                                            </div>
+                                                            <div class="invalid-feedback" data-invalid="pages"></div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label class="col-form-label" for="Author">Adviser</label>
+                                                            <input type="text" class="form-control" placeholder="Type adviser ..."  data-autocomplete="relatorName" data-validate="adviser">
+                                                            <div class="valid-feedback" data-valid="adviser">
+                                                                Adviser is valid!
+                                                            </div>
+                                                            <div class="invalid-feedback" data-invalid="adviser"></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="invalid-feedback" data-invalid="title"></div>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Publication Place">Publication Place</label>
-                                                <input type="text" class="form-control" name="publicationPlace" placeholder="Type publisher place ..." data-autocomplete="publicationPlace">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Publisher">Publisher</label>
-                                                <input type="text" class="form-control" name="publisher" placeholder="Type publisher ..." data-autocomplete="publisher">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Year">Year</label>
-                                                <input type="text" class="form-control" name="year" placeholder="Type year ..." autocomplete="off" data-validate="year">
-                                                <div class="valid-feedback" data-valid="year">
-                                                   Year is valid!
                                                 </div>
-                                                <div class="invalid-feedback" data-invalid="year"></div>
                                             </div>
-                                            <div class="form-group col-md-3">
-                                                <label class="col-form-label" for="Pages">Pages</label>
-                                                <input type="text" class="form-control" name="pages" maxlength="20" placeholder="Type Pages ..." autocomplete="off" data-validate="pages">
-                                                <div class="valid-feedback" data-valid="pages">
-                                                    Pages is valid!
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-8">
+                                                        <label class="col-form-label" for="Author">Author</label>
+                                                        <input type="text" class="form-control" placeholder="Type an entry ..." data-validate="collaborator" data-autocomplete="relatorName">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="col-form-label text-white" for="Author">Add Statement of Responsibility</label>
+                                                        <button class="btn bg-gradient-primary" data-submit="addCollaborator" disabled>Add Author</button>
+                                                    </div>
                                                 </div>
-                                                <div class="invalid-feedback" data-invalid="pages"></div>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label class="col-form-label" for="Author">Adviser</label>
-                                                <input type="text" class="form-control" placeholder="Type adviser ..."  data-autocomplete="relatorName" data-validate="adviser">
-                                                <div class="valid-feedback" data-valid="adviser">
-                                                    Adviser is valid!
+                                                <div class="form-row">
+                                                    <div class="col-md-12 custom-list" data-list="collaboratorList"></div>
                                                 </div>
-                                                <div class="invalid-feedback" data-invalid="adviser"></div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-2 text-center">
-                                        <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
-                                        <br><br>
-                                        <div class="dropdown">
-                                            <button class="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Upload cover
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                <button class="dropdown-item" type="button" data-toggle="defaultImage">Default</button>
-                                                <button class="dropdown-item" type="button" data-toggle="isbnImage"><i class="fas fa-book"></i> ISBN...</button>
-                                                <button class="dropdown-item" type="button" data-toggle="imageLink"><i class="fas fa-link"></i> Image URL...</button>
-                                                <button class="dropdown-item" type="button" data-toggle="fileImage"><i class="fas fa-images"></i> Select file...</button>
+                                            <div class="form-group">
+                                                <label>Other Physical Details</label>
+                                                <textarea class="form-control" rows="3" name="physicalDescription" placeholder="Type other physical details..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;"></textarea>
                                             </div>
-                                        </div>
+                                            <div class="form-group">
+                                                <label>General Note</label>
+                                                <textarea class="form-control" rows="3" name="generalNotes" placeholder="Type general note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Bibliography, etc. note</label>
+                                                <textarea class="form-control" rows="3" name="bibliography" placeholder="Type bibliography, etc. note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <label class="col-form-label" for="Subject">Subjects</label>
+                                                </div>
+                                                <div class="form-group col-md-10">
+                                                    <input type="text" class="form-control" placeholder="Type subject ..." data-validate="subject" data-autocomplete="subject">
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <button class="btn bg-gradient-primary" data-submit="addSubject" disabled>Add subject</button>
+                                                </div>
+                                                <div class="col-md-12 custom-list" data-list="subjects"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Summary</label>
+                                                <textarea class="form-control" rows="3" name="summary" placeholder="Type summary..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Table of Contents</label>
+                                                <textarea class="form-control" rows="3" name="tableOfContents" placeholder="Type table of Contents..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <label class="col-form-label" for="Category">LC Classification</label>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <select class="form-control" data-validate="class">
+                                                        <option value="" disabled selected>Choose a class</option>
+                                                    
+                                                        @foreach($classes as $class)
+                                                            <option value="{{$class->id}}"> {{$class->code}}   - {{$class->description}} </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="valid-feedback" data-valid="class">
+                                                        LC Class is valid!
+                                                    </div>
+                                                    <div class="invalid-feedback" data-invalid="class">
+                                                        Please select LC class!
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <select class="form-control" data-validate="subclass" disabled>
+                                                        <option value="" disabled selected>Choose a sub class</option>
+                                                    </select>
+                                                    <div class="valid-feedback" data-valid="subclass">
+                                                        LC Subclass is valid!
+                                                    </div>
+                                                    <div class="invalid-feedback" data-invalid="subclass">
+                                                        Please select LC subclass!
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <select class="form-control" name="range" data-validate="range" disabled>
+                                                        <option value="" disabled selected>Choose a range</option>
+                                                    </select>
+                                                    <div class="valid-feedback" data-valid="range">
+                                                        LC Range is valid!
+                                                    </div>
+                                                    <div class="invalid-feedback" data-invalid="range">
+                                                        Please select LC range!
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <input type="text" class="form-control" name="endings" placeholder="Type call number..." autocomplete="off" data-validate="endings">
+                                                    <div class="valid-feedback" data-valid="endings">
+                                                        LC call number is valid!
+                                                    </div>
+                                                    <div class="invalid-feedback" data-invalid="endings">
+                                                        LC call number is required!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="form-group">
+                                                <label class="col-form-label" for="Link">Link</label>
+                                                <input type="text" class="form-control" name="link" placeholder="Type link ..." autocomplete="off" data-validate="link">
+                                                <div class="valid-feedback" data-valid="link">URL is valid!</div>
+                                                <div class="invalid-feedback" data-invalid="link">URL is invalid! Ex. <i class="text-info">https://cvsu.edu.ph/</i></div>
+                                            </div> --}}
+                    
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="Date curated">Date curated</label>
+                                                    <input type="text" class="form-control" name="dateCurated" readonly data-default="dateCurated">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="Encoded by">Encoded by</label>
+                                                    <input type="hidden" class="form-control" name="encodedByID" value="{{ $googleUserInfo->id }}" readonly>
+                                                    <input type="text" class="form-control" value="{{ $googleUserInfo->givenName }}" readonly>
+                                                </div>
+                                            </div>
+                                            <button class="btn bg-gradient-primary float-right" data-submit="ebookOpenAccess" disabled>Submit</button>
+                                        </form>
                                     </div>
+                                    <div class="tab-pane fade" id="koha" role="tabpanel" aria-labelledby="koha-tab">koha</div>
+                                    <div class="tab-pane fade" id="full-text" role="tabpanel" aria-labelledby="full-text-tab">full-text</div>
+                                    <div class="tab-pane fade" id="toc" role="tabpanel" aria-labelledby="toc-tab">toc</div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="form-row">
-                                        <div class="col-md-8">
-                                            <label class="col-form-label" for="Author">Author</label>
-                                            <input type="text" class="form-control" placeholder="Type an entry ..." data-validate="collaborator" data-autocomplete="relatorName">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="col-form-label text-white" for="Author">Add Statement of Responsibility</label>
-                                            <button class="btn bg-gradient-primary" data-submit="addCollaborator" disabled>Add Author</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-md-12 custom-list" data-list="collaboratorList"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Other Physical Details</label>
-                                    <textarea class="form-control" rows="3" name="physicalDescription" placeholder="Type other physical details..." style="margin-top: 0px; margin-bottom: 0px; min-height: 62px;"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>General Note</label>
-                                    <textarea class="form-control" rows="3" name="generalNotes" placeholder="Type general note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Bibliography, etc. note</label>
-                                    <textarea class="form-control" rows="3" name="bibliography" placeholder="Type bibliography, etc. note..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <label class="col-form-label" for="Subject">Subjects</label>
-                                    </div>
-                                    <div class="form-group col-md-10">
-                                        <input type="text" class="form-control" placeholder="Type subject ..." data-validate="subject" data-autocomplete="subject">
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <button class="btn bg-gradient-primary" data-submit="addSubject" disabled>Add subject</button>
-                                    </div>
-                                    <div class="col-md-12 custom-list" data-list="subjects"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Summary</label>
-                                    <textarea class="form-control" rows="3" name="summary" placeholder="Type summary..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Table of Contents</label>
-                                    <textarea class="form-control" rows="3" name="tableOfContents" placeholder="Type table of Contents..." style="margin-top: 0px; margin-bottom: 0px; min-height: 124px;"></textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <label class="col-form-label" for="Category">LC Classification</label>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" data-validate="class">
-                                            <option value="" disabled selected>Choose a class</option>
-                                           
-                                            @foreach($classes as $class)
-                                                <option value="{{$class->id}}"> {{$class->code}}   - {{$class->description}} </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="valid-feedback" data-valid="class">
-                                            LC Class is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="class">
-                                            Please select LC class!
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" data-validate="subclass" disabled>
-                                            <option value="" disabled selected>Choose a sub class</option>
-                                        </select>
-                                        <div class="valid-feedback" data-valid="subclass">
-                                            LC Subclass is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="subclass">
-                                            Please select LC subclass!
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <select class="form-control" name="range" data-validate="range" disabled>
-                                            <option value="" disabled selected>Choose a range</option>
-                                        </select>
-                                        <div class="valid-feedback" data-valid="range">
-                                            LC Range is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="range">
-                                            Please select LC range!
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <input type="text" class="form-control" name="endings" placeholder="Type call number..." autocomplete="off" data-validate="endings">
-                                        <div class="valid-feedback" data-valid="endings">
-                                            LC call number is valid!
-                                        </div>
-                                        <div class="invalid-feedback" data-invalid="endings">
-                                            LC call number is required!
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label" for="Link">Link</label>
-                                    <input type="text" class="form-control" name="link" placeholder="Type link ..." autocomplete="off" data-validate="link">
-                                    <div class="valid-feedback" data-valid="link">URL is valid!</div>
-                                    <div class="invalid-feedback" data-invalid="link">URL is invalid! Ex. <i class="text-info">https://cvsu.edu.ph/</i></div>
-                                </div>
-        
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-form-label" for="Date curated">Date curated</label>
-                                        <input type="text" class="form-control" name="dateCurated" readonly data-default="dateCurated">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="col-form-label" for="Encoded by">Encoded by</label>
-                                        <input type="hidden" class="form-control" name="encodedByID" value="{{ $googleUserInfo->id }}" readonly>
-                                        <input type="text" class="form-control" value="{{ $googleUserInfo->givenName }}" readonly>
-                                    </div>
-                                </div>
-                                <button class="btn bg-gradient-primary float-right" data-submit="ebookOpenAccess" disabled>Submit</button>
-                            </form>
+                           
                         </div>
                     </div>
                 </div>
@@ -336,10 +356,6 @@
     const inputPage = document.querySelector('[data-validate="pages"]');
     const validPage = document.querySelector('[data-valid="pages"]');
     const invalidPage = document.querySelector('[data-invalid="pages"]');
-
-    const inputLink = document.querySelector('[data-validate="link"]');
-    const validLink = document.querySelector('[data-valid="link"]');
-    const invalidLink = document.querySelector('[data-invalid="link"]');
 
     const inputYear = document.querySelector('[data-validate="year"]');
     const validYear = document.querySelector('[data-valid="year"]');
@@ -380,8 +396,6 @@
     const inputDateOfPublication = document.querySelector('[data-validate="dateOfPublication"]');
 
     const defaultCoverBtn = document.querySelector('[data-toggle="defaultImage"]');
-    const isbnDefaultBtn = document.querySelector('[data-toggle="isbnImage"]');
-    const imageLinkBtn = document.querySelector('[data-toggle="imageLink"]');
     const fileImageBtn = document.querySelector('[data-toggle="fileImage"]');
 
     const btnSubmit = document.querySelector('[data-submit="ebookOpenAccess"]');
@@ -396,7 +410,7 @@
     let isRangeReady = false;
     let isAdviserReady = false;
     let isCutterEndingReady = false;
-    let isLinkReady = false;
+    // let isLinkReady = false;
     let isDateOfPublication = true;
 
     let collaborators = [];
@@ -413,6 +427,8 @@
 
     let coverType = null;
     let isGoogleBookAPI = true;
+
+    let thesisId = null;
 
     form.addEventListener("keyup", function(e) {
         checkForm();
@@ -581,34 +597,34 @@
         }
         //endregion
         //region Validate link
-        if(inputLink.value === "") {
-            isLinkReady = false;
-            ShowValidation(inputLink, "is-invalid");
-            invalidLink.innerHTML = "Link field cannot be empty!";
-        } else {
-            if(inputLink === document.activeElement) {
-                isLinkReady = true;
-                ShowValidation(inputLink, "is-valid");
-                validLink.innerHTML = 'Validating URL <i class="fas fa-spinner fa-pulse"></i>';
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('admin.ltx.linkChecker') }}",
-                    data: "url=" + inputLink.value,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if(response.status === "success") {
-                            validLink.innerHTML = "URL is valid!";
-                        } else {
-                            ShowValidation(inputLink, "is-invalid");
-                            console.log("error");
-                        }
-                    }
-                });
-            }
-        }
+        // if(inputLink.value === "") {
+        //     isLinkReady = false;
+        //     ShowValidation(inputLink, "is-invalid");
+        //     invalidLink.innerHTML = "Link field cannot be empty!";
+        // } else {
+        //     if(inputLink === document.activeElement) {
+        //         isLinkReady = true;
+        //         ShowValidation(inputLink, "is-valid");
+        //         validLink.innerHTML = 'Validating URL <i class="fas fa-spinner fa-pulse"></i>';
+        //         $.ajax({
+        //             type: "POST",
+        //             url: "{{ route('admin.ltx.linkChecker') }}",
+        //             data: "url=" + inputLink.value,
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
+        //             },
+        //             success: function(response) {
+        //                 console.log(response);
+        //                 if(response.status === "success") {
+        //                     validLink.innerHTML = "URL is valid!";
+        //                 } else {
+        //                     ShowValidation(inputLink, "is-invalid");
+        //                     console.log("error");
+        //                 }
+        //             }
+        //         });
+        //     }
+        // }
         //endregion
         if(inputCollaborator.value != "") {
             btnAddCollaborator.removeAttribute("disabled");
@@ -641,8 +657,8 @@
     }
 
     function CheckSubmitBtn() {
-         console.log("isTitleReady: " + isTitleReady + "; isCopyrightYearReady: " + isCopyrightYearReady + "; isFileTypeReady: " + isFileTypeReady + "; isCategoryReady: " + isCategoryReady + "; isClassReady: " + isClassReady + "; isSubClassReady: " + isSubClassReady + "; isRangeReady: " + isRangeReady + "; isCutterEndingReady: " + isCutterEndingReady + "; isLinkReady: " + isLinkReady);
-        if(isTitleReady && isCopyrightYearReady && isFileTypeReady && isClassReady && isSubClassReady && isRangeReady && isCutterEndingReady && isDateOfPublication && isLinkReady) {
+         console.log("isTitleReady: " + isTitleReady + "; isCopyrightYearReady: " + isCopyrightYearReady + "; isFileTypeReady: " + isFileTypeReady + "; isCategoryReady: " + isCategoryReady + "; isClassReady: " + isClassReady + "; isSubClassReady: " + isSubClassReady + "; isRangeReady: " + isRangeReady + "; isCutterEndingReady: " + isCutterEndingReady);
+        if(isTitleReady && isCopyrightYearReady && isFileTypeReady && isClassReady && isSubClassReady && isRangeReady && isCutterEndingReady && isDateOfPublication) {
             btnSubmit.removeAttribute("disabled");
         } else {
             if(!btnSubmit.hasAttribute("disabled")) {
@@ -651,90 +667,7 @@
         }
     }
 
-    defaultCoverBtn.addEventListener("click", (e) => {
-        setDefaultCover();
-        coverType = 'DEFAULT';
-    });
-
-    isbnDefaultBtn.addEventListener("click", (e) => {
-        getISBNImage("btn");
-    });
-
-    imageLinkBtn.addEventListener("click", (e) => {
-        (async () => {
-            const { value: url } = await Swal.fire({
-                title: '<i class="fas fa-images"></i> Paste image URL below',
-                input: 'url',
-                //inputLabel: 'URL address',
-                inputPlaceholder: 'Paste the image URL...',
-                showCancelButton: true,
-                confirmButtonText: 'Submit'
-            });
-            if (url) {
-                Swal.fire({
-                    text: 'Are you sure you want to use this image?',
-                    imageUrl: url,
-                    imageWidth: 200,
-                    imageHeight: 285,
-                    imageAlt: 'The uploaded picture',
-                    showCancelButton: true,
-                    confirmButtonText: 'Use image'
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        imageURLSrc = url;
-                        coverImage.src = imageURLSrc;
-                        fileImageSrc = null;
-                        coverType = 'URL';
-                    };
-                });
-            }
-        })();
-    });
-
-    fileImageBtn.addEventListener("click", (e) => {
-        (async () => {
-            const { value: file } = await Swal.fire({
-                title: '<i class="fas fa-images"></i> Select file image',
-                input: 'file',
-                inputAttributes: {
-                    'accept': 'image/*',
-                    'aria-label': 'Upload your profile picture'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Submit'
-            })
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    Swal.fire({
-                        text: 'Are you sure you want to use this image?',
-                        imageUrl: e.target.result,
-                        imageWidth: 200,
-                        imageHeight: 285,
-                        imageAlt: 'The uploaded picture',
-                        showCancelButton: true,
-                        confirmButtonText: 'Use image'
-                    }).then((result) => {
-                        if(result.isConfirmed) {
-                            fileImageSrc = e.target.result;
-                            coverImage.src = fileImageSrc;
-                            imageURLSrc = null;
-                            coverType = 'FILE';
-                        };
-                    });
-                }
-                reader.readAsDataURL(file);
-            }
-        })();
-    });
-
-    function setDefaultCover() {
-        imageURLSrc = null;
-        isbnSrc = null;
-        fileImageSrc = null;
-        coverImage.src = "resources/images/covers/ebooks/open_access/default.jpg";
-        coverType = 'DEFAULT';
-    }
+   
     // function getISBNImage(type = 'api') {
     //     $.ajax({
     //         type: "POST",
@@ -884,7 +817,7 @@
 
     form.addEventListener("submit", function(e) {
         e.preventDefault(); 
-        if(!isTitleReady && !isCopyrightYearReady && !isFileTypeReady && !isCategoryReady && !isClassReady && !isPageReady && !isSubClassReady && !isRangeReady && !isCutterEndingReady && !isDateOfPublication && !isLinkReady) {
+        if(!isTitleReady && !isCopyrightYearReady && !isFileTypeReady && !isCategoryReady && !isClassReady && !isPageReady && !isSubClassReady && !isRangeReady && !isCutterEndingReady && !isDateOfPublication) {
             return false;
         }
         btnSubmit.setAttribute("disabled", "");
@@ -894,33 +827,38 @@
             collaboratorsWithRelatorTerms.push(collaborator + "^author");
             i++;
         });
-        let bookCover = document.querySelector('[data-image="book-cover"]').src;
         let module = "EBookOpenAccessCreate";
         let dataQuery = $(this).serialize();
         let adviserName = inputAdviser.value + '^adviser';
+        let editRouteUrl = "{{ route('admin.ltx.edit', ['id' => '__ID__']) }}";
 
         collaboratorsWithRelatorTerms.push(adviserName);
-        console.log("module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|") + "&bookCover=" + bookCover + "&coverType=" + coverType);
+        console.log("module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|"));
         $.ajax({
             type: "POST",
             url: "{{ route('admin.ltx.store') }}",
-            data: "module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|") + "&bookCover=" + bookCover + "&coverType=" + coverType,
+            data: "module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|"),
             headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
             success: function(response) {
-                console.log(response);
-               
+                console.log(response);              
                 if(response.status === "success") {
+                    thesisId = response.thesis_id;
                     Swal.fire({
                     title: response.message,
                     icon: response.status,
-                });
+
+                }).then(function(){
+                    window.location = editRouteUrl.replace('__ID__', thesisId);
+                  });
+                         
                     resetForm();
-                } else {
+                } 
+                 else {
                     btnSubmit.removeAttribute("disabled", "");
                 }
-             }
+            }
         });
     });
 
@@ -931,7 +869,7 @@
         ShowValidation(inputTitle, "REMOVEALL");
         ShowValidation(inputPage, "REMOVEALL");
         ShowValidation(inputAdviser, "REMOVEALL");
-        ShowValidation(inputLink, "REMOVEALL");
+        //ShowValidation(inputLink, "REMOVEALL");
         //ShowValidation(selectCategory, "REMOVEALL");
         //ShowValidation(selectCategory2, "REMOVEALL");
         //ShowValidation(selectCategory3, "REMOVEALL");
@@ -945,7 +883,7 @@
         relatorsTerms = [];
         subjectList.innerHTML = '';
         collaboratorList.innerHTML = '';
-        setDefaultCover();
+        
     }
 
     function ShowValidation(tag, value) {
@@ -974,30 +912,80 @@
         }
     }
     }
+    //COVER
 
-    // $(function() {
-    //     $('[data-autocomplete="publicationPlace"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=PublicationPlace',
-    //     });
-    // });
+    let bookCover = document.querySelector('[data-image="book-cover"]').src;
 
-    // $(function() {
-    //     $('[data-autocomplete="publisher"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=Publisher',
-    //     });
-    // });
+    function setDefaultCover() {
+        imageURLSrc = null;
+        isbnSrc = null;
+        fileImageSrc = null;
+        coverImage.src = "resources/images/covers/ebooks/open_access/default.jpg";
+        coverType = 'DEFAULT';
+    }
+    fileImageBtn.addEventListener("click", (e) => {
+        (async () => {
+            const { value: file } = await Swal.fire({
+                title: '<i class="fas fa-images"></i> Select file image',
+                input: 'file',
+                inputAttributes: {
+                    'accept': 'image/*',
+                    'aria-label': 'Upload your profile picture'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Submit'
+            })
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    Swal.fire({
+                        text: 'Are you sure you want to use this image?',
+                        imageUrl: e.target.result,
+                        imageWidth: 200,
+                        imageHeight: 285,
+                        imageAlt: 'The uploaded picture',
+                        showCancelButton: true,
+                        confirmButtonText: 'Use image'
+                    }).then((result) => {
+                        if(result.isConfirmed) {
+                            fileImageSrc = e.target.result;
+                            coverImage.src = fileImageSrc;
+                            imageURLSrc = null;
+                            coverType = 'FILE';
 
-    // $(function() {
-    //     $('[data-autocomplete="relatorName"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=Relator',
-    //     });
-    // });
+                            console.log(thesisId);
 
-    // $(function() {
-    //     $('[data-autocomplete="subject"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=Subject',
-    //     });
-    // });
+                            let coverData = new FormData();
+                            coverData.append('cover_filename', file);
+                            coverData.append('thesis_id', thesisId);
+                            coverData.append('updated_by', "{{ $googleUserInfo->id }}");
+
+                            console.log("FormData: ", coverData);
+
+                            $.ajax({
+                                method: "POST",
+                                url: "{{ route('admin.ltx.cover.store') }}",
+                                data: coverData,
+                                processData: false,
+                                contentType: false,
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function(response){
+                                    alert("HI");
+                                }
+
+
+                            })
+
+                        };
+                    });
+                }
+                reader.readAsDataURL(file);
+            }
+        })();
+    });
+    
 </script>
 
 @endsection

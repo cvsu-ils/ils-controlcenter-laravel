@@ -53,6 +53,13 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'ltx_files' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/ltx/files'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'private',
+        ],
+
     ],
 
     /*
