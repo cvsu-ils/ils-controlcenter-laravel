@@ -5,11 +5,11 @@ namespace App\Http\Controllers\LTX;
 use App\Models\Ranges;
 use App\Models\LCClass;
 use App\Models\LCSubClass;
+use App\Models\LTX\Program;
+use App\Models\LTX\ItemType;
 use Illuminate\Http\Request;
+use App\Models\LTX\SubjectCode;
 use App\Http\Controllers\Controller;
-use App\Models\ItemTypes;
-use App\Models\Programs;
-use App\Models\SubjectCodes;
 
 class LCClassificationController extends Controller
 {
@@ -21,9 +21,9 @@ class LCClassificationController extends Controller
     public function index()
     {
         $classes = LCClass::all();
-        $item_types = ItemTypes::all();
-        $programs = Programs::all();
-        $subject_codes = SubjectCodes::all(); 
+        $item_types = ItemType::all();
+        $programs = Program::all();
+        $subject_codes = SubjectCode::all(); 
      
         return view('ltx.create',compact('classes', 'item_types','programs','subject_codes'));
     }

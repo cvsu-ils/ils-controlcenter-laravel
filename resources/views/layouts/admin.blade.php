@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{{asset('plugins/chart.js/Chart.css')}}">
     <!-- Bootstrap Iconpicker CSS-->
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-iconpicker/css/bootstrap-iconpicker.css')}}"/>
+    <!-- Toaster CSS-->
+    <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}"/>
   </head>
   <body class="hold-transition sidebar-mini">
     <!-- Preloader -->
@@ -73,5 +75,7 @@
   <script src="{{asset('plugins/chart.js/Chart.js')}}"></script>
   <!-- Bootstrap Iconpicker JS -->
   <script src="{{asset('plugins/fontawesome-iconpicker/js/bootstrap-iconpicker.bundle.min.js')}}"></script>
+  <!-- Toaster JS-->
+  <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
   @yield('script')
 </html>

@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Theses;
-use App\Observers\ThesisObserver;
+use App\Models\LTX\Theses;
+use App\Models\LTX\Cover;
+use App\Models\LTX\FullText;
+use App\Observers\LTX\ThesesObserver;
+use App\Observers\LTX\FullTextObserver;
+use App\Observers\LTX\CoverObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Theses::observe(ThesisObserver::class);
+        Theses::observe(ThesesObserver::class);
+        FullText::observe(FullTextObserver::class);
+        Cover::observe(CoverObserver::class);
     }
 }

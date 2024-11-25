@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\LTX;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ItemTypes extends Model
+class SubjectCode extends Model
 {
     use HasFactory;
 
-    protected $table = 'ltx_item_types';
+    protected $table = 'ltx_subject_code';
 }
