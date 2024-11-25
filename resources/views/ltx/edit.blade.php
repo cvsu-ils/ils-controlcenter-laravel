@@ -5,25 +5,25 @@
 @endsection
 
 @section('main-content-header')
-<div class="content-header" style="background-image: url('/images/landing/library.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <a class="badge badge-primary float-sm-left mb-3" href="{{ route('admin.home') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to dashboard</a>
-                <br><br><br><br>
-                <h1 class="m-0 text-white" style="text-shadow: 4px 4px 4px #404040;"><i class="fas fa-tachometer-alt"></i> Dashboard of Ladislao Theses Xplorer</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb px-3 elevation-1 bg-white float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Integrated Library System</li>
-                    <li class="breadcrumb-item active">Ladislao Theses Xplorer</li>
-                    <li class="breadcrumb-item active">Create</li>
-                </ol>
+    <div class="content-header" style="background-image: url('/images/landing/library.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <a class="badge badge-primary float-sm-left mb-3" href="{{ route('admin.home') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to dashboard</a>
+                    <br><br><br><br>
+                    <h1 class="m-0 text-white" style="text-shadow: 4px 4px 4px #404040;"><i class="fas fa-tachometer-alt"></i> Dashboard of Ladislao Theses Xplorer</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb px-3 elevation-1 bg-white float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Integrated Library System</li>
+                        <li class="breadcrumb-item active">Ladislao Theses Xplorer</li>
+                        <li class="breadcrumb-item active">Create</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-</div>
 @endsection 
 
 @section('main-content')
@@ -75,7 +75,7 @@
             <div class="row">
                 @if(!$thesis->is_published)
                 <div class="col-12">
-                    @if (!$thesis->full_text_id && !$thesis->accession_number)
+                    @if (!$thesis->full_text_id)
                         <div class="callout callout-warning">
                             <h5>
                                 <i class="fas fa-exclamation-triangle text-warning"></i> Manuscript is not publish yet
@@ -117,7 +117,17 @@
                         <div class="card-body">
                             <div class="tab-content " id="myTabContent">
                                 <div class="tab-pane fade show" id="cover" role="tabpanel" aria-labelledby="cover-tab">
-                                    COVERRRRRRRRRRRR
+                                    <div class="form-group col-md-2 text-center">
+                                        @if(!empty($cover))
+                                        <img class="rounded" src="{{ Storage::url('ltx/covers/' . $cover->filename )}}" style="width: 190px; height: 285px;" data-image="book-cover">
+                                        @else
+                                        <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
+                                        @endif
+                                        <br><br>
+                                        <div class="dropdown">                                          
+                                            <button class="btn bg-gradient-primary" type="button" data-toggle="fileImage"><i class="fas fa-images"></i> Select file...</button>
+                                        </div>                                   
+                                    </div>                               
                                 </div>
                                 <div class="tab-pane fade show active" id="biblio" role="tabpanel" aria-labelledby="biblio-tab">
                                     <form class="needs-validation" novalidate>
@@ -209,21 +219,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-2 text-center">
-                                                <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
-                                                <br><br>
-                                                <div class="dropdown">
-                                                    <button class="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Upload cover
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                        <button class="dropdown-item" type="button" data-toggle="defaultImage">Default</button>
-                                                        <button class="dropdown-item" type="button" data-toggle="isbnImage"><i class="fas fa-book"></i> ISBN...</button>
-                                                        <button class="dropdown-item" type="button" data-toggle="imageLink"><i class="fas fa-link"></i> Image URL...</button>
-                                                        <button class="dropdown-item" type="button" data-toggle="fileImage"><i class="fas fa-images"></i> Select file...</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
                                         <div class="form-group">
                                             <div class="form-row">
@@ -323,12 +319,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label" for="Link">Link</label>
-                                            <input type="text" class="form-control" name="link" placeholder="Type link ..." autocomplete="off" data-validate="link"  value="{{$thesis->opac_link}}">
-                                            <div class="valid-feedback" data-valid="link">URL is valid!</div>
-                                            <div class="invalid-feedback" data-invalid="link">URL is invalid! Ex. <i class="text-info">https://cvsu.edu.ph/</i></div>
-                                        </div>
                 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
@@ -347,16 +337,28 @@
                                 </div>
                                 <div class="tab-pane fade" id="koha" role="tabpanel" aria-labelledby="koha-tab">koha</div>
                                 <div class="tab-pane fade" id="full-text" role="tabpanel" aria-labelledby="full-text-tab">
-                                    <form id="full-text" action="{{route('admin.ltx.fulltext.store')}}" method="POST" enctype="multipart/form-data">
+                                    
+                                    @foreach ($full_texts as $full_text)
+                                        <div class="container-fluid border m-2 p-3"> 
+                                            <div>
+                                                <i class="fas fa-file-pdf"></i> {{ $full_text->filename }}
+                                                @if($full_text->id == $thesis->full_text_id)
+                                                    <em>(active)</em>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                
+                                    <form id="full-text" class="full-text" enctype="multipart/form-data">
                                         @csrf
                                         <input type="text" name="thesis_id" id="thesis_id" value="{{$thesis->id}}" hidden>
                                     <div class="input-group is-invalid m-2">
                                         <div class="form-group">
-                                            <label for="exampleFormControlFile1">Full text</label>
-                                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="full_text" accept=".pdf">
+                                            <label for="full_text">Full text</label>
+                                            <input type="file" class="form-control-file" id="full_text" name="full_text" accept=".pdf">
                                           </div>
                                       </div>
-                                      <button type="submit">Submit</button>
+                                      <button class="btn btn-primary" type="submit">Submit</button>
                                     </form>
                                 </div>
                                 <div class="tab-pane fade" id="toc" role="tabpanel" aria-labelledby="toc-tab">toc</div>
@@ -377,6 +379,24 @@
 
 @section('script')
 <script>
+
+    toastr.options = {
+        "closeButton": true, 
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true, 
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
     // CREATE EBOOKS VALIDATION
     const form = document.querySelector('.needs-validation');
 
@@ -416,6 +436,7 @@
     const invalidClass = document.querySelector('[data-invalid="class"]');
 
     const selectSubClass = document.querySelector('[data-validate="subclass"]');
+    let selectSubClassSelected = "";
     const validSubClass = document.querySelector('[data-valid="subclass"]');
     const invalidSubClass = document.querySelector('[data-invalid="subclass"]');
 
@@ -448,6 +469,9 @@
 
     const btnSubmit = document.querySelector('[data-submit="ebookOpenAccess"]');
 
+    const fullTextForm = document.querySelector('.full-text');
+
+
     let isTitleReady = false;
     let isCopyrightYearReady = false;
     let isPageReady = false;
@@ -458,7 +482,7 @@
     let isRangeReady = false;
     let isAdviserReady = false;
     let isCutterEndingReady = false;
-    let isLinkReady = false;
+    //let isLinkReady = false;
     let isDateOfPublication = true;
 
     let collaborators = [];
@@ -476,8 +500,14 @@
     let coverType = null;
     let isGoogleBookAPI = true;
 
+    let thesisId ="{{$thesis->id}}";
+    let rangeId = "{{$thesis->range}}";
+
+    console.log(rangeId)
+
     
-    checkForm();
+    checkClass();
+
     form.addEventListener("keyup", function(e) {
         checkForm();
     });
@@ -522,14 +552,14 @@
             ShowValidation(inputPage, "is-valid");
         }
         //endregion
-        //region # Validate isbn
-        // if(inputIsbn.value === "") {
-        //     ShowValidation(inputIsbn, "REMOVEALL");
-        // } else {
-        //     if (inputIsbn === document.activeElement) {
-        //         //getISBNImage();
-        //     }
-        // }
+            //region # Validate isbn
+            // if(inputIsbn.value === "") {
+            //     ShowValidation(inputIsbn, "REMOVEALL");
+            // } else {
+            //     if (inputIsbn === document.activeElement) {
+            //         //getISBNImage();
+            //     }
+            // }
         //endregion
 
         //region Validate fileType
@@ -541,7 +571,101 @@
             ShowValidation(selectFileType, "is-valid");
         }
         //endregion
+
         //region Validate class
+            //     if(selectClass.value === "") {
+            //         isClassReady = false;
+            //         ShowValidation(selectClass, "is-invalid");
+            //         if(!selectSubClass.hasAttribute("disabled")) {
+            //             selectSubClass.setAttribute("disabled", "");
+            //         }
+            //     } else {
+            //         if(selectClass.value === "") {
+            //             isClassReady = false;
+            //             ShowValidation(selectClass, "is-invalid");
+            //             if(!selectSubClass.hasAttribute("disabled")) {
+            //                 selectSubClass.setAttribute("disabled", "");
+            //             }
+            //         }
+            //         else{
+            //         if(selectClass === document.activeElement) {
+            //             isClassReady = true;
+            //             isSubClassReady = false;
+            //             isRangeReady = false;
+            //             ShowValidation(selectClass, "is-valid");
+            //             selectSubClass.removeAttribute("disabled");
+            //             $.ajax({
+            //                 type: "POST",
+            //                 url: "{{ route('admin.ltx.subclasses') }}",
+            //                 data: "classid=" + selectClass.value,
+            //                 headers: {
+            //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
+            //                 },
+            //                 success: function(response) {
+            //                     if(response.status === "success") {
+            //                         ShowValidation(selectSubClass, "is-invalid");
+            //                         ShowValidation(selectRange, "is-invalid");
+            //                         if(!selectRange.hasAttribute("disabled")) {
+            //                             selectRange.setAttribute("disabled", "");
+            //                         }                          
+            //                             selectSubClass.innerHTML = '<option value="" disabled selected>Choose a sub class</option>';
+                                    
+            //                             selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
+
+            //                         const sub_classes = response.data;
+            //                         sub_classes.forEach(function(sub_class){
+            //                             var subclass_option = document.createElement("option");
+            //                             subclass_option.value = sub_class.id;
+            //                             subclass_option.textContent = sub_class.code + ' - ' + sub_class.description;
+            //                             selectSubClass.appendChild(subclass_option);
+                                    
+            //                         });
+            //                     }
+            //                 }
+            //             });
+            //         }else{
+            //         let subClassId = parseInt("{{$subclass}}");
+            //             console.log(subClassId);
+            //                 isClassReady = true;
+            //                 isSubClassReady = false;
+            //                 isRangeReady = false;
+            //                 ShowValidation(selectClass, "is-valid");
+            //                 selectSubClass.removeAttribute("disabled");
+            //                 $.ajax({
+            //                     type: "POST",
+            //                     url: "{{ route('admin.ltx.subclasses') }}",
+            //                     data: "classid=" + selectClass.value,
+            //                     headers: {
+            //                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //                     },
+            //                     success: function(response) {
+            //                         if(response.status === "success") {
+            //                             ShowValidation(selectSubClass, "is-valid");
+            //                             ShowValidation(selectRange, "is-valid");                                             
+            //                                 selectSubClass.innerHTML = '<option value="" disabled selected>Choose a sub class</option>';                          
+            //                                 selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
+            //                             const sub_classes = response.data;
+            //                             sub_classes.forEach(function(sub_class){
+            //                                 var subclass_option = document.createElement("option");
+            //                                 subclass_option.value = sub_class.id;
+            //                                 subclass_option.textContent = sub_class.code + ' - ' + sub_class.description;
+                                        
+                                            
+            //                                 if (sub_class.id === subClassId) {
+            //                                     subclass_option.setAttribute("selected", "");
+            //                                 }
+            //                                 selectSubClass.appendChild(subclass_option);
+            //                             });
+            //                             console.log("Selected SubClass ID after population:", selectSubClass.value);
+                                
+            //                         }
+            //                     }
+            //             });         
+            //     }
+            // }
+            // }
+
+    
         if(selectClass.value === "") {
             isClassReady = false;
             ShowValidation(selectClass, "is-invalid");
@@ -549,8 +673,7 @@
                 selectSubClass.setAttribute("disabled", "");
             }
         } else {
-            let subClassId = parseInt("{{$subclass}}", 10);
-            console.log(subClassId);
+            if(selectClass === document.activeElement) {
                 isClassReady = true;
                 isSubClassReady = false;
                 isRangeReady = false;
@@ -579,29 +702,24 @@
                                 var subclass_option = document.createElement("option");
                                 subclass_option.value = sub_class.id;
                                 subclass_option.textContent = sub_class.code + ' - ' + sub_class.description;
-
-                                if (sub_class.id === subClassId) {
-                                    subclass_option.selected = true; // Check if this logic is correct
-                                    console.log("Option Selected:", subclass_option);
-                                }
                                 selectSubClass.appendChild(subclass_option);
                                
                             });
-                            console.log("Selected SubClass ID after population:", selectSubClass.value);
-                       
                         }
                     }
                 });
-            
+            }
         }
+        //endregion
         //region Validate subclass
-        if(selectSubClass.value === "") {
-            isSubClassReady = false;
+        if(selectSubClass.value === "") {       
+            isSubClassReady = false; 
             ShowValidation(selectSubClass, "is-invalid");
             if(!selectRange.hasAttribute("disabled")) {
                 selectRange.setAttribute("disabled", "");
             }
         } else {
+            if(selectSubClass === document.activeElement) {
                 isSubClassReady = true;
                 isRangeReady = false;
                 ShowValidation(selectSubClass, "is-valid");
@@ -627,7 +745,8 @@
                             });
                         }
                     }
-                });          
+                });
+            }
         }
         //endregion
         //region Validate range
@@ -635,52 +754,23 @@
             isRangeReady = false;
             ShowValidation(selectRange, "is-invalid");
         } else {
-            if(selectRange === document.activeElement) {
+           
                 isRangeReady = true;
                 ShowValidation(selectRange, "is-valid");
-            }
+            
         }
         //region Validate cutter endings
         if(inputEndings.value === "") {
             isCutterEndingReady = false;
             ShowValidation(inputEndings, "is-invalid");
         } else {
-            if(inputEndings === document.activeElement) {
+           
                 isCutterEndingReady = true;
                 ShowValidation(inputEndings, "is-valid");
-            }
+            
         }
         //endregion
-        //region Validate link
-        if(inputLink.value === "") {
-            isLinkReady = false;
-            ShowValidation(inputLink, "is-invalid");
-            invalidLink.innerHTML = "Link field cannot be empty!";
-        } else {
-            if(inputLink === document.activeElement) {
-                isLinkReady = true;
-                ShowValidation(inputLink, "is-valid");
-                validLink.innerHTML = 'Validating URL <i class="fas fa-spinner fa-pulse"></i>';
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('admin.ltx.linkChecker') }}",
-                    data: "url=" + inputLink.value,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if(response.status === "success") {
-                            validLink.innerHTML = "URL is valid!";
-                        } else {
-                            ShowValidation(inputLink, "is-invalid");
-                            console.log("error");
-                        }
-                    }
-                });
-            }
-        }
-        //endregion
+           
         if(inputCollaborator.value != "") {
             btnAddCollaborator.removeAttribute("disabled");
         } else {
@@ -704,16 +794,159 @@
         } else {
             isAdviserReady = true;
             ShowValidation(inputAdviser, "is-valid");
-            console.log(inputAdviser.value)
         }
         //endregion
 
         CheckSubmitBtn();
     }
 
+
+    function checkClass() {
+
+        //region Validate year
+        if(inputYear.value === "" || isNaN(inputYear.value)) {
+                isCopyrightYearReady = false;
+                ShowValidation(inputYear, "is-invalid");
+            } else {
+                isCopyrightYearReady = true;
+                ShowValidation(inputYear, "is-valid");
+            }
+            //endregion
+            //region # Validate title
+            if(inputTitle.value === "") {
+                isTitleReady = false;
+                ShowValidation(inputTitle, "is-invalid");
+                invalidTitle.innerHTML = "Title field cannot be empty!";
+            } else {
+                isTitleReady = true;
+                ShowValidation(inputTitle, "is-valid");
+            }
+            //endregion
+            //region Validate page
+            if(inputPage.value === "" || isNaN(inputPage.value)) {
+                isPageReady = false;
+                ShowValidation(inputPage, "is-invalid");
+            } else {
+                isCopyrightYearReady = true;
+                ShowValidation(inputPage, "is-valid");
+            }
+
+            //region Validate fileType
+            if(selectFileType.value === "") {
+                isFileTypeReady = false;
+                ShowValidation(selectFileType, "is-invalid");
+            } else {
+                isFileTypeReady = true;
+                ShowValidation(selectFileType, "is-valid");
+            }
+            //endregion
+
+            //region # Validate Adviser
+            if(inputAdviser.value === "") {
+                isAdviserReady = false;
+                ShowValidation(inputAdviser, "is-invalid");
+                invalidAdviser.innerHTML = "Adviser field cannot be empty!";
+            } else {
+                isAdviserReady = true;
+                ShowValidation(inputAdviser, "is-valid");
+            }
+            //endregion
+            if(inputEndings.value === "") {
+                isCutterEndingReady = false;
+                ShowValidation(inputEndings, "is-invalid");
+            } else {
+            
+                    isCutterEndingReady = true;
+                    ShowValidation(inputEndings, "is-valid");
+                
+            }
+        let subClassId = parseInt("{{$subclass}}");
+        console.log("SubClass ID from backend:", subClassId);
+
+        isClassReady = true;
+        isSubClassReady = true;
+        isRangeReady = true;
+
+        ShowValidation(selectClass, "is-valid");
+        selectSubClass.removeAttribute("disabled");
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('admin.ltx.subclasses') }}",
+            data: "classid=" + selectClass.value,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response.status === "success") {
+                    ShowValidation(selectSubClass, "is-valid");
+                    
+                    selectSubClass.innerHTML = '<option value="" disabled>Choose a sub class</option>';     
+
+                    const sub_classes = response.data;
+                    sub_classes.forEach(function(sub_class) {
+                        var subclass_option = document.createElement("option");
+                        subclass_option.value = sub_class.id;
+                        subclass_option.textContent = sub_class.code + ' - ' + sub_class.description;
+
+                        if (sub_class.id === subClassId) {
+                            subclass_option.setAttribute("selected", "");
+                        }
+                        selectSubClass.appendChild(subclass_option);
+                    });
+
+                    // Log value after population
+                    selectSubClassSelected = selectSubClass.value;
+                    console.log("Selected SubClass ID after population:", selectSubClassSelected)
+                    populateRange(selectSubClassSelected);
+                }
+            }
+        });
+
+        CheckSubmitBtn()
+    }
+console.log("Selected SubClass value before AJAX response:", selectSubClassSelected);
+
+function populateRange(SubClassId) {
+
+    ShowValidation(selectRange, "is-valid");                     
+    selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
+
+                isSubClassReady = true;
+                isRangeReady = true;
+                ShowValidation(selectSubClass, "is-valid");
+                selectRange.removeAttribute("disabled");
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('admin.ltx.ranges') }}",
+                    data: "subclassid=" + SubClassId,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
+                    },
+                    success: function(response) {
+                        if(response.status === "success") {
+                            ShowValidation(selectRange, "is-valid");
+                            selectRange.innerHTML = '<option value="" disabled>Choose a range</option>';
+                            const ranges = response.data;
+                            ranges.forEach(function(range){
+                                var range_option = document.createElement("option");
+                                range_option.value = range.id;
+                                range_option.textContent = range.range + ' - ' + range.description + range.id;
+
+                                if (range.id === rangeId) {
+                                    range_option.setAttribute("selected", "");
+                                }
+                                selectRange.appendChild(range_option);
+                               
+                            });
+                        }
+                    }
+                });
+            }
+
     function CheckSubmitBtn() {
-         console.log("isTitleReady: " + isTitleReady + "; isCopyrightYearReady: " + isCopyrightYearReady + "; isFileTypeReady: " + isFileTypeReady + "; isCategoryReady: " + isCategoryReady + "; isClassReady: " + isClassReady + "; isSubClassReady: " + isSubClassReady + "; isRangeReady: " + isRangeReady + "; isCutterEndingReady: " + isCutterEndingReady + "; isLinkReady: " + isLinkReady);
-        if(isTitleReady && isCopyrightYearReady && isFileTypeReady && isClassReady && isSubClassReady && isRangeReady && isCutterEndingReady && isDateOfPublication && isLinkReady) {
+         console.log("isTitleReady: " + isTitleReady + "; isCopyrightYearReady: " + isCopyrightYearReady + "; isFileTypeReady: " + isFileTypeReady + "; isCategoryReady: " + isCategoryReady + "; isClassReady: " + isClassReady + "; isSubClassReady: " + isSubClassReady + "; isRangeReady: " + isRangeReady + "; isCutterEndingReady: " + isCutterEndingReady + ";");
+        if(isTitleReady && isCopyrightYearReady && isClassReady && isSubClassReady && isRangeReady && isCutterEndingReady && isDateOfPublication) {
             btnSubmit.removeAttribute("disabled");
         } else {
             if(!btnSubmit.hasAttribute("disabled")) {
@@ -721,46 +954,6 @@
             }
         }
     }
-
-    defaultCoverBtn.addEventListener("click", (e) => {
-        setDefaultCover();
-        coverType = 'DEFAULT';
-    });
-
-    isbnDefaultBtn.addEventListener("click", (e) => {
-        getISBNImage("btn");
-    });
-
-    imageLinkBtn.addEventListener("click", (e) => {
-        (async () => {
-            const { value: url } = await Swal.fire({
-                title: '<i class="fas fa-images"></i> Paste image URL below',
-                input: 'url',
-                //inputLabel: 'URL address',
-                inputPlaceholder: 'Paste the image URL...',
-                showCancelButton: true,
-                confirmButtonText: 'Submit'
-            });
-            if (url) {
-                Swal.fire({
-                    text: 'Are you sure you want to use this image?',
-                    imageUrl: url,
-                    imageWidth: 200,
-                    imageHeight: 285,
-                    imageAlt: 'The uploaded picture',
-                    showCancelButton: true,
-                    confirmButtonText: 'Use image'
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        imageURLSrc = url;
-                        coverImage.src = imageURLSrc;
-                        fileImageSrc = null;
-                        coverType = 'URL';
-                    };
-                });
-            }
-        })();
-    });
 
     fileImageBtn.addEventListener("click", (e) => {
         (async () => {
@@ -775,29 +968,62 @@
                 confirmButtonText: 'Submit'
             })
             if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    Swal.fire({
-                        text: 'Are you sure you want to use this image?',
-                        imageUrl: e.target.result,
-                        imageWidth: 200,
-                        imageHeight: 285,
-                        imageAlt: 'The uploaded picture',
-                        showCancelButton: true,
-                        confirmButtonText: 'Use image'
-                    }).then((result) => {
-                        if(result.isConfirmed) {
-                            fileImageSrc = e.target.result;
-                            coverImage.src = fileImageSrc;
-                            imageURLSrc = null;
-                            coverType = 'FILE';
-                        };
-                    });
-                }
-                reader.readAsDataURL(file);
-            }
-        })();
-    });
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                Swal.fire({
+                    text: 'Are you sure you want to use this image?',
+                    imageUrl: e.target.result,
+                    imageWidth: 200,
+                    imageHeight: 285,
+                    imageAlt: 'The uploaded picture',
+                    showCancelButton: true,
+                    confirmButtonText: 'Use image'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const imgFormData = new FormData();
+                        imgFormData.append('file', file);
+                        imgFormData.append('thesis_id', thesisId);
+                        imgFormData.append('updated_by', "{{ $googleUserInfo->id }}");
+
+                        console.log(imgFormData);
+
+
+                        // AJAX request
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('admin.ltx.cover.store') }}",
+                            data: imgFormData,
+                            headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
+                            },
+                            processData: false, 
+                            contentType: false,
+                            success: function (response) {
+                                if (response.success) {
+                                    const fileImageSrc = e.target.result;
+                                    coverImage.src = fileImageSrc;
+                                    imageURLSrc = null;
+                                    coverType = 'FILE';
+                                    toastr.success(response.message, 'Success');
+                                   
+                                } else {
+                                    toastr.error(response.message, 'Error');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText); // Log the error message
+                                alert('An error occurred: ' + xhr.responseJSON.message); // Show error message
+                            }
+                        });
+                    }
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    })();
+});
+
+    //COVER 
 
     function setDefaultCover() {
         imageURLSrc = null;
@@ -806,44 +1032,27 @@
         coverImage.src = "resources/images/covers/ebooks/open_access/default.jpg";
         coverType = 'DEFAULT';
     }
-    // function getISBNImage(type = 'api') {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "app/Helpers/request/ebooks/getBookWithISBN.php",
-    //         data: "isbn=" + inputIsbn.value,
-    //         success: function(response) {
-    //             console.log(response);
-    //             if(JSON.parse(response).status === "success") {
-    //                 ShowValidation(inputIsbn, "is-valid");
-    //                 if (JSON.parse(response).data) {
-    //                     Swal.fire({
-    //                         text: 'Do you want to use image from google books?',
-    //                         imageUrl: JSON.parse(response).data,
-    //                         imageWidth: 200,
-    //                         imageHeight: 285,
-    //                         imageAlt: 'The uploaded picture',
-    //                         showCancelButton: true,
-    //                         confirmButtonText: 'Use image'
-    //                     }).then((result) => {
-    //                         if(result.isConfirmed) {
-    //                             isbnSrc = JSON.parse(response).data;
-    //                             coverImage.src = isbnSrc;
-    //                             imageURLSrc = null;
-    //                             fileImageSrc = null;
-    //                             coverType = 'ISBN';
-    //                         };
-    //                     });
-    //                 }
-    //             } else {
-    //                 if(type != "btn") {
-    //                     ShowValidation(inputIsbn, "is-invalid");
-    //                     invalidIsbn.innerHTML = JSON.parse(response).message;
-    //                 }
-    //             }
-    //         }
-    //     });
-    // }
-       
+    thesisAuthors();
+    thesisSubjects();
+
+    function thesisAuthors(){
+        fetch(`authors`)
+        .then(response => response.json())
+        .then(data => { 
+            const authors = data.authors;
+            
+            authors.forEach(function(author){    
+                if(collaborators.length < maxCollaborators) {   
+                    collaborators.push(author.name);
+                    const div = document.createElement('div');
+                    div.className = 'bg-primary';
+                    div.id = "collaborator-" + collaborators.length;
+                    div.innerHTML = collaborators.length + ". " + author.name + ' [ author ] <span onclick="removeCollaborator(' + collaborators.length + ')"><i class="fas fa-times"></i></span>';
+                    collaboratorList.appendChild(div);
+                }
+            });
+        });
+    }
 
     btnAddCollaborator.addEventListener("click", function(e) {
         e.preventDefault();   
@@ -877,6 +1086,26 @@
             }
         }
     });
+
+    function thesisSubjects(){
+        fetch(`subjects`)
+        .then(response => response.json())
+        .then(data => { 
+            const thesis_subjects = data.subjects;
+
+            thesis_subjects.forEach(function(subject){ 
+                if(subjects.length < maxSubjects) {
+                    subjects.push(subject.name);                  
+                    const div = document.createElement('div');
+                    div.className = 'bg-primary';
+                    div.id = "subject-" + subjects.length;
+                    div.innerHTML = subjects.length + ". " + subject.name + ' <span onclick="removeSubject(' + subjects.length + ')"><i class="fas fa-times"></i></span>';
+                    subjectList.appendChild(div);
+
+                }
+            });
+        });
+    }
         
     btnAddSubject.addEventListener("click", function(e) {
         e.preventDefault();
@@ -953,9 +1182,10 @@
         }
     }
 
+    console.log(isTitleReady,isCopyrightYearReady, isCategoryReady,isClassReady, isPageReady, isSubClassReady, isRangeReady, isCutterEndingReady, isDateOfPublication)
     form.addEventListener("submit", function(e) {
         e.preventDefault(); 
-        if(!isTitleReady && !isCopyrightYearReady && !isFileTypeReady && !isCategoryReady && !isClassReady && !isPageReady && !isSubClassReady && !isRangeReady && !isCutterEndingReady && !isDateOfPublication && !isLinkReady) {
+        if(!isTitleReady && !isCopyrightYearReady && !isFileTypeReady && !isCategoryReady && !isClassReady && !isPageReady && !isSubClassReady && !isRangeReady && !isCutterEndingReady && !isDateOfPublication) {
             return false;
         }
         btnSubmit.setAttribute("disabled", "");
@@ -971,11 +1201,11 @@
         let adviserName = inputAdviser.value + '^adviser';
 
         collaboratorsWithRelatorTerms.push(adviserName);
-        console.log("module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|") + "&bookCover=" + bookCover + "&coverType=" + coverType);
+        console.log("module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|"));
         $.ajax({
-            type: "POST",
-            url: "{{ route('admin.ltx.store') }}",
-            data: "module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|") + "&bookCover=" + bookCover + "&coverType=" + coverType,
+            type: "PUT",
+            url: "{{ route('admin.ltx.update', ':id') }}".replace(':id', thesisId),
+            data: "module=" + module + "&" + dataQuery + "&subjects=" + subjects.join("|") + "&collaborators=" + collaboratorsWithRelatorTerms.join("|"),
             headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -993,19 +1223,15 @@
                 }
              }
         });
-    });
+     });
 
     function resetForm() {
         form.reset();
-        // ShowValidation(inputCallNumber, "REMOVEALL");
         ShowValidation(inputYear, "REMOVEALL");
         ShowValidation(inputTitle, "REMOVEALL");
         ShowValidation(inputPage, "REMOVEALL");
         ShowValidation(inputAdviser, "REMOVEALL");
         ShowValidation(inputLink, "REMOVEALL");
-        //ShowValidation(selectCategory, "REMOVEALL");
-        //ShowValidation(selectCategory2, "REMOVEALL");
-        //ShowValidation(selectCategory3, "REMOVEALL");
         ShowValidation(selectFileType, "REMOVEALL");
         ShowValidation(selectClass, "REMOVEALL");
         ShowValidation(selectSubClass, "REMOVEALL");
@@ -1020,32 +1246,69 @@
     }
 
     function ShowValidation(tag, value) {
-    if(value === "REMOVEALL") {
-        if(tag.classList.contains("is-invalid")) {
-            tag.classList.remove("is-invalid");
-        }
-        if(tag.classList.contains("is-valid")) {
-            tag.classList.remove("is-valid");
-        }
-    } else {
-        if(value === "is-valid") {
-            if(!tag.classList.contains(value)) {
-                tag.classList.add(value);
-            }
+        if(value === "REMOVEALL") {
             if(tag.classList.contains("is-invalid")) {
                 tag.classList.remove("is-invalid");
-            }
-        } else {
-            if(!tag.classList.contains(value)) {
-                tag.classList.add(value);
             }
             if(tag.classList.contains("is-valid")) {
                 tag.classList.remove("is-valid");
             }
+        } else {
+            if(value === "is-valid") {
+                if(!tag.classList.contains(value)) {
+                    tag.classList.add(value);
+                }
+                if(tag.classList.contains("is-invalid")) {
+                    tag.classList.remove("is-invalid");
+                }
+            } else {
+                if(!tag.classList.contains(value)) {
+                    tag.classList.add(value);
+                }
+                if(tag.classList.contains("is-valid")) {
+                    tag.classList.remove("is-valid");
+                }
+            }
         }
     }
-}
 
+    //FULL TEXT UPLOAD
+    fullTextForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+
+        let fullTextData = new FormData(this);
+         $.ajax({
+            url: '{{ route("admin.ltx.fulltext.store") }}',
+            type: 'POST',
+            data: fullTextData,
+            headers:  {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.status === 'success') {
+                    toastr.success(response.message);
+                    const inputFullText = document.getElementById('full_text');
+                    inputFullText.value = '';
+                } else {
+                    toastr.error(response.message); 
+                }
+            },
+            error: function (xhr) {
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    let errors = xhr.responseJSON.errors;
+                    for (let field in errors) {
+                        toastr.error(errors[field][0]);
+                    }
+                } else {
+                    toastr.error('An unexpected error occurred.');
+                }
+            }
+        });
+
+    })
 //PUBLISH THESIS region
 
 function publishThesis (thesisId){
@@ -1076,31 +1339,6 @@ function publishThesis (thesisId){
     })
 }
 
-//endregion
-
-    // $(function() {
-    //     $('[data-autocomplete="publicationPlace"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=PublicationPlace',
-    //     });
-    // });
-
-    // $(function() {
-    //     $('[data-autocomplete="publisher"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=Publisher',
-    //     });
-    // });
-
-    // $(function() {
-    //     $('[data-autocomplete="relatorName"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=Relator',
-    //     });
-    // });
-
-    // $(function() {
-    //     $('[data-autocomplete="subject"]').autocomplete({
-    //         source: 'app/Helpers/Handler.php?module=AutocompleteEbookOpenAccess&source=Subject',
-    //     });
-    // });
 </script>
 
 @endsection

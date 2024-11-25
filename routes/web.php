@@ -1,20 +1,19 @@
 <?php
 
-use App\Models\Role;
-use Illuminate\Support\Str;
-use App\Models\ThesesCovers;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\WifiLogsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LTX\CoverController;
 use App\Http\Controllers\ViolationController;
+use App\Http\Controllers\LTX\AuthorController;
 use App\Http\Controllers\LTX\ThesesController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\LTX\CatalogController;
-use App\Http\Controllers\ThesesCoversController;
+use App\Http\Controllers\LTX\SubjectController;
+use App\Http\Controllers\LTX\FullTextController;
 use App\Http\Controllers\AccessManagementController;
 use App\Http\Controllers\LTX\LCClassificationController;
 use App\Http\Controllers\InHouseClassificationsController;
@@ -138,16 +137,20 @@ Route::middleware('auth')->group(function () {
     */
         Route::get('/ltx/dashboard', [LTXDashboardController::class, 'index'])->name('admin.ltx.dashboard');
         Route::get('/ltx/catalog', [CatalogController::class, 'index'])->name('admin.ltx.catalog');
-        Route::post('/ltx/linkChecker', [CatalogController::class, 'checkUrl'])->name('admin.ltx.linkChecker');
+       
+        Route::post('/ltx/store', [ThesesController::class, 'store'])->name('admin.ltx.store');
+        Route::get('/ltx/{id}/edit', [ThesesController::class, 'edit'])->name('admin.ltx.edit');
+        Route::put('/ltx/{id}/update', [ThesesController::class, 'update'])->name('admin.ltx.update');     
+        Route::patch('/ltx/{id}/publish', [ThesesController::class, 'publish'])->name('admin.ltx.publish');
+
+        Route::get('/ltx/{id}/authors', [AuthorController::class, 'index'])->name('admin.ltx.authors.index');
+        Route::get('/ltx/{id}/subjects', [SubjectController::class, 'index'])->name('admin.ltx.subjects.index');
+        Route::post('/ltx/fulltext/store', [FullTextController::class, 'store'])->name('admin.ltx.fulltext.store');      
+        Route::post('/ltx/cover/store', [CoverController::class, 'store'])->name('admin.ltx.cover.store');
+
         Route::get('/ltx/create', [LCClassificationController::class, 'index'])->name('admin.ltx.create');
         Route::post('/ltx/subclass', [LCClassificationController::class, 'getSubClass'])->name('admin.ltx.subclasses');
         Route::post('/ltx/ranges', [LCClassificationController::class, 'getRange'])->name('admin.ltx.ranges');
-        Route::post('/ltx/store', [ThesesController::class, 'store'])->name('admin.ltx.store');
-        Route::post('/ltx/cover/store', [ThesesCoversController::class, 'store'])->name('admin.ltx.cover.store');
-        Route::get('/ltx/{id}/edit', [ThesesController::class, 'edit'])->name('admin.ltx.edit');
-        //Route::get('/ltx/{id}/edit', [CatalogController::class, 'edit'])->name('admin.ltx.edit');
-        Route::patch('/ltx/{id}/publish', [ThesesController::class, 'publishThesis'])->name('admin.ltx.publish');
-        Route::post('/ltx/fulltext/store', [ThesesController::class, 'fullTextStore'])->name('admin.ltx.fulltext.store');
     });
 });
 

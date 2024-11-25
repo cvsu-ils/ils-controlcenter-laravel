@@ -596,36 +596,7 @@
             }
         }
         //endregion
-        //region Validate link
-        // if(inputLink.value === "") {
-        //     isLinkReady = false;
-        //     ShowValidation(inputLink, "is-invalid");
-        //     invalidLink.innerHTML = "Link field cannot be empty!";
-        // } else {
-        //     if(inputLink === document.activeElement) {
-        //         isLinkReady = true;
-        //         ShowValidation(inputLink, "is-valid");
-        //         validLink.innerHTML = 'Validating URL <i class="fas fa-spinner fa-pulse"></i>';
-        //         $.ajax({
-        //             type: "POST",
-        //             url: "{{ route('admin.ltx.linkChecker') }}",
-        //             data: "url=" + inputLink.value,
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-        //             },
-        //             success: function(response) {
-        //                 console.log(response);
-        //                 if(response.status === "success") {
-        //                     validLink.innerHTML = "URL is valid!";
-        //                 } else {
-        //                     ShowValidation(inputLink, "is-invalid");
-        //                     console.log("error");
-        //                 }
-        //             }
-        //         });
-        //     }
-        // }
-        //endregion
+
         if(inputCollaborator.value != "") {
             btnAddCollaborator.removeAttribute("disabled");
         } else {
