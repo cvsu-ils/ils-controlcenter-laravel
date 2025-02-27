@@ -39,6 +39,7 @@ class CreateLtxThesesTable extends Migration
             $table->string('created_by');
             $table->boolean('is_published')->default(0);
             $table->timestamp('published_at')->nullable();
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }

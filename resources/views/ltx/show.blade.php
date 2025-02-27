@@ -71,34 +71,18 @@
         </style>
     <div class="content">
         <div class="container-fluid">
+            <div class="mt-3">
+                <a class="btn btn-sm btn-primary" href="{{ route('admin.ltx.catalog') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to catalog</a>
+            </div>
             <hr>
             <div class="row">
-                @if(!$thesis->is_published)
-                <div class="col-12">
-                    @if (!$thesis->full_text_id)
-                        <div class="callout callout-warning">
-                            <h5>
-                                <i class="fas fa-exclamation-triangle text-warning"></i> Manuscript is not publish yet
-                            </h5>
-                            <p>To published, you must complete all the required fields and must upload a full-text PDF file.</p>
-                        </div>
-                    @else
-                        <div class="callout callout-success">
-                            <h5>
-                                <i class="fas fa-check text-success"></i> E-Manuscript can now publish!
-                            </h5>
-                            <p>To publish, click publish below.</p>
-                            <button class="btn btn-sm btn-default" onclick="publishThesis('{{$thesis->id}}')">Publish</button>
-                        </div>
-                    @endif
-                </div>
-                @endif
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header p-0">
+                            <a href="{{ route('admin.ltx.edit', $thesis->id) }}" class="btn bg-gradient-primary float-right"><i class="fas fa-edit"></i> Edit Record</a>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="cover-tab" data-toggle="tab" data-target="#cover" type="button" role="tab" aria-controls="cover" aria-selected="true"><h3 class="card-title">Cover page</h3></button>
+                                    <button class="nav-link disabled" id="cover-tab" data-toggle="tab" data-target="#cover" type="button" role="tab" aria-disabled="true"><h3 class="card-title">Cover page</h3></button>
                                   </li>
                                 <li class="nav-item" role="presentation">
                                   <button class="nav-link active" id="biblio-tab" data-toggle="tab" data-target="#biblio" type="button" role="tab" aria-controls="biblio" aria-selected="true"><h3 class="card-title">Bibliographic Data</h3></button>
@@ -113,6 +97,7 @@
                                     <button class="nav-link" id="toc-tab" data-toggle="tab" data-target="#toc" type="button" role="tab" aria-controls="toc" aria-selected="false"><h3 class="card-title">Table of Contents</h3></button>
                                   </li>
                             </ul>
+                            
                         </div>
                         <div class="card-body">
                             <div class="tab-content " id="myTabContent">
@@ -132,7 +117,7 @@
                                 <div class="tab-pane fade show active" id="biblio" role="tabpanel" aria-labelledby="biblio-tab">
                                     <form class="needs-validation" novalidate>
                                         <div class="form-row">
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-10">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-3">
                                                         <label class="col-form-label" for="Item Type">Item Type</label>
@@ -219,6 +204,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="form-group col-md-2 text-center align-self-center">
+                                                    @if(!empty($cover))
+                                                    <img class="rounded" src="{{ Storage::url('ltx/covers/' . $cover->filename )}}" style="width: 190px; height: 285px;" data-image="book-cover">
+                                                    @else
+                                                    <img class="rounded" src="http://library.cvsu.edu.ph/controlcenter/resources/images/covers/ebooks/open_access/default.jpg" style="width: 190px; height: 285px;" data-image="book-cover">
+                                                    @endif                                                           
+                                            </div>    
                                            
                                         </div>
                                         <div class="form-group">
@@ -331,11 +323,13 @@
                                                 <input type="text" class="form-control" value="{{ $googleUserInfo->givenName }}" readonly>
                                             </div>
                                         </div>
-                                        <button class="btn bg-gradient-primary float-right" data-submit="ebookOpenAccess" disabled>Submit</button>
+                                        <button class="btn bg-gradient-primary float-right" data-submit="ebookOpenAccess" disabled hidden>Submit</button>
                                     </form>
-
+                                    <a href="{{ route('admin.ltx.edit', $thesis->id) }}" class="btn bg-gradient-primary float-right"><i class="fas fa-edit"></i> Edit Record</a>
                                 </div>
+
                                 <div class="tab-pane fade" id="koha" role="tabpanel" aria-labelledby="koha-tab">koha</div>
+                                
                                 <div class="tab-pane fade" id="full-text" role="tabpanel" aria-labelledby="full-text-tab">
                                     
                                     @foreach ($full_texts as $full_text)
@@ -348,18 +342,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                
-                                    <form id="full-text" class="full-text" enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="text" name="thesis_id" id="thesis_id" value="{{$thesis->id}}" hidden>
-                                    <div class="input-group is-invalid m-2">
-                                        <div class="form-group">
-                                            <label for="full_text">Full text</label>
-                                            <input type="file" class="form-control-file" id="full_text" name="full_text" accept=".pdf">
-                                          </div>
-                                      </div>
-                                      <button class="btn btn-primary" type="submit">Submit</button>
-                                    </form>
                                 </div>
                                 <div class="tab-pane fade" id="toc" role="tabpanel" aria-labelledby="toc-tab">toc</div>
                             </div>
@@ -482,13 +464,14 @@
     let isRangeReady = false;
     let isAdviserReady = false;
     let isCutterEndingReady = false;
-
+    //let isLinkReady = false;
     let isDateOfPublication = true;
 
     let collaborators = [];
     let relatorsTermsId = [];
     let relatorsTerms = [];
     let maxCollaborators = 5;
+
     let subjects = [];
     let maxSubjects = 5;
 
@@ -502,199 +485,11 @@
     let thesisId ="{{$thesis->id}}";
     let rangeId = "{{$thesis->range}}";
 
-    console.log(rangeId)
-
-    
     checkClass();
 
-    form.addEventListener("keyup", function(e) {
-        checkForm();
+    form.querySelectorAll("input, select, textarea, button").forEach(field=>{
+        field.disabled = true
     });
-    form.addEventListener("change", function(e) {
-        checkForm();
-    });
-    // PREVENT `ENTER` KEY FROM SUBMITTING THE FORM
-    form.addEventListener("keydown", function(e) {
-        if(e.keyCode == 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
-    console.log(selectClass.value);
-    
-    function checkForm() {
-        //region Validate year
-        if(inputYear.value === "" || isNaN(inputYear.value)) {
-            isCopyrightYearReady = false;
-            ShowValidation(inputYear, "is-invalid");
-        } else {
-            isCopyrightYearReady = true;
-            ShowValidation(inputYear, "is-valid");
-        }
-        //endregion
-        //region # Validate title
-        if(inputTitle.value === "") {
-            isTitleReady = false;
-            ShowValidation(inputTitle, "is-invalid");
-            invalidTitle.innerHTML = "Title field cannot be empty!";
-        } else {
-            isTitleReady = true;
-            ShowValidation(inputTitle, "is-valid");
-        }
-        //endregion
-        //region Validate page
-        if(inputPage.value === "" || isNaN(inputPage.value)) {
-            isPageReady = false;
-            ShowValidation(inputPage, "is-invalid");
-        } else {
-            isCopyrightYearReady = true;
-            ShowValidation(inputPage, "is-valid");
-        }
-
-        //region Validate fileType
-        if(selectFileType.value === "") {
-            isFileTypeReady = false;
-            ShowValidation(selectFileType, "is-invalid");
-        } else {
-            isFileTypeReady = true;
-            ShowValidation(selectFileType, "is-valid");
-        }
-        //endregion
-
-        if(selectClass.value === "") {
-            isClassReady = false;
-            ShowValidation(selectClass, "is-invalid");
-            if(!selectSubClass.hasAttribute("disabled")) {
-                selectSubClass.setAttribute("disabled", "");
-            }
-        } else {
-            if(selectClass === document.activeElement) {
-                isClassReady = true;
-                isSubClassReady = false;
-                isRangeReady = false;
-                ShowValidation(selectClass, "is-valid");
-                selectSubClass.removeAttribute("disabled");
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('admin.ltx.subclasses') }}",
-                    data: "classid=" + selectClass.value,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-                    },
-                    success: function(response) {
-                        if(response.status === "success") {
-                            ShowValidation(selectSubClass, "is-invalid");
-                            ShowValidation(selectRange, "is-invalid");
-                            if(!selectRange.hasAttribute("disabled")) {
-                                selectRange.setAttribute("disabled", "");
-                            }                          
-                                selectSubClass.innerHTML = '<option value="" disabled selected>Choose a sub class</option>';
-                            
-                                selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
-
-                            const sub_classes = response.data;
-                            sub_classes.forEach(function(sub_class){
-                                var subclass_option = document.createElement("option");
-                                subclass_option.value = sub_class.id;
-                                subclass_option.textContent = sub_class.code + ' - ' + sub_class.description;
-                                selectSubClass.appendChild(subclass_option);
-                               
-                            });
-                        }
-                    }
-                });
-            }
-        }
-        //endregion
-        //region Validate subclass
-        if(selectSubClass.value === "") {       
-            isSubClassReady = false; 
-            ShowValidation(selectSubClass, "is-invalid");
-            if(!selectRange.hasAttribute("disabled")) {
-                selectRange.setAttribute("disabled", "");
-            }
-        } else {
-            if(selectSubClass === document.activeElement) {
-                isSubClassReady = true;
-                isRangeReady = false;
-                ShowValidation(selectSubClass, "is-valid");
-                selectRange.removeAttribute("disabled");
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('admin.ltx.ranges') }}",
-                    data: "subclassid=" + selectSubClass.value,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-                    },
-                    success: function(response) {
-                        if(response.status === "success") {
-                            ShowValidation(selectRange, "is-invalid");
-                            selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
-                            const ranges = response.data;
-                            ranges.forEach(function(range){
-                                var range_option = document.createElement("option");
-                                range_option.value = range.id;
-                                range_option.textContent = range.range + ' - ' + range.description;
-                                selectRange.appendChild(range_option);
-                               
-                            });
-                        }
-                    }
-                });
-            }
-        }
-        //endregion
-        //region Validate range
-        if(selectRange.value === "") {
-            isRangeReady = false;
-            ShowValidation(selectRange, "is-invalid");
-        } else {
-           
-                isRangeReady = true;
-                ShowValidation(selectRange, "is-valid");
-            
-        }
-        //region Validate cutter endings
-        if(inputEndings.value === "") {
-            isCutterEndingReady = false;
-            ShowValidation(inputEndings, "is-invalid");
-        } else {
-           
-                isCutterEndingReady = true;
-                ShowValidation(inputEndings, "is-valid");
-            
-        }
-        //endregion
-           
-        if(inputCollaborator.value != "") {
-            btnAddCollaborator.removeAttribute("disabled");
-        } else {
-            if(!btnAddCollaborator.hasAttribute("disabled")) {
-                btnAddCollaborator.setAttribute("disabled", "");
-            }
-        }
-
-        if(inputSubject.value != "") {
-            btnAddSubject.removeAttribute("disabled");
-        } else {
-            if(!btnAddSubject.hasAttribute("disabled")) {
-                btnAddSubject.setAttribute("disabled", "");
-            }
-        }
-        //region # Validate Adviser
-        if(inputAdviser.value === "") {
-            isAdviserReady = false;
-            ShowValidation(inputAdviser, "is-invalid");
-            invalidAdviser.innerHTML = "Adviser field cannot be empty!";
-        } else {
-            isAdviserReady = true;
-            ShowValidation(inputAdviser, "is-valid");
-        }
-        //endregion
-
-        CheckSubmitBtn();
-    }
-
 
     function checkClass() {
 
@@ -800,43 +595,43 @@
 
         CheckSubmitBtn()
     }
-    console.log("Selected SubClass value before AJAX response:", selectSubClassSelected);
+console.log("Selected SubClass value before AJAX response:", selectSubClassSelected);
 
-    function populateRange(SubClassId) {
-        ShowValidation(selectRange, "is-valid");                     
-        selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
+function populateRange(SubClassId) {
 
-        isSubClassReady = true;
-        isRangeReady = true;
-        ShowValidation(selectSubClass, "is-valid");
-        selectRange.removeAttribute("disabled");
-        $.ajax({
-            type: "POST",
-            url: "{{ route('admin.ltx.ranges') }}",
-            data: "subclassid=" + SubClassId,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-            },
-            success: function(response) {
-                if(response.status === "success") {
-                    ShowValidation(selectRange, "is-valid");
-                    selectRange.innerHTML = '<option value="" disabled>Choose a range</option>';
-                    const ranges = response.data;
-                    ranges.forEach(function(range){
-                        var range_option = document.createElement("option");
-                        range_option.value = range.id;
-                        range_option.textContent = range.range + ' - ' + range.description + range.id;
+    ShowValidation(selectRange, "is-valid");                     
+    selectRange.innerHTML = '<option value="" disabled selected>Choose a range</option>';
 
-                        if (range.id === rangeId) {
-                            range_option.setAttribute("selected", "");
+                isSubClassReady = true;
+                isRangeReady = true;
+                ShowValidation(selectSubClass, "is-valid");
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('admin.ltx.ranges') }}",
+                    data: "subclassid=" + SubClassId,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if(response.status === "success") {
+                            ShowValidation(selectRange, "is-valid");
+                            selectRange.innerHTML = '<option value="" disabled>Choose a range</option>';
+                            const ranges = response.data;
+                            ranges.forEach(function(range){
+                                var range_option = document.createElement("option");
+                                range_option.value = range.id;
+                                range_option.textContent = range.range + ' - ' + range.description + range.id;
+
+                                if (range.id === rangeId) {
+                                    range_option.setAttribute("selected", "");
+                                }
+                                selectRange.appendChild(range_option);
+                               
+                            });
                         }
-                        selectRange.appendChild(range_option);
-                    
-                    });
-                }
+                    }
+                });
             }
-        });
-    }
 
     function CheckSubmitBtn() {
          console.log("isTitleReady: " + isTitleReady + "; isCopyrightYearReady: " + isCopyrightYearReady + "; isFileTypeReady: " + isFileTypeReady + "; isCategoryReady: " + isCategoryReady + "; isClassReady: " + isClassReady + "; isSubClassReady: " + isSubClassReady + "; isRangeReady: " + isRangeReady + "; isCutterEndingReady: " + isCutterEndingReady + ";");
@@ -862,62 +657,59 @@
                 confirmButtonText: 'Submit'
             })
             if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    Swal.fire({
-                        text: 'Are you sure you want to use this image?',
-                        imageUrl: e.target.result,
-                        imageWidth: 200,
-                        imageHeight: 285,
-                        imageAlt: 'The uploaded picture',
-                        showCancelButton: true,
-                        confirmButtonText: 'Use image'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const imgFormData = new FormData();
-                            imgFormData.append('file', file);
-                            imgFormData.append('thesis_id', thesisId);
-                            imgFormData.append('updated_by', "{{ $googleUserInfo->id }}");
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                Swal.fire({
+                    text: 'Are you sure you want to use this image?',
+                    imageUrl: e.target.result,
+                    imageWidth: 200,
+                    imageHeight: 285,
+                    imageAlt: 'The uploaded picture',
+                    showCancelButton: true,
+                    confirmButtonText: 'Use image'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const imgFormData = new FormData();
+                        imgFormData.append('file', file);
+                        imgFormData.append('thesis_id', thesisId);
+                        imgFormData.append('updated_by', "{{ $googleUserInfo->id }}");
 
-                            console.log(imgFormData);
-
-
-                            // AJAX request
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ route('admin.ltx.cover.store') }}",
-                                data: imgFormData,
-                                headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token in headers
-                                },
-                                processData: false, 
-                                contentType: false,
-                                success: function (response) {
-                                    if (response.success) {
-                                        const fileImageSrc = e.target.result;
-                                        coverImage.src = fileImageSrc;
-                                        imageURLSrc = null;
-                                        coverType = 'FILE';
-                                        toastr.success(response.message, 'Success');
-                                    
-                                    } else {
-                                        toastr.error(response.message, 'Error');
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error(xhr.responseText); // Log the error message
-                                    alert('An error occurred: ' + xhr.responseJSON.message); // Show error message
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('admin.ltx.cover.store') }}",
+                            data: imgFormData,
+                            headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            processData: false, 
+                            contentType: false,
+                            success: function (response) {
+                                if (response.success) {
+                                    const fileImageSrc = e.target.result;
+                                    coverImage.src = fileImageSrc;
+                                    imageURLSrc = null;
+                                    coverType = 'FILE';
+                                    toastr.success(response.message, 'Success');
+                                   
+                                } else {
+                                    toastr.error(response.message, 'Error');
                                 }
-                            });
-                        }
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
-        })();
-    });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText);
+                                alert('An error occurred: ' + xhr.responseJSON.message);
+                            }
+                        });
+                    }
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    })();
+});
 
     //COVER 
+
     function setDefaultCover() {
         imageURLSrc = null;
         isbnSrc = null;
@@ -940,7 +732,7 @@
                     const div = document.createElement('div');
                     div.className = 'bg-primary';
                     div.id = "collaborator-" + collaborators.length;
-                    div.innerHTML = collaborators.length + ". " + author.name + ' [ author ] <span onclick="removeCollaborator(' + collaborators.length + ')"><i class="fas fa-times"></i></span>';
+                    div.innerHTML = collaborators.length + ". " + author.name + ' [ author ] <span onclick="removeCollaborator(' + collaborators.length + ')"></span>';
                     collaboratorList.appendChild(div);
                 }
             });
@@ -957,7 +749,7 @@
                 const div = document.createElement('div');
                 div.className = 'bg-primary';
                 div.id = "collaborator-" + collaborators.length;
-                div.innerHTML = collaborators.length + ". " + inputCollaborator.value + ' [ author ] <span onclick="removeCollaborator(' + collaborators.length + ')"><i class="fas fa-times"></i></span>';
+                div.innerHTML = collaborators.length + ". " + inputCollaborator.value + ' [ author ] <span onclick="removeCollaborator(' + collaborators.length + ')"></span>';
                 collaboratorList.appendChild(div);
 
                 inputCollaborator.value = "";
@@ -992,7 +784,7 @@
                     const div = document.createElement('div');
                     div.className = 'bg-primary';
                     div.id = "subject-" + subjects.length;
-                    div.innerHTML = subjects.length + ". " + subject.name + ' <span onclick="removeSubject(' + subjects.length + ')"><i class="fas fa-times"></i></span>';
+                    div.innerHTML = subjects.length + ". " + subject.name + ' <span onclick="removeSubject(' + subjects.length + ')"></span>';
                     subjectList.appendChild(div);
 
                 }
@@ -1201,36 +993,37 @@
             }
         });
 
-    });
+    })
+//PUBLISH THESIS region
 
-    //PUBLISH THESIS region
-    function publishThesis (thesisId){
-        let publishRouteUrl = "{{ route('admin.ltx.publish', ['id' => '__ID__']) }}";
-        $.ajax({
-            method: "PATCH",
-            url: publishRouteUrl.replace('__ID__', thesisId),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
+function publishThesis (thesisId){
+    let publishRouteUrl = "{{ route('admin.ltx.publish', ['id' => '__ID__']) }}";
+    $.ajax({
+        method: "PATCH",
+        url: publishRouteUrl.replace('__ID__', thesisId),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
 
-                if(response.status == "success"){
-                    Swal.fire({
-                        title: response.message,
-                        icon: response.status,
-                }).then(function(){
-                    window.location = "{{ route('admin.ltx.catalog') }}"
-                });
-                }else{
-                    Swal.fire({
-                        title: response.message,
-                        icon: response.status,
-                });
-                }
-                
+            if(response.status == "success"){
+                Swal.fire({
+                    title: response.message,
+                    icon: response.status,
+            }).then(function(){
+                window.location = "{{ route('admin.ltx.catalog') }}"
+            });
+            }else{
+                Swal.fire({
+                    title: response.message,
+                    icon: response.status,
+            });
             }
-        })
-    }
+            
+        }
+    })
+}
+
 </script>
 
 @endsection

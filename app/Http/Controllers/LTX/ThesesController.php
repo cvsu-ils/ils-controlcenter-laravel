@@ -131,6 +131,49 @@ class ThesesController extends Controller
         ]);
     }
 
+    public function sync($id)
+    {
+        $thesis = Theses::find($id);
+        if (!$thesis){
+            return response()->json([
+                'success' => false,
+                'status' => 'error',
+                'message' => 'Thesis not found',
+            ]);
+        }
+
+        $thesis->active = 1;          
+        $thesis->save();
+
+        return response()->json([
+            'success'=> true,
+            'status' => 'success',
+            'message' => 'Thesis has been activated',
+        ]);
+    }
+
+    public function archive($id)
+    {
+        $thesis = Theses::find($id);
+        if (!$thesis){
+            return response()->json([
+                'success' => false,
+                'status' => 'error',
+                'message' => 'Thesis not found',
+            ]);
+        }
+
+        $thesis->active = 0;          
+        $thesis->save();
+
+        return response()->json([
+            'success'=> true,
+            'status' => 'success',
+            'message' => 'Thesis has been moved to archive',
+        ]);
+    }
+
+
     public function update(Request $request, $id)
     {
         $thesis = Theses::find($id);
@@ -194,4 +237,28 @@ class ThesesController extends Controller
         ], 201);
 
     }
+
+    public function show($id)
+    {
+        $thesis = Theses::find($id);
+        $subclass = Ranges::where('id', $thesis->range)->first()->subclass_id;
+
+        $classId = LCSubClass::where('id', $subclass)->first()->class_id;
+
+        $adviser = Author::where('thesis_id', $thesis->id)->where('type' , 'adviser')->first();
+
+        $classes = LCClass::all();
+
+        $cover = Cover::where('thesis_id', $thesis->id)->latest()->first();
+
+        $item_types = ItemType::all();
+        $programs = Program::all();
+        $subject_codes = SubjectCode::all(); 
+        $full_texts = FullText::where('thesis_id', $thesis->id)->orderBy('created_at', 'desc')->get();
+
+        return view('ltx.show', compact('thesis','classes', 'item_types',
+        'programs','subject_codes','id', 
+        'classId','subclass','cover','full_texts','adviser'));
+    }
+
 }

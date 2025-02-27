@@ -30,6 +30,7 @@
     <div class="container-fluid">
         <div class="m-3">
             <a href="{{ route('admin.ltx.create') }}" class="btn btn-sm btn-success p-1"><i class="fas fa-plus"></i>&nbsp Create</a>
+            <a href="{{ route('admin.ltx.catalog') }}" class="btn btn-sm btn-primary p-1"><i class="fas fa-book"></i>&nbsp Catalog</a>
         </div>
         <hr>
         <div class="row">

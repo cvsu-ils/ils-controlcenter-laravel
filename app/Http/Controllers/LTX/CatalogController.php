@@ -28,22 +28,55 @@ class CatalogController extends Controller
      */
     public function index(Request $request)
     {
+        $filter = $request->get('filter', 'all');
 
-        $length = $request->get('length', 20); // Default pagination length
-        $data = DB::table('ltx_theses')
-    ->leftJoin('ltx_authors', 'ltx_theses.id', '=', 'ltx_authors.thesis_id')
-    ->select(
-        'ltx_theses.id',
-        'ltx_theses.accession_number',
-        'ltx_theses.title',
-        'ltx_theses.year',
-        DB::raw('GROUP_CONCAT(ltx_authors.name ORDER BY ltx_authors.id SEPARATOR "|") AS authors'),
-        DB::raw('GROUP_CONCAT(ltx_authors.type ORDER BY ltx_authors.id SEPARATOR "^") AS types')
-    )
-    ->groupBy('ltx_theses.id', 'ltx_theses.accession_number', 'ltx_theses.title', 'ltx_theses.year')
-    ->paginate($length);
-    
-        return view('ltx.catalog.index', compact('data'));
+        $length = $request->get('length', 20);
+
+        $items = DB::table('ltx_theses')
+        ->leftJoin('ltx_authors', 'ltx_theses.id', '=', 'ltx_authors.thesis_id')
+        ->select(
+            'ltx_theses.id',
+            'ltx_theses.accession_number',
+            'ltx_theses.title',
+            'ltx_theses.year',
+            DB::raw('GROUP_CONCAT(ltx_authors.name ORDER BY ltx_authors.id SEPARATOR "|") AS authors'),
+            DB::raw('GROUP_CONCAT(ltx_authors.type ORDER BY ltx_authors.id SEPARATOR "^") AS types')
+        )
+        ->groupBy('ltx_theses.id', 'ltx_theses.accession_number', 'ltx_theses.title', 'ltx_theses.year')
+        ->where('active', 1);
+
+        if($filter == 'published'){
+            $items->where('is_published', 1);
+        }
+        elseif($filter == 'unpublished'){
+            $items->where('is_published', 0);
+        }
+
+        $data = $items->paginate($length);
+        
+        return view('ltx.catalog.index', compact('data', 'filter'));
+    }
+
+    public function archive(Request $request)
+    {
+        $length = $request->get('length', 20);
+
+        $items = DB::table('ltx_theses')
+        ->leftJoin('ltx_authors', 'ltx_theses.id', '=', 'ltx_authors.thesis_id')
+        ->select(
+            'ltx_theses.id',
+            'ltx_theses.accession_number',
+            'ltx_theses.title',
+            'ltx_theses.year',
+            DB::raw('GROUP_CONCAT(ltx_authors.name ORDER BY ltx_authors.id SEPARATOR "|") AS authors'),
+            DB::raw('GROUP_CONCAT(ltx_authors.type ORDER BY ltx_authors.id SEPARATOR "^") AS types')
+        )
+        ->groupBy('ltx_theses.id', 'ltx_theses.accession_number', 'ltx_theses.title', 'ltx_theses.year')
+        ->where('active', 0);
+
+        $data = $items->paginate($length);
+
+        return view('ltx.catalog.archive', compact('data'));
     }
 
     /**
