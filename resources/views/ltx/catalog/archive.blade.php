@@ -39,8 +39,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="mb-2">
-                    <a  href="{{route('admin.ltx.catalog')}}" type="button" id="active" class="btn btn-sm btn-secondary mr-1 btn-lg active" data-status="active"><i class="fas fa-book mr-1"></i> Actives</a>
-                    <a  href="{{route('admin.ltx.archive')}}" type="button" id="archive" class="btn btn-sm btn-success active" data-status="archive"><i class="fas fa-archive mr-1"></i> Archived</a>
+                    <a  href="{{route('admin.ltx.catalog')}}" type="button" id="active" class="btn btn-sm btn-success mr-1" data-status="active"><i class="fas fa-book mr-1"></i> Actives</a>
+                    <a  href="{{route('admin.ltx.archive')}}" type="button" id="archive" class="btn btn-sm bg-gradient-success mr-1  disabled" data-status="archive"><i class="fas fa-archive mr-1"></i> Archived</a>
                 </div>
                 <div class="card">
                     <div class="card-header">
