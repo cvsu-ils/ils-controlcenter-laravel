@@ -40,7 +40,7 @@
             <div class="col-12">
                 <div class="m-3">
                     <a  href="{{route('admin.ltx.catalog')}}" type="button" id="active" class="btn btn-sm bg-gradient-success mr-1  disabled" data-status="active"><i class="fas fa-book mr-1"></i> Actives</a>
-                    <a  href="{{route('admin.ltx.archive')}}" type="button" id="archive" class="btn btn-sm btn-success mr-1" data-status="archive"><i class="fas fa-archive mr-1"></i> Archived</a>
+                    <a  href="{{route('admin.ltx.catalog.archives')}}" type="button" id="archive" class="btn btn-sm btn-success mr-1" data-status="archive"><i class="fas fa-archive mr-1"></i> Archived</a>
                 </div>
                 <div class="card">
                     <div class="card-header">
@@ -158,7 +158,7 @@
                                 title: response.message,
                                 icon: response.status,
                         }).then(function(){
-                            window.location = "{{ route('admin.ltx.catalog') }}";
+                            window.location = "{{ route('admin.ltx.catalog.archives') }}";
                         });
                         }else{
                             Swal.fire({
