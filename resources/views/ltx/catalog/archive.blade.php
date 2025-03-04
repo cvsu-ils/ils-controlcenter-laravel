@@ -147,7 +147,7 @@
                                 title: response.message,
                                 icon: response.status,
                         }).then(function(){
-                            window.location = "{{ route('admin.ltx.catalog.archive') }}"
+                            window.location = "{{ route('admin.ltx.catalog.archives') }}"
                         });
                         } else {
                             Swal.fire({
