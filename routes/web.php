@@ -144,8 +144,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/ltx/{id}/update', [ThesesController::class, 'update'])->name('admin.ltx.update'); 
         Route::get('/ltx/{id}/show', [ThesesController::class, 'show'])->name('admin.ltx.show');    
         Route::patch('/ltx/{id}/publish', [ThesesController::class, 'publish'])->name('admin.ltx.publish');
-        Route::patch('/ltx/{id}/deactivate', [ThesesController::class, 'archive'])->name('admin.ltx.deactivate');
-        Route::patch('/ltx/{id}/sync', [ThesesController::class, 'sync'])->name('admin.ltx.sync');
+        Route::patch('/ltx/{thesis}/restore', [ThesesController::class, 'restore']);
+        Route::patch('/ltx/{thesis}/archive', [ThesesController::class, 'archive']);
 
         Route::get('/ltx/{id}/authors', [AuthorController::class, 'index'])->name('admin.ltx.authors.index');
         Route::get('/ltx/{id}/subjects', [SubjectController::class, 'index'])->name('admin.ltx.subjects.index');
