@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <a class="badge badge-primary float-sm-left mb-3" href="{{ route('admin.home') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to dashboard</a>
+                <a class="badge badge-primary float-sm-left mb-3" href="{{ route('admin.ltx.dashboard') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to dashboard</a>
                 <br><br><br><br>
                 <h1 class="m-0 text-white" style="text-shadow: 4px 4px 4px #404040;"><i class="fas fa-tachometer-alt"></i> Dashboard of Ladislao Theses Xplorer</h1>
             </div>

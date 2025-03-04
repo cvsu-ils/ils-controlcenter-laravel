@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\APIController;
+use App\Models\LTX\Theses as LTXTheses;
 use Illuminate\Support\Facades\Storage;
 
 class CatalogController extends Controller
@@ -28,22 +29,22 @@ class CatalogController extends Controller
      */
     public function index(Request $request)
     {
+        $filter = $request->get('filter', 'all');
 
-        $length = $request->get('length', 20); // Default pagination length
-        $data = DB::table('ltx_theses')
-    ->leftJoin('ltx_authors', 'ltx_theses.id', '=', 'ltx_authors.thesis_id')
-    ->select(
-        'ltx_theses.id',
-        'ltx_theses.accession_number',
-        'ltx_theses.title',
-        'ltx_theses.year',
-        DB::raw('GROUP_CONCAT(ltx_authors.name ORDER BY ltx_authors.id SEPARATOR "|") AS authors'),
-        DB::raw('GROUP_CONCAT(ltx_authors.type ORDER BY ltx_authors.id SEPARATOR "^") AS types')
-    )
-    ->groupBy('ltx_theses.id', 'ltx_theses.accession_number', 'ltx_theses.title', 'ltx_theses.year')
-    ->paginate($length);
-    
-        return view('ltx.catalog.index', compact('data'));
+        $length = $request->get('length', 20);
+
+       $data = LTXTheses::getTheses($filter, $length);
+        
+        return view('ltx.catalog.index', compact('data', 'filter'));
+    }
+
+    public function archive(Request $request)
+    {
+        $length = $request->get('length', 20);
+
+        $data = LTXTheses::getArchive($length);
+
+        return view('ltx.catalog.archive', compact('data'));
     }
 
     /**

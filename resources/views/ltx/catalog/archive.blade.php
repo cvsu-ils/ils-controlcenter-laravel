@@ -38,30 +38,18 @@
         <hr>
         <div class="row">
             <div class="col-12">
-                <div class="m-3">
-                    <a  href="{{route('admin.ltx.catalog')}}" type="button" id="active" class="btn btn-sm bg-gradient-success mr-1  disabled" data-status="active"><i class="fas fa-book mr-1"></i> Actives</a>
-                    <a  href="{{route('admin.ltx.archive')}}" type="button" id="archive" class="btn btn-sm btn-success mr-1" data-status="archive"><i class="fas fa-archive mr-1"></i> Archived</a>
+                <div class="mb-2">
+                    <a  href="{{route('admin.ltx.catalog')}}" type="button" id="active" class="btn btn-sm btn-success mr-1" data-status="active"><i class="fas fa-book mr-1"></i> Actives</a>
+                    <a  href="{{route('admin.ltx.archive')}}" type="button" id="archive" class="btn btn-sm bg-gradient-success mr-1  disabled" data-status="archive"><i class="fas fa-archive mr-1"></i> Archived</a>
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">E-books open access <span class="font-italic d-none" data-ebook="loader"> (Loading...)</span></h3>
-                        <a class="btn bg-gradient-success btn-sm float-right" href="#"><i class="fas fa-plus"></i> Create new record</a>
+                        <h3 class="card-title">Archived E-books <span class="font-italic d-none" data-ebook="loader"> (Loading...)</span></h3>
                     </div>
                     <div class="card-body">
                         <div class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
-                                <div class="col-12" style="position: relative;">
-                                    <div id="filter-btn" class="mb-3 float-right">
-                                        <form action="{{route('admin.ltx.catalog')}}" method="get">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="submit" class="btn btn-success {{$filter == 'all' ? 'active' : ''}}" name="filter" value = "all">All</button>
-                                            <button type="submit" class="btn btn-success {{$filter == 'published' ? 'active' : ''}}" name="filter" value = "published">Published</button>
-                                            <button type="submit" class="btn btn-success {{$filter == 'unpublished' ? 'active' : ''}}" name="filter" value = "unpublished">Unpublished</button>
-                                        </form>
-                                    </div>
-
-                                    </div> 
-                                    <table id="thesis-table" class="table table-bordered">
+                                    <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Accession Number</th>
@@ -72,27 +60,27 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse($data as $row)
+                                            @forelse($data as $row) <!-- Using $theses fetched from the controller -->
                                                 <tr>
                                                     <td>{{ $row->accession_number }}</td>
                                                     <td>{{ $row->title }}</td>
                                                     <td>{{ $row->year }}</td>
-                                                    <td>
+                                                    <td>  
                                                         @foreach ($row->authors as $author)
-                                                         {{ $author->name }} [{{$author->type}}], <br>
-                                                        @endforeach  
+                                                        {{ $author->name }} [{{$author->type}}], <br>
+                                                       @endforeach  
                                                     </td>
                                                     <td>
-                                                        <a  href="{{ route('admin.ltx.show', $row->id) }}" type="button" class="btn btn-sm bg-gradient-primary"><i class="fas fa-eye"></i></a>
-                                                        <a  href="{{ route('admin.ltx.edit',$row->id) }}" type="button" class="btn btn-sm bg-gradient-success"><i class="fas fa-edit"></i></a>
-                                                        <buton onclick="archiveThesis('{{$row->id}}')" type="button" class="btn btn-sm bg-gradient-danger"><i class="fas fa-archive"></i></button>
+                                                        <a  href="{{ route('admin.ltx.show', $row->id) }}" type="button" class="btn btn-sm bg-gradient-primary rounded-0"><i class="fas fa-eye"></i></a>
+                                                        <buton onclick="syncThesis('{{$row->id}}')" type="button" class="btn btn-sm bg-gradient-success rounded-0"><i class="fas fa-sync"></i></buton>
                                                     </td>
                                                 </tr>
                                             @empty
-                                            <tr>
-                                                <td colspan="4" class="text-center">No theses available.</td>
-                                            </tr>
-                                        @endforelse
+                                                <tr>
+                                                    <td colspan="4" class="text-center">No theses available.</td>
+                                                </tr>
+                                            @endforelse
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -105,7 +93,7 @@
                                 </div>
                                 <div class="col-sm-12 col-md-7">
                                     <div class="dataTables_paginate paging_numbers">
-                                        {{ $data->appends(['filter' => request()->get('filter')])->links() }}
+                                        {{ $data->links() }}
                                     </div>
                                 </div>
                             </div>
@@ -130,22 +118,20 @@
         });
     });
 
-   
-
-    //Archive THESIS region
-    function archiveThesis (thesisId){
-        let publishRouteUrl = "{{ route('admin.ltx.deactivate', ['id' => '__ID__']) }}";
+    //Synching THESIS region
+    function syncThesis (thesisId){
+        let publishRouteUrl = "{{ route('admin.ltx.sync', ['id' => '__ID__']) }}";
         
             publishRouteUrl = publishRouteUrl.replace('__ID__', thesisId),
 
             Swal.fire({
-                title: "Are you sure?",
-                text: "You can restore it later.",
+                title: "Restore Item?",
+                text: "This item will moved back to active status.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, archive it!"
+                confirmButtonText: "Yes, restore it!"
             }).then((result) => {
             if (result.isConfirmed) {            
                 $.ajax({
@@ -161,7 +147,7 @@
                                 title: response.message,
                                 icon: response.status,
                         }).then(function(){
-                            window.location = "{{ route('admin.ltx.catalog') }}";
+                            window.location = "{{ route('admin.ltx.archive') }}"
                         });
                         }else{
                             Swal.fire({
@@ -175,6 +161,5 @@
             }
         });
     }
-
 </script>
 @endsection

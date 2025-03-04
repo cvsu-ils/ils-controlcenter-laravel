@@ -12,4 +12,9 @@ class Author extends Model
     protected $table = 'ltx_authors';
 
     protected $fillable = ['name', 'type', 'thesis_id'];
+
+    public function thesis()
+    {
+        return $this->belongsTo(Theses::class, 'thesis_id');
+    }
 }
