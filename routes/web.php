@@ -137,15 +137,15 @@ Route::middleware('auth')->group(function () {
     */
         Route::get('/ltx/dashboard', [LTXDashboardController::class, 'index'])->name('admin.ltx.dashboard');
         Route::get('/ltx/catalog', [CatalogController::class, 'index'])->name('admin.ltx.catalog');
-        Route::get('/ltx/archive', [CatalogController::class, 'archive'])->name('admin.ltx.archive');
+        Route::get('/ltx/catalog/archives', [CatalogController::class, 'archive'])->name('admin.ltx.catalog.archives');
        
         Route::post('/ltx/store', [ThesesController::class, 'store'])->name('admin.ltx.store');
         Route::get('/ltx/{id}/edit', [ThesesController::class, 'edit'])->name('admin.ltx.edit');
         Route::put('/ltx/{id}/update', [ThesesController::class, 'update'])->name('admin.ltx.update'); 
         Route::get('/ltx/{id}/show', [ThesesController::class, 'show'])->name('admin.ltx.show');    
         Route::patch('/ltx/{id}/publish', [ThesesController::class, 'publish'])->name('admin.ltx.publish');
-        Route::patch('/ltx/{thesis}/restore', [ThesesController::class, 'restore']);
-        Route::patch('/ltx/{thesis}/archive', [ThesesController::class, 'archive']);
+        Route::patch('/ltx/{thesis}/restore', [ThesesController::class, 'restore'])->name('admin.ltx.restore');
+        Route::patch('/ltx/{thesis}/archive', [ThesesController::class, 'archive'])->name('admin.ltx.archive');
 
         Route::get('/ltx/{id}/authors', [AuthorController::class, 'index'])->name('admin.ltx.authors.index');
         Route::get('/ltx/{id}/subjects', [SubjectController::class, 'index'])->name('admin.ltx.subjects.index');
