@@ -72,7 +72,7 @@
                                                     </td>
                                                     <td>
                                                         <a  href="{{ route('admin.ltx.show', $row->id) }}" type="button" class="btn btn-sm bg-gradient-primary rounded-0"><i class="fas fa-eye"></i></a>
-                                                        <buton onclick="syncThesis('{{$row->id}}')" type="button" class="btn btn-sm bg-gradient-success rounded-0"><i class="fas fa-sync"></i></buton>
+                                                        <buton onclick="restoreThesis('{{$row->id}}')" type="button" class="btn btn-sm bg-gradient-success rounded-0"><i class="fas fa-sync"></i></buton>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -118,15 +118,15 @@
         });
     });
 
-    //Synching THESIS region
-    function syncThesis (thesisId){
-        let publishRouteUrl = "{{ route('admin.ltx.sync', ['id' => '__ID__']) }}";
+    //Restore THESIS region
+    function restoreThesis(thesisId){
+        let publishRouteUrl = "{{ route('admin.ltx.restore', ['id' => '__ID__']) }}";
         
             publishRouteUrl = publishRouteUrl.replace('__ID__', thesisId),
 
             Swal.fire({
-                title: "Restore Item?",
-                text: "This item will moved back to active status.",
+                title: "Are you sure?",
+                text: "This item will restore the thesis record.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -142,14 +142,14 @@
                     },
                     success: function(response) {
 
-                        if(response.status == "success"){
+                        if(response.status == "success") {
                             Swal.fire({
                                 title: response.message,
                                 icon: response.status,
                         }).then(function(){
-                            window.location = "{{ route('admin.ltx.archive') }}"
+                            window.location = "{{ route('admin.ltx.catalog.archive') }}"
                         });
-                        }else{
+                        } else {
                             Swal.fire({
                                 title: response.message,
                                 icon: response.status,
