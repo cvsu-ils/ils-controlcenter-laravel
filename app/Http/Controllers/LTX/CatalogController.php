@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\APIController;
+use App\Models\LTX\Theses as LTXTheses;
 use Illuminate\Support\Facades\Storage;
 
 class CatalogController extends Controller
@@ -32,27 +33,7 @@ class CatalogController extends Controller
 
         $length = $request->get('length', 20);
 
-        $items = DB::table('ltx_theses')
-        ->leftJoin('ltx_authors', 'ltx_theses.id', '=', 'ltx_authors.thesis_id')
-        ->select(
-            'ltx_theses.id',
-            'ltx_theses.accession_number',
-            'ltx_theses.title',
-            'ltx_theses.year',
-            DB::raw('GROUP_CONCAT(ltx_authors.name ORDER BY ltx_authors.id SEPARATOR "|") AS authors'),
-            DB::raw('GROUP_CONCAT(ltx_authors.type ORDER BY ltx_authors.id SEPARATOR "^") AS types')
-        )
-        ->groupBy('ltx_theses.id', 'ltx_theses.accession_number', 'ltx_theses.title', 'ltx_theses.year')
-        ->where('active', 1);
-
-        if($filter == 'published'){
-            $items->where('is_published', 1);
-        }
-        elseif($filter == 'unpublished'){
-            $items->where('is_published', 0);
-        }
-
-        $data = $items->paginate($length);
+       $data = LTXTheses::getTheses($filter, $length);
         
         return view('ltx.catalog.index', compact('data', 'filter'));
     }
@@ -61,20 +42,7 @@ class CatalogController extends Controller
     {
         $length = $request->get('length', 20);
 
-        $items = DB::table('ltx_theses')
-        ->leftJoin('ltx_authors', 'ltx_theses.id', '=', 'ltx_authors.thesis_id')
-        ->select(
-            'ltx_theses.id',
-            'ltx_theses.accession_number',
-            'ltx_theses.title',
-            'ltx_theses.year',
-            DB::raw('GROUP_CONCAT(ltx_authors.name ORDER BY ltx_authors.id SEPARATOR "|") AS authors'),
-            DB::raw('GROUP_CONCAT(ltx_authors.type ORDER BY ltx_authors.id SEPARATOR "^") AS types')
-        )
-        ->groupBy('ltx_theses.id', 'ltx_theses.accession_number', 'ltx_theses.title', 'ltx_theses.year')
-        ->where('active', 0);
-
-        $data = $items->paginate($length);
+        $data = LTXTheses::getArchive($length);
 
         return view('ltx.catalog.archive', compact('data'));
     }

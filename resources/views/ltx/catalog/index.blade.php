@@ -73,28 +73,22 @@
                                         </thead>
                                         <tbody>
                                             @forelse($data as $row)
-                                            <tr>
-                                                <td>{{ $row->accession_number }}</td>
-                                                <td>{{ $row->title }}</td>
-                                                <td>{{ $row->year }}</td>
-                                                <td>@php
-                                                    // Split the authors and types into arrays
-                                                    $authors = explode('|', $row->authors);
-                                                    $types = explode('^', $row->types);
-                                                @endphp
-                                                
-                                                @foreach($authors as $index => $author)
-                                                    {{ $author }}[{{ $types[$index] }}]
-                                                    @if(!$loop->last),<br> @endif
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                <a  href="{{ route('admin.ltx.show', $row->id) }}" type="button" class="btn btn-sm bg-gradient-primary"><i class="fas fa-eye"></i></a>
-                                                <a  href="{{ route('admin.ltx.edit',$row->id) }}" type="button" class="btn btn-sm bg-gradient-success"><i class="fas fa-edit"></i></a>
-                                                <buton onclick="archiveThesis('{{$row->id}}')" type="button" class="btn btn-sm bg-gradient-danger"><i class="fas fa-archive"></i></button>
-                                            </td>
-                                            </tr>
-                                        @empty
+                                                <tr>
+                                                    <td>{{ $row->accession_number }}</td>
+                                                    <td>{{ $row->title }}</td>
+                                                    <td>{{ $row->year }}</td>
+                                                    <td>
+                                                        @foreach ($row->authors as $author)
+                                                         {{ $author->name }} [{{$author->type}}], <br>
+                                                        @endforeach  
+                                                    </td>
+                                                    <td>
+                                                        <a  href="{{ route('admin.ltx.show', $row->id) }}" type="button" class="btn btn-sm bg-gradient-primary"><i class="fas fa-eye"></i></a>
+                                                        <a  href="{{ route('admin.ltx.edit',$row->id) }}" type="button" class="btn btn-sm bg-gradient-success"><i class="fas fa-edit"></i></a>
+                                                        <buton onclick="archiveThesis('{{$row->id}}')" type="button" class="btn btn-sm bg-gradient-danger"><i class="fas fa-archive"></i></button>
+                                                    </td>
+                                                </tr>
+                                            @empty
                                             <tr>
                                                 <td colspan="4" class="text-center">No theses available.</td>
                                             </tr>
