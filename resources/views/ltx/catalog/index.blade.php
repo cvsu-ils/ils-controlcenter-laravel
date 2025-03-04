@@ -130,18 +130,16 @@
         });
     });
 
-   
-
     //Archive THESIS region
     function archiveThesis (thesisId){
-        let publishRouteUrl = "{{ route('admin.ltx.deactivate', ['id' => '__ID__']) }}";
+        let publishRouteUrl = "{{ route('admin.ltx.archive', ['id' => '__ID__']) }}";
         
             publishRouteUrl = publishRouteUrl.replace('__ID__', thesisId),
 
             Swal.fire({
                 title: "Are you sure?",
-                text: "You can restore it later.",
-                icon: "warning",
+                text: "This action will archive the thesis record.",
+                icon: "info",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
@@ -155,8 +153,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-
-                        if(response.status == "success"){
+                        if(response.status == "success") {
                             Swal.fire({
                                 title: response.message,
                                 icon: response.status,
@@ -169,12 +166,10 @@
                                 icon: response.status,
                         });
                         }
-                        
                     }
                 });
             }
         });
     }
-
 </script>
 @endsection
