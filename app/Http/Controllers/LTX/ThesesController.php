@@ -19,6 +19,29 @@ use App\Http\Controllers\LTX\SubjectController;
 
 class ThesesController extends Controller
 {
+    public function show($id)
+    {
+        $thesis = Theses::find($id);
+        $subclass = Ranges::where('id', $thesis->range)->first()->subclass_id;
+
+        $classId = LCSubClass::where('id', $subclass)->first()->class_id;
+
+        $adviser = Author::where('thesis_id', $thesis->id)->where('type' , 'adviser')->first();
+
+        $classes = LCClass::all();
+
+        $cover = Cover::where('thesis_id', $thesis->id)->latest()->first();
+
+        $item_types = ItemType::all();
+        $programs = Program::all();
+        $subject_codes = SubjectCode::all(); 
+        $full_texts = FullText::where('thesis_id', $thesis->id)->orderBy('created_at', 'desc')->get();
+
+        return view('ltx.show', compact('thesis','classes', 'item_types',
+        'programs','subject_codes','id', 
+        'classId','subclass','cover','full_texts','adviser'));
+    }
+    
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -106,74 +129,6 @@ class ThesesController extends Controller
         'classId','subclass','cover','full_texts','adviser'));
     }
 
-    public function publish($id)
-    {
-        $thesis = Theses::find($id);
-        if (!$thesis){
-            return response()->json([
-                'success' => false,
-                'status' => 'error',
-                'message' => 'Thesis not found',
-            ]);
-        }
-
-        $accessionNumberService = new AccessionNumberService();
-
-        $thesis->is_published = 1;
-        $thesis->published_at =  now();
-        $thesis->accession_number = $accessionNumberService->generate('EM', $id);          
-        $thesis->save();
-
-        return response()->json([
-            'success'=> true,
-            'status' => 'success',
-            'message' => 'Thesis has been published',
-        ]);
-    }
-
-    public function sync($id)
-    {
-        $thesis = Theses::find($id);
-        if (!$thesis){
-            return response()->json([
-                'success' => false,
-                'status' => 'error',
-                'message' => 'Thesis not found',
-            ]);
-        }
-
-        $thesis->active = 1;          
-        $thesis->save();
-
-        return response()->json([
-            'success'=> true,
-            'status' => 'success',
-            'message' => 'Thesis has been activated',
-        ]);
-    }
-
-    public function archive($id)
-    {
-        $thesis = Theses::find($id);
-        if (!$thesis){
-            return response()->json([
-                'success' => false,
-                'status' => 'error',
-                'message' => 'Thesis not found',
-            ]);
-        }
-
-        $thesis->active = 0;          
-        $thesis->save();
-
-        return response()->json([
-            'success'=> true,
-            'status' => 'success',
-            'message' => 'Thesis has been moved to archive',
-        ]);
-    }
-
-
     public function update(Request $request, $id)
     {
         $thesis = Theses::find($id);
@@ -235,30 +190,62 @@ class ThesesController extends Controller
             'status' => 'success',
             'message' => 'Thesis edited successfully.',
         ], 201);
-
     }
-
-    public function show($id)
+    
+    public function publish($id)
     {
         $thesis = Theses::find($id);
-        $subclass = Ranges::where('id', $thesis->range)->first()->subclass_id;
+        if (!$thesis){
+            return response()->json([
+                'success' => false,
+                'status' => 'error',
+                'message' => 'Thesis not found',
+            ]);
+        }
 
-        $classId = LCSubClass::where('id', $subclass)->first()->class_id;
+        $accessionNumberService = new AccessionNumberService();
 
-        $adviser = Author::where('thesis_id', $thesis->id)->where('type' , 'adviser')->first();
+        $thesis->is_published = 1;
+        $thesis->published_at =  now();
+        $thesis->accession_number = $accessionNumberService->generate('EM', $id);          
+        $thesis->save();
 
-        $classes = LCClass::all();
+        return response()->json([
+            'success'=> true,
+            'status' => 'success',
+            'message' => 'Thesis has been published',
+        ]);
+    }
 
-        $cover = Cover::where('thesis_id', $thesis->id)->latest()->first();
+    public function restore(Theses $thesis)
+    {
+        return $this->updateThesisStatus($thesis, 1, 'Thesis has been restore from archive.');
+    }
 
-        $item_types = ItemType::all();
-        $programs = Program::all();
-        $subject_codes = SubjectCode::all(); 
-        $full_texts = FullText::where('thesis_id', $thesis->id)->orderBy('created_at', 'desc')->get();
+    public function archive(Theses $thesis)
+    {
+        return $this->updateThesisStatus($thesis, 0, 'Thesis has been moved to archive.');
+    }
 
-        return view('ltx.show', compact('thesis','classes', 'item_types',
-        'programs','subject_codes','id', 
-        'classId','subclass','cover','full_texts','adviser'));
+    private function updateThesisStatus($id, $status, $message)
+    {
+        $thesis = Theses::find($id);
+
+        if (!$thesis) {
+            return response()->json([
+                'success' => false,
+                'status' => 'error',
+                'message' => 'Thesis not found',
+            ], 404);
+        }
+
+        $thesis->update(['active' => $status]);
+
+        return response()->json([
+            'success' => true,
+            'status' => 'success',
+            'message' => $message,
+        ]);
     }
 
 }
